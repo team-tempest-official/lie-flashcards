@@ -2,15 +2,15 @@
 class Answer(object):
 
 	def __init__(self):
-		self.information = list()
+		self._information = list()
 
 	def add_information(inf):
-		self.information.append(inf)
+		self._information.append(inf)
 
 	def get_information(index):
-		self.information[index]
+		self._information[index]
 
 	def find_information(key):
-		for inf in information:
-			if inf.information_key == key:
+		for inf in _information:
+			if inf._information_key == key:
 				return inf

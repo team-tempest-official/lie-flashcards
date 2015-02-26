@@ -3,17 +3,17 @@
 class Card(object):
 
 	def __init__(self, question, answers):
-		self.question = question # single question
-		self.answers = answers # list of answers
+		self._question = question # single question
+		self._answers = answers # list of answers
 
 	def add_answer(ans):
-		self.answers.append(ans)
+		self._answers.append(ans)
 
 	def get_answer(index):
-		self.answers[index]
+		self._answers[index]
 
 	def find_answer(key):
-		for ans in answers:
-			if ans.information_key == key:
+		for ans in _answers:
+			if ans._information_key == key:
 				return inf
 

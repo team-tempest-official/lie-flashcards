@@ -42,5 +42,26 @@ class Sqlite3Implementation(object):
 
 		self.decks.append(deck)	
 
-		return deck	
-	
+		return deck
+
+	def populate(self):
+		pass
+
+	def get_deck(self, _id):
+		if self.mode == LAZY:
+			populate()
+
+		for d in self.decks:
+			if d._id == _id:
+				return d
+
+	def remove_deck(self, _id):
+		for it in length(self.decks):
+			if self.decks[it]._id == _id:
+				try:
+					self.cursor.execute("delete from deck_card_relation where d_id = ?", (_id,))
+					self.cursor.execute("delete from decks where id = ?", (_id, ))
+					del self.decks[it]
+				except sqlite3.Error, e:
+					pass
+
