@@ -128,12 +128,15 @@
                     user_separator: True
                     #title: ' Menu'
                     with_previous: False
-                    #size_hint_x: None
-                    width: '50dp'
+                    size_hint_x: None
+                    width: self.height
                     on_state: smsm.toggle_state()
                 #ActionSeparator:
                 #    width: 120
                 #    background_image: ''
+				ActionLabel:
+					text: 'Solo Adventures'
+					text_size: self.width-self.width/4 , None
                 ActionButton:
                     text: 'Add'
                 ActionButton:
@@ -146,9 +149,12 @@
                     text: 'Group1'
                     ActionButton:
                         text: 'Btn5'
+						background_color: 0,.6,1,1
                     ActionButton:
                         text: 'Btn6'
+						background_color: 0,.6,1,1
                     ActionButton:
+						background_color: 0,.6,1,1
     SlideMenu
         id: smsm
         size_hint_y: None

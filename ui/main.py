@@ -8,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.base import runTouchApp
 from kivy.animation import Animation
 from kivy.uix.scatter import Scatter
+from kivy.uix.actionbar import ActionBar , ActionItem
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.utils import platform
@@ -41,6 +42,9 @@ class SoloMenu(Screen):
 class DeckMenu(Screen):
     pass
     
+
+class ActionLabel(Label,ActionItem):
+	pass
     
     
 class SlideMenu(NavigationDrawer):
