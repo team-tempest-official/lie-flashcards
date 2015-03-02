@@ -1,29 +1,220 @@
-from navdrawer import NavigationDrawer
-from kivy.app import App
-from kivy.uix.scatter import Scatter
-from kivy.uix.label import Label
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.button import Button
-from kivy.base import runTouchApp
-from kivy.animation import Animation
-from kivy.uix.scatter import Scatter
-from kivy.uix.actionbar import ActionBar
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
-from kivy.utils import platform
+# Copyright (c) 2013 Alexander Taylor
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+'''NavigationDrawer
+================
+
+The NavigationDrawer widget provides a hidden panel view designed to
+duplicate the popular Android layout.  The user views one main widget
+but can slide from the left of the screen to view a second, previously
+hidden widget. The transition between open/closed is smoothly
+animated, with the parameters (anim time, panel width, touch
+detection) all user configurable. If the panel is released without
+being fully open or closed, it animates to an appropriate
+configuration.
+
+NavigationDrawer supports many different animation properties,
+including moving one or both of the side/main panels, darkening
+either/both widgets, changing side panel opacity, and changing which
+widget is on top. The user can edit these individually to taste (this
+is enough rope to hang oneself, it's easy to make a useless or silly
+configuration!), or use one of a few preset animations.
+
+The hidden panel might normally a set of navigation buttons, but the
+implementation lets the user use any widget(s).
+
+The first widget added to the NavigationDrawer is automatically used
+as the side panel, and the second widget as the main panel. No further
+widgets can be added, further changes are left to the user via editing
+the panel widgets.
+
+Usage summary
+-------------
+
+- The first widget added to a NavigationDrawer is used as the hidden
+  side panel.
+- The second widget added is used as the main panel.
+- Both widgets can be removed with remove_widget, or alternatively
+  set/removed with set_main_panel and set_side_panel.
+- The hidden side panel can be revealed by dragging from the left of
+  the NavigationDrawer. The touch detection width is the
+  touch_accept_width property.
+- Every animation property is user-editable, or default animations
+  can be chosen by setting anim_type.
+
+See the example and docstrings for information on individual properties.
+
+
+Example::
+
+class ExampleApp(App):
+
+    def build(self):
+        navigationdrawer = NavigationDrawer()
+
+        side_panel = BoxLayout(orientation='vertical')
+        side_panel.add_widget(Label(text='Panel label'))
+        side_panel.add_widget(Button(text='A button'))
+        side_panel.add_widget(Button(text='Another button'))
+        navigationdrawer.add_widget(side_panel)
+
+        label_head = (
+            '[b]Example label filling main panel[/b]\n\n[color=ff0000](p'
+            'ull from left to right!)[/color]\n\nIn this example, the le'
+            'ft panel is a simple boxlayout menu, and this main panel is'
+            ' a BoxLayout with a label and example image.\n\nSeveral pre'
+            'set layouts are available (see buttons below), but users ma'
+            'y edit every parameter for much more customisation.')
+        main_panel = BoxLayout(orientation='vertical')
+        label_bl = BoxLayout(orientation='horizontal')
+        label = Label(text=label_head, font_size='15sp',
+                      markup=True, valign='top')
+        label_bl.add_widget(Widget(size_hint_x=None, width=dp(10)))
+        label_bl.add_widget(label)
+        label_bl.add_widget(Widget(size_hint_x=None, width=dp(10)))
+        main_panel.add_widget(Widget(size_hint_y=None, height=dp(10)))
+        main_panel.add_widget(label_bl)
+        main_panel.add_widget(Widget(size_hint_y=None, height=dp(10)))
+        navigationdrawer.add_widget(main_panel)
+        label.bind(size=label.setter('text_size'))
+
+        def set_anim_type(name):
+            navigationdrawer.anim_type = name
+        modes_layout = BoxLayout(orientation='horizontal')
+        modes_layout.add_widget(Label(text='preset\nanims:'))
+        slide_an = Button(text='slide_\nabove_\nanim')
+        slide_an.bind(on_press=lambda j: set_anim_type('slide_above_anim'))
+        slide_sim = Button(text='slide_\nabove_\nsimple')
+        slide_sim.bind(on_press=lambda j: set_anim_type('slide_above_simple'))
+        fade_in_button = Button(text='fade_in')
+        fade_in_button.bind(on_press=lambda j: set_anim_type('fade_in'))
+        reveal_button = Button(text='reveal_\nbelow_\nanim')
+        reveal_button.bind(on_press=
+                           lambda j: set_anim_type('reveal_below_anim'))
+        slide_button = Button(text='reveal_\nbelow_\nsimple')
+        slide_button.bind(on_press=
+                          lambda j: set_anim_type('reveal_below_simple'))
+        modes_layout.add_widget(slide_an)
+        modes_layout.add_widget(slide_sim)
+        modes_layout.add_widget(fade_in_button)
+        modes_layout.add_widget(reveal_button)
+        modes_layout.add_widget(slide_button)
+        main_panel.add_widget(modes_layout)
+
+        button = Button(text='toggle NavigationDrawer state (animate)',
+                        size_hint_y=0.2)
+        button.bind(on_press=lambda j: navigationdrawer.toggle_state())
+        button2 = Button(text='toggle NavigationDrawer state (jump)',
+                         size_hint_y=0.2)
+        button2.bind(on_press=lambda j: navigationdrawer.toggle_state(False))
+        button3 = Button(text='toggle _main_above', size_hint_y=0.2)
+        button3.bind(on_press=navigationdrawer.toggle_main_above)
+        main_panel.add_widget(button)
+        main_panel.add_widget(button2)
+        main_panel.add_widget(button3)
+
+        return navigationdrawer
+
+    ExampleApp().run()
+
+'''
+
+__all__ = ('NavigationDrawer', )
+
 from kivy.animation import Animation
 from kivy.uix.widget import Widget
 from kivy.uix.stencilview import StencilView
 from kivy.metrics import dp
 from kivy.clock import Clock
 from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty,
-                             BooleanProperty, StringProperty, ListProperty)
+                             BooleanProperty, StringProperty)
 from kivy.resources import resource_add_path
+from kivy.lang import Builder
 import os.path
 
 resource_add_path(os.path.dirname(__file__))
 
-__all__ = ('NavigationDrawer', )
+Builder.load_string('''
+<NavigationDrawer>:
+    size_hint: (1,1)
+    _side_panel: sidepanel
+    _main_panel: mainpanel
+    _join_image: joinimage
+    side_panel_width: min(dp(650), 0.65*self.width)
+    BoxLayout:
+        id: sidepanel
+        y: root.y
+        x: root.x - \
+           (1-root._anim_progress)* \
+           root.side_panel_init_offset*root.side_panel_width
+        height: root.height
+        width: root.side_panel_width
+        opacity: root.side_panel_opacity + \
+                 (1-root.side_panel_opacity)*root._anim_progress
+        canvas:
+            Color:
+                rgba: (0,0.6,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        canvas.after:
+            Color:
+                rgba: (0,0,0,(1-root._anim_progress)*root.side_panel_darkness)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+    BoxLayout:
+        id: mainpanel
+        x: root.x + \
+           root._anim_progress * \
+           root.side_panel_width * \
+           root.main_panel_final_offset
+        y: root.y
+        size: root.size
+        canvas:
+            Color:
+                rgba: (0,0,0,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        canvas.after:
+            Color:
+                rgba: (0,0,0,root._anim_progress*root.main_panel_darkness)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+    Image:
+        id: joinimage
+        opacity: min(sidepanel.opacity, 0 if root._anim_progress < 0.00001 \
+                 else min(root._anim_progress*40,1))
+        source: root._choose_image(root._main_above, root.separator_image)
+        mipmap: False
+        width: root.separator_image_width
+        height: root._side_panel.height
+        x: (mainpanel.x - self.width + 1) if root._main_above \
+           else (sidepanel.x + sidepanel.width - 1)
+        y: root.y
+        allow_stretch: True
+        keep_ratio: False
+''')
+
 
 class NavigationDrawerException(Exception):
     '''Raised when add_widget or remove_widget called incorrectly on a
@@ -403,70 +594,109 @@ class NavigationDrawer(StencilView):
         else:
             return 'navigationdrawer_gradient_ltor.png'
 
+if __name__ == '__main__':
+    from kivy.base import runTouchApp
+    from kivy.uix.boxlayout import BoxLayout
+    from kivy.uix.label import Label
+    from kivy.uix.button import Button
+    from kivy.uix.popup import Popup
+    from kivy.uix.image import Image
+    from kivy.core.window import Window
 
-class GameManager(ScreenManager):
-    pass
+    navigationdrawer = NavigationDrawer()
 
+    side_panel = BoxLayout(orientation='vertical')
+    side_panel.add_widget(Label(text='Panel label'))
+    popup = Popup(title='Sidebar popup',
+                  content=Label(
+                      text='You clicked the sidebar\npopup button'),
+                  size_hint=(0.7, 0.7))
+    first_button = Button(text='Popup\nbutton')
+    first_button.bind(on_release=popup.open)
+    side_panel.add_widget(first_button)
+    side_panel.add_widget(Button(text='Another\nbutton'))
+    navigationdrawer.add_widget(side_panel)
 
-class MainMenu(Screen):
-    pass
-    
-    
-class PlayMenu(Screen):
-    pass
+    label_head = (
+        '[b]Example label filling main panel[/b]\n\n[color=ff0000](p'
+        'ull from left to right!)[/color]\n\nIn this example, the le'
+        'ft panel is a simple boxlayout menu, and this main panel is'
+        ' a BoxLayout with a label and example image.\n\nSeveral pre'
+        'set layouts are available (see buttons below), but users ma'
+        'y edit every parameter for much more customisation.')
+    main_panel = BoxLayout(orientation='vertical')
+    label_bl = BoxLayout(orientation='horizontal')
+    label = Label(text=label_head, font_size='15sp',
+                  markup=True, valign='top')
+    label_bl.add_widget(Widget(size_hint_x=None, width=dp(10)))
+    label_bl.add_widget(label)
+    label_bl.add_widget(Widget(size_hint_x=None, width=dp(10)))
+    main_panel.add_widget(Widget(size_hint_y=None, height=dp(10)))
+    main_panel.add_widget(label_bl)
+    main_panel.add_widget(Widget(size_hint_y=None, height=dp(10)))
+    navigationdrawer.add_widget(main_panel)
+    label.bind(size=label.setter('text_size'))
 
+    def set_anim_type(name):
+        navigationdrawer.anim_type = name
 
-class SoloMenu(Screen):
-    pass
-    
-    
-class DeckMenu(Screen):
-    pass
-    
-    
-    
-class SlideMenu(NavigationDrawer):
-    def __init__(self, **kwargs):
-        super(SlideMenu, self).__init__( **kwargs)
-    
-class TutorialApp(App):
-    sm = ObjectProperty()
-    history = ListProperty()    
-    prev = StringProperty()
+    def set_transition(name):
+        navigationdrawer.opening_transition = name
+        navigationdrawer.closing_transition = name
 
-    def build(self):
-        self.sm = ScreenManager(transition=NoTransition())
-        self.history.append('main_menu')
-        a = Screen()
-        for a in self.sm.screens:
-            a.bind(on_enter=self.record_history)
-        self.bind(on_start=self.post_build_init)
-        return self.sm
+    modes_layout = BoxLayout(orientation='horizontal')
+    modes_layout.add_widget(Label(text='preset\nanims:'))
+    slide_an = Button(text='slide_\nabove_\nanim')
+    slide_an.bind(on_press=lambda j: set_anim_type('slide_above_anim'))
+    slide_sim = Button(text='slide_\nabove_\nsimple')
+    slide_sim.bind(on_press=lambda j: set_anim_type('slide_above_simple'))
+    fade_in_button = Button(text='fade_in')
+    fade_in_button.bind(on_press=lambda j: set_anim_type('fade_in'))
+    reveal_button = Button(text='reveal_\nbelow_\nanim')
+    reveal_button.bind(on_press=
+                       lambda j: set_anim_type('reveal_below_anim'))
+    slide_button = Button(text='reveal_\nbelow_\nsimple')
+    slide_button.bind(on_press=
+                      lambda j: set_anim_type('reveal_below_simple'))
+    modes_layout.add_widget(slide_an)
+    modes_layout.add_widget(slide_sim)
+    modes_layout.add_widget(fade_in_button)
+    modes_layout.add_widget(reveal_button)
+    modes_layout.add_widget(slide_button)
+    main_panel.add_widget(modes_layout)
 
-    def post_build_init(self, ev):
-        if platform == 'android':
-            import android
-            android.map_key(android.KEYCODE_BACK, 1000)
-            android.map_key(android.KEYCODE_MENU, 1001)
-        win = self._app_window
-        win.bind(on_keyboard=self._key_handler)
- 
-    def _key_handler(self, *args):
-        key = args[1]
-        if key in (1000, 27):
-            if len(self.history) == 1:
-                self.stop()
-            self.prev = self.history[len(self.history) - 2]
-            del self.history[-1]
-            self.sm.current = self.prev
-            return True
+    transitions_layout = BoxLayout(orientation='horizontal')
+    transitions_layout.add_widget(Label(text='anim\ntransitions'))
+    out_cubic = Button(text='out_cubic')
+    out_cubic.bind(on_press=
+                   lambda j: set_transition('out_cubic'))
+    in_quint = Button(text='in_quint')
+    in_quint.bind(on_press=
+                  lambda j: set_transition('in_quint'))
+    linear = Button(text='linear')
+    linear.bind(on_press=
+                lambda j: set_transition('linear'))
+    out_sine = Button(text='out_sine')
+    out_sine.bind(on_press=
+                  lambda j: set_transition('out_sine'))
+    transitions_layout.add_widget(out_cubic)
+    transitions_layout.add_widget(in_quint)
+    transitions_layout.add_widget(linear)
+    transitions_layout.add_widget(out_sine)
+    main_panel.add_widget(transitions_layout)
 
+    button = Button(text='toggle NavigationDrawer state (animate)',
+                    size_hint_y=0.2)
+    button.bind(on_press=lambda j: navigationdrawer.toggle_state())
+    button2 = Button(text='toggle NavigationDrawer state (jump)',
+                     size_hint_y=0.2)
+    button2.bind(on_press=lambda j: navigationdrawer.toggle_state(False))
+    button3 = Button(text='toggle _main_above', size_hint_y=0.2)
+    button3.bind(on_press=navigationdrawer.toggle_main_above)
+    main_panel.add_widget(button)
+    main_panel.add_widget(button2)
+    main_panel.add_widget(button3)
 
-    def record_history(self, *args, **kwargs):
-        if self.prev != self.sm.current:
-            self.history.append(self.sm.current)
-        
+    Window.add_widget(navigationdrawer)
 
-if __name__ == "__main__":
-    TutorialApp().run()
-
+    runTouchApp()
