@@ -11,7 +11,7 @@ class SimpleImplementation(object):
 		self.decks = list()
 		
 	def add_deck(self):
-		d = Deck(self.id_gen_, list(), list())
+		d =	create_deck(list(), list()) 
 		self.decks.append(d)
 		self.id_gen_ += 1
 
@@ -29,7 +29,7 @@ class SimpleImplementation(object):
 		return False
 
 	def add_deck_card(self, question, answers, attributes, deck_ids):
-		c = Card(self.id_gen_, question, answers, attributes)
+		c = create_card(question, answers, attributes)
 		self.id_gen_ += 1
 
 		for d in self.decks:
@@ -105,7 +105,7 @@ class SimpleImplementation(object):
 					c.answers_.append(answer)
 
 
-	def get_card_answers(self):
+	def get_card_answers(self, c_id_):
 		for d in self.decks:
 			for c in d.cards_:
 				if c.id_ == c_id_:
@@ -185,13 +185,23 @@ class SimpleImplementation(object):
 
 
 	def create_attribute(self, key_, type_, value_):
-		pass
+		return Attribute(key_, value_, type_)
+		
+	def create_qa(self, attributes):
+		qa = QA(self.id_gen_, attributes)
+		self.id_gen_ += 1
 
-	def create_qa(self, key_, type_, value_):
-		pass
+		return qa
 
-	def create_card(self):
-		pass
+	def create_card(self, question, answers, attributes):
+		c = Card(self.id_gen_, question, answers, attributes)
+		self.id_gen_ += 1
 
-	def create_deck(self):
-		pass
+		return c
+
+	def create_deck(self, cards, attributes):
+		d = Deck(self.id_gen_, cards, attributes)
+		self.id_gen_ += 1
+
+		return d
+	

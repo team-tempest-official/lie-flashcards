@@ -1,8 +1,8 @@
 
 class QA(object):
 
-	def __init__(self, id_):
-		self.attributes_ = list()
+	def __init__(self, id_, attributes):
+		self.attributes_ = attributes
 		self.id_ = id_
 	
 	def get_attributes_(index):
