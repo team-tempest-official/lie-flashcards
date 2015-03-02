@@ -1,0 +1,238 @@
+<ScreenManager>:
+    MainMenu
+    PlayMenu
+    SoloMenu
+    DeckMenu
+    
+<MainMenu>
+    name: 'main_menu'
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: 0,0.1,0,1
+            Rectangle:
+                pos: self.pos   
+                size: self.size
+        BoxLayout:
+            size_hint_x: 0.6
+            orientation: 'vertical'
+            Widget
+            AnchorLayout:
+                anchor_x: 'left'
+                anchor_y: 'bottom'
+                Label:
+                    size_hint: 0.4, 0.1
+                    font_size: '10dp'
+                    text: 'version 1.00'
+        BoxLayout
+            #size_hint_y: 0.7
+            orientation: 'vertical'
+            spacing: '20dp'
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text: 'L I E'
+                    bold: True
+                    font_size: '72dp'
+                    color: 0.5,0,0,1
+                Label:
+                    size_hint_y: 0.1
+                    text: '-- learning is easy --'
+            Widget:
+                size_hint_y: 0.5
+            BoxLayout
+                spacing: 5
+                orientation: 'vertical'
+                canvas:
+                    Color: 
+                        rgba: 0,0.6,1,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Button
+                    background_color: 1,1,1,1
+                    background_normal: '' 
+                    text: 'Play'
+                    color: 0.6,0,0,1
+                    on_state: root.manager.current = 'play_menu'
+                Button
+                    text: 'Solo Adventures'
+                    color: 0.6,0,0,1
+                    background_normal: '' 
+                    on_state: root.manager.current = 'solo_menu'
+                Button
+                    text: 'Collection'
+                    color: 0.6,0,0,1
+                    background_normal: '' 
+                    on_state: root.manager.current = 'deck_menu'
+            Widget:
+                size_hint_y: 0.5
+        Widget:
+            size_hint_x: 0.6
+<PlayMenu>
+    name: 'play_menu'
+    SlideMenu
+        anim_type: 'slide_above_anim'
+        BoxLayout:
+            id: sv
+            #y: root.y - ac.height 
+            #do_scroll_x: False# only vertical scrolling
+            #do_scroll_y: True
+                
+		    #width:  dg.x
+            orientation: 'vertical'
+            
+            BoxLayout:
+                orientation: 'vertical'
+                Button:
+                    text: 'Decks'
+	        	    color:[0,0,0,.8]
+		            background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Card Browser'
+	        	    color:[0,0,0,.8]
+			        background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Statistics'
+	        	    color:[0,0,0,.8]
+			        background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Settings'
+		            color:[0,0,0,.8]
+		            background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Help'
+		            color:[0,0,0,.8]
+	        	    background_color:(3, 3, 3, 1)
+	        Widget:
+	            size_hint: 1,.4
+	            canvas:
+	                Color:
+	                    rgba: 1,1,1,1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+        Label: 
+            text: 'This Page is under construction  Check back soon'
+<SoloMenu>
+    name: 'solo_menu'
+    FloatLayout:
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac
+           # background_image: ''
+            pos_hint: {'top':1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    user_separator: True
+                    #title: ' Menu'
+                    with_previous: False
+                    #size_hint_x: None
+                    width: '50dp'
+                    on_state: smsm.toggle_state()
+                #ActionSeparator:
+                #    width: 120
+                #    background_image: ''
+                ActionButton:
+                    text: 'Add'
+                ActionButton:
+                    text: 'Btn2'
+                ActionButton:
+                    text: 'Btn3'
+                ActionButton:
+                    text: 'Btn4'
+                ActionGroup:
+                    text: 'Group1'
+                    ActionButton:
+                        text: 'Btn5'
+                    ActionButton:
+                        text: 'Btn6'
+                    ActionButton:
+    SlideMenu
+        id: smsm
+        size_hint_y: None
+        height: root.height - ac.height
+        anim_type: 'slide_above_anim'
+        BoxLayout:
+            id: sv
+            orientation: 'vertical'
+            
+            BoxLayout:
+                orientation: 'vertical'
+                Button:
+                    text: 'Decks'
+	        	    color:[0,0,0,.8]
+		            background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Card Browser'
+	        	    color:[0,0,0,.8]
+			        background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Statistics'
+	        	    color:[0,0,0,.8]
+			        background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Settings'
+		            color:[0,0,0,.8]
+		            background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Help'
+		            color:[0,0,0,.8]
+	        	    background_color:(3, 3, 3, 1)
+	        Widget:
+	            size_hint: 1,.4
+	            canvas:
+	                Color:
+	                    rgba: 1,1,1,1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+        FloatLayout:
+            Image:
+                source: 'Bundesarchiv_Bild_101I-299-1805-16,_Nordfrankreich,_Panzer_VI_(Tiger_I).2.png'
+<DeckMenu>
+    name: 'deck_menu'
+    SlideMenu
+        anim_type: 'slide_above_anim'
+        BoxLayout:
+            id: sv
+            #y: root.y - ac.height 
+            #do_scroll_x: False# only vertical scrolling
+            #do_scroll_y: True
+                
+		    #width:  dg.x
+            orientation: 'vertical'
+            
+            BoxLayout:
+                orientation: 'vertical'
+                Button:
+                    text: 'Decks'
+	        	    color:[0,0,0,.8]
+		            background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Card Browser'
+	        	    color:[0,0,0,.8]
+			        background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Statistics'
+	        	    color:[0,0,0,.8]
+			        background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Settings'
+		            color:[0,0,0,.8]
+		            background_color:(3, 3, 3, 1)
+                Button:
+                    text: 'Help'
+		            color:[0,0,0,.8]
+	        	    background_color:(3, 3, 3, 1)
+	        Widget:
+	            size_hint: 1,.4
+	            canvas:
+	                Color:
+	                    rgba: 1,1,1,1
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+        Label
+            text: 'lol'
