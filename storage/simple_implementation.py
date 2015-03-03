@@ -1,7 +1,7 @@
 from model.attribute import Attribute
 from model.card import Card
 from model.deck import Deck
-from model.question import QA
+from model.qa import QA
 
 
 class SimpleImplementation(object):
