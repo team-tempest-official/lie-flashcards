@@ -4,24 +4,67 @@ from kivy.uix.scatter import Scatter
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 from kivy.base import runTouchApp
 from kivy.animation import Animation
 from kivy.uix.scatter import Scatter
-from kivy.uix.actionbar import ActionBar , ActionItem
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.utils import platform
 from kivy.animation import Animation
+from kivy.uix.modalview import ModalView
 from kivy.uix.widget import Widget
 from kivy.uix.stencilview import StencilView
+from kivy.uix.textinput import TextInput
+from kivy.uix.checkbox import CheckBox
+from kivy.uix.popup import Popup
 from kivy.metrics import dp
 from kivy.clock import Clock
-from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty,
+from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, DictProperty,
                              BooleanProperty, StringProperty, ListProperty)
 from kivy.resources import resource_add_path
 import os.path
 
+class CustomModal1(ModalView):
+    pass
+    
+    
+class CustomModal2(ModalView):
+    pass
+    
+
+class AddCard(Screen):
+    ids_ch = ['ch1', 'ch2', 'ch3']
+    index = 0
+    modal = ObjectProperty(None)
+
+    def show_modal1(self):
+        self.modal = CustomModal1()
+        self.modal.ids[self.ids_ch[self.index]].active = True
+        self.modal.ids.bu1.fast_bind('on_release', self.chg_text, self.modal.ids.bu1.text,1)
+        self.modal.ids.bu2.fast_bind('on_release', self.chg_text, self.modal.ids.bu2.text,2)
+        self.modal.ids.bu3.fast_bind('on_release', self.chg_text, self.modal.ids.bu3.text,3)
+        self.modal.ids.ch1.fast_bind('active', self.chg_text, self.modal.ids.bu1.text,1)
+        self.modal.ids.ch2.fast_bind('active', self.chg_text, self.modal.ids.bu2.text,2)
+        self.modal.ids.ch3.fast_bind('active', self.chg_text, self.modal.ids.bu3.text,3)
+        self.modal.open()
+        
+        
+        
+    def show_modal2(self):
+        self.modal = CustomModal2()
+        self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
+        self.modal.open()
+          
+        
+    def chg_text(self, *args):
+        if args[1]:
+            self.index = args[1] - 1
+            self.ids.butp.text = args[0]
+        else:
+            self.ids.butd.text = args[0]
 
 class GameManager(ScreenManager):
     pass
@@ -42,9 +85,6 @@ class SoloMenu(Screen):
 class DeckMenu(Screen):
     pass
     
-
-class ActionLabel(Label,ActionItem):
-	pass
     
     
 class SlideMenu(NavigationDrawer):

@@ -3,6 +3,7 @@
     PlayMenu
     SoloMenu
     DeckMenu
+    AddCard
     
 <MainMenu>
     name: 'main_menu'
@@ -128,33 +129,26 @@
                     user_separator: True
                     #title: ' Menu'
                     with_previous: False
-                    size_hint_x: None
-                    width: self.height
+                    #size_hint_x: None
+                    width: '50dp'
                     on_state: smsm.toggle_state()
                 #ActionSeparator:
                 #    width: 120
                 #    background_image: ''
-				ActionLabel:
-					text: 'Solo Adventures'
-					text_size: self.width-self.width/4 , None
                 ActionButton:
                     text: 'Add'
+                    on_state: root.manager.current = 'add_card'
                 ActionButton:
-                    text: 'Btn2'
+                    text: 'Backup'
                 ActionButton:
-                    text: 'Btn3'
-                ActionButton:
-                    text: 'Btn4'
-                ActionGroup:
-                    text: 'Group1'
-                    ActionButton:
-                        text: 'Btn5'
-						background_color: 0,.6,1,1
-                    ActionButton:
-                        text: 'Btn6'
-						background_color: 0,.6,1,1
-                    ActionButton:
-						background_color: 0,.6,1,1
+                    text: 'Help'
+                #ActionGroup:
+                 #   text: 'Group1'
+                 #   ActionButton:
+                  #      text: 'Btn5'
+                  #  ActionButton:
+                  #      text: 'Btn6'
+                  #  ActionButton:
     SlideMenu
         id: smsm
         size_hint_y: None
@@ -195,6 +189,12 @@
 	                    pos: self.pos
 	                    size: self.size
         FloatLayout:
+			canvas:
+				Color:
+					rgba: 1,1,1,.9
+				Rectangle:
+					pos: self.pos  
+					size: self.size
             Image:
                 source: 'Bundesarchiv_Bild_101I-299-1805-16,_Nordfrankreich,_Panzer_VI_(Tiger_I).2.png'
 <DeckMenu>
@@ -241,4 +241,282 @@
 	                    pos: self.pos
 	                    size: self.size
         Label
-            text: 'lol'
+            text: 'This Page is under construction  Check back soon'
+            
+<AddCard>:
+	name: 'add_card'
+	ScrollView:
+		BoxLayout:
+			Widget
+				size_hint_x:0.05
+				canvas.before:
+					Color:
+						rgba: 1,1,1,.9
+					Rectangle:
+						pos: self.pos  
+						size: self.size
+			BoxLayout:
+				canvas:
+					Color:
+						rgba: 1,1,1,.9
+					Rectangle:
+						pos: self.pos   
+						size: self.size
+				orientation: 'vertical'
+				BoxLayout:
+					size_hint_y: 0.7
+				    orientation: 'vertical'
+				    BoxLayout:
+				        id: b1
+				        Label:
+				            size_hint_x: 0.3
+				            text: 'Card type:'
+							#text_size: self.width, None
+							color: 0,0,0,1
+				        Button:
+							canvas.before:
+								Color:
+									rgba: 0,0,0,1
+								Rectangle:
+									pos: self.x , self.y+self.height/4  
+									size: self.width,1
+							canvas:
+								Color:
+									rgba: 0,0,0,1
+								Triangle:
+									points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+self.height/4+12
+				            id: butp
+				            text: 'Default'
+							text_size: self.width -self.width/4 , None
+							color: 0,0,0,1
+							background_color: 0,0,0,0
+							#background_normal: ''
+				            #background_down: 'atlas://data/images/defaulttheme/button'
+				            on_release: root.show_modal1()
+				    BoxLayout:
+				        Label:
+				            size_hint_x: 0.3
+				            text: 'Deck:'
+							#text_size: self.width, None
+							color: 0,0,0,1
+				        Button:
+							canvas.before:
+								Color:
+									rgba: 0,0,0,1
+								Rectangle:
+									pos: self.x , self.y+self.height/4  
+									size: self.width,1
+							canvas:
+								Color:
+									rgba: 0,0,0,1
+								Triangle:
+									points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+self.height/4+12
+				            id: butd
+				            text: 'Default'
+				            color: 0,0,0,1
+							background_color: 0,0,0,0
+							background_normal: ''
+							text_size: self.width -self.width/4 , None
+				            background_down: 'atlas://data/images/defaulttheme/button'
+				            on_release: root.show_modal2()
+				BoxLayout:
+					canvas:
+						Color:
+							rgba: 1,1,1,1
+						Rectangle:
+							pos: self.pos   
+							size: self.size
+				    size_hint_y: 0.9
+					Widget:
+						size_hint_x: .05
+					BoxLayout:
+						orientation: 'vertical'
+						Label
+							text: 'Front'
+							font_size: '20dp'
+							text_size: self.width, None
+							color: 0,0,0,1
+						TextInput
+							id: txt1
+							text: 'card front'
+							font_size: '25dp'
+						Label:
+							text: 'Back'
+							font_size: '20dp'
+							text_size: self.width, None
+							color: 0,0,0,1
+					    TextInput
+							id: txt2
+					        text: 'card back'
+					        font_size: '25dp'
+
+						Label
+							size_hint_y: 0.2
+							canvas.before:
+								Color:
+									rgba: 1,1,1,1
+								Rectangle:
+									pos: self.pos  
+									size: self.size 
+					Widget:
+						size_hint_x: .2
+				Button
+					background_normal: ''
+					background_color: 0,0,0,0
+			Widget:
+				size_hint_x:0.05
+				canvas.before:
+					Color:
+						rgba: 1,1,1,.9
+					Rectangle:
+						pos: self.pos  
+						size: self.size          
+
+<CustomModal1>:
+	id: cm
+    background: ''
+    size_hint: .8, .3
+    pos_hint: {'left': 0.7, 'top': .885}
+    background_color: 0,0,0,.1
+    BoxLayout:
+        BoxLayout
+			size_hint_x:2
+            orientation: 'vertical'
+			Button:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.pos   
+                        size: self.width, 1
+                id: bu1
+                text: 'Default'
+				text_size: self.width -self.width/4, None
+                color: 0,0,0,1
+                background_color: 0,0,0,0
+                #background_normal: ''
+                on_press: ch1._toggle_active()
+                on_release: root.dismiss()
+			
+            Button:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.pos   
+                        size: self.width, 1
+                id: bu2
+                text: 'Cloze'
+				text_size: self.width -self.width/4, None
+                color: 0,0,0,1
+                background_color: 0,0,0,0
+                #background_normal: ''
+                on_press: ch2._toggle_active()
+                on_release: root.dismiss()
+            Button:
+#				canvas.before:
+#					Color:
+#						rgba: 0,0,0,1
+#					Rectangle:
+#						pos: self.pos
+#						size: self.width,1
+                id: bu3
+                text: 'Lcoze'
+				text_size: self.width - self.width/4 , None
+                color: 0,0,0,1
+                background_color: 0,0,0,0
+                #background_normal: ''
+                on_press: ch3._toggle_active()
+                on_release: root.dismiss()
+        BoxLayout
+			BoxLayout
+		        orientation: 'vertical'
+				CheckBox:
+					name: 'Default'
+		            canvas:
+		                Color:
+		                    rgba: 0,0,0,1
+		                Rectangle:
+		                    pos: self.pos   
+		                    size: self.width, 1
+		            id: ch1
+		            background_radio_normal: 'cerc.png'
+		            background_radio_down: 'cerc_down.png'	
+		            #on_touch_up: root.dismiss()				
+		            #on_active: root.dismiss()
+		            on_release: root.dismiss() #if self.active is True: root.dismiss() 
+		            group: 'pops'
+		        CheckBox:
+					name: 'Cloze'
+		            canvas:
+		                Color:
+		                    rgba: 0,0,0,1
+		                Rectangle:
+		                    pos: self.pos   
+		                    size: self.width, 1
+		            id: ch2
+		            background_radio_normal: 'cerc.png'
+		            background_radio_down: 'cerc_down.png'
+		            #on_touch_up: root.dismiss()	
+		           # on_active: root.dismiss()
+		            on_release: root.dismiss() #if self.active is True: root.dismiss() 
+		            group: 'pops'
+		        CheckBox:
+					name: 'Lcoze'
+					value: 'down'
+#					canvas:
+#						Color:
+#							rgba: 0,0,0,1
+#						Rectangle:
+#							pos: self.pos
+#							size: self.width,1
+		            id: ch3
+		            background_radio_normal: 'cerc.png'
+		            background_radio_down: 'cerc_down.png'
+		            #on_touch_up: root.dismiss()	
+		          # on_active: root.dismiss()
+		            on_release: root.dismiss() #if self.active is True: root.dismiss() 
+		            group: 'pops'
+            
+<CustomModal2>:
+	background: ''
+    size_hint: .8 ,.2
+    pos_hint: {'left': 0 , 'top': .75}
+	x: '500dp'
+    background_color: 0,0,0,.1
+	canvas:
+		Color:
+			rgba: 0,0,0,0
+		Rectangle:
+			pos: self.pos  
+			size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+			canvas.before:
+				Color:
+					rgba: 0,0,0,1
+				Rectangle:
+					pos: self.pos
+					size: self.width,1
+            id: cm1
+			background_color: 0,0,0,0
+            text: 'Click me to dismiss'
+			color: 0,0,0,1
+			text_size: self.width - self.width/4 , None
+            on_release: root.dismiss()
+        Button:
+#			canvas.before:
+#				Color:
+#					rgba: 0,0,0,1
+#				Rectangle:
+#					pos: self.pos
+#					size: self.width,1
+			background_color: 0,0,0,0
+            text: 'Ura'
+			color: 0,0,0,1
+			text_size: self.width -self.width/4 , None
+            on_release: root.dismiss()  
+    
+    
+    
