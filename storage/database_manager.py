@@ -27,11 +27,7 @@ class DatabaseManager(object):
 	def add_deck_card(self, c, deck_ids):
 		if self.to_log:
 			print "-- Adding card to deck"
-		return self.implementation.add_deck_card(
-													c,
-													deck_ids
-												)
-
+		return self.implementation.add_deck_card(c,	deck_ids)
 	def remove_deck_card(self, d_id_, c_id_):
 		if self.to_log:
 			print "-- Removing card from deck: " + str(d_id_) + " " + str(c_id_)
@@ -60,7 +56,7 @@ class DatabaseManager(object):
 	def add_card_answer(self, c_id_, answer):
 		if self.to_log:
 			print "-- Adding card answer: " + str(c_id_)
-		return self.implementation.add_card_answer_(c_id_, answer)
+		return self.implementation.add_card_answer(c_id_, answer)
 
 	def get_card_answers(self, c_id_):
 		if self.to_log:
@@ -100,7 +96,7 @@ class DatabaseManager(object):
 	def remove_answer_attribute(self, a_id_, key):
 		if self.to_log:
 			print "-- Removing answer attribute"
-		return self.implementation.remove_answer_attribute(a_id, key)
+		return self.implementation.remove_answer_attribute(a_id_, key)
 
 	def create_attribute(self, key_, type_, value_):
 		if self.to_log:

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from storage.database_manager import DatabaseManager
 from storage.simple_implementation import SimpleImplementation
 import unittest
@@ -207,6 +208,150 @@ class SimpleImplementationTest(unittest.TestCase):
 		self.assertTrue(a1 in self.manager.implementation.decks[0].attributes_)
 		self.assertTrue(a3 in self.manager.implementation.decks[0].attributes_)
 
+	def test_set_card_question(self):
+		c = self.manager.create_card(None, list(), list())
+		q = self.manager.create_qa(list())
+		d = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d)
+
+		self.assertEqual(c.question_, None)
+		self.manager.set_card_question(c.id_, q)
+		self.assertEqual(c.question_, q)
+
+	def test_get_card_question(self):
+		c = self.manager.create_card(None, list(), list())
+		q = self.manager.create_qa(list())
+		d = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d)
+		self.manager.set_card_question(c.id_, q)
+		self.assertEqual(q, self.manager.get_card_question(c.id_, d.id_))
+	
+	def test_add_card_answer(self):
+		c = self.manager.create_card(None, list(), list())
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+		a = self.manager.create_qa(list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+
+		self.manager.add_card_answer(c.id_, a)
+		self.assertEqual(c.answers_[0], a)
+		self.assertEqual(len(c.answers_), 1)
+
+	def test_get_card_answers(self):
+		a1 = self.manager.create_qa(list())
+		a2 = self.manager.create_qa(list())
+		c = self.manager.create_card(None, [a1, a2], list())
+		d = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d)
+		self.assertEqual([a1, a2], self.manager.get_card_answers(c.id_))
+
+	def test_remove_card_answer(self):
+		a1 = self.manager.create_qa(list())
+		a2 = self.manager.create_qa(list())
+		c = self.manager.create_card(None, [a1, a2], list())
+		d = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d)
+		self.manager.remove_card_answer(c.id_, a2.id_)
+		self.assertEqual([a1, ], self.manager.get_card_answers(c.id_))		
+	
+	def test_add_card_attribute(self):
+		a1 = self.manager.create_attribute("a1", "v1", "string")
+		a2 = self.manager.create_attribute("a2", "v2", "strng")
+		c = self.manager.create_card(None, list(), list())
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+
+		self.manager.add_card_attribute(c.id_, a1)
+		self.manager.add_card_attribute(c.id_, a2)
+
+		self.assertEqual(c.attributes_, [a1, a2])
+		
+	def test_remove_card_attribute(self):
+		a1 = self.manager.create_attribute("a1", "v1", "string")
+		a2 = self.manager.create_attribute("a2", "v2", "strng")
+		c = self.manager.create_card(None, list(), [a1, a2])
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+
+		self.manager.remove_card_attribute(c.id_, "a2")
+		self.assertEqual(c.attributes_, [a1,])
+
+		
+	def test_add_question_attribute(self):
+		a1 = self.manager.create_attribute("a1", "v1", "string")
+		a2 = self.manager.create_attribute("a2", "v2", "strng")
+		q = self.manager.create_qa(list())
+		c = self.manager.create_card(q, list(), list())
+
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+
+		self.manager.add_question_attribute(q.id_, a1)
+		self.manager.add_question_attribute(q.id_, a2)
+
+		self.assertEqual(q.attributes_, [a1, a2])
+	
+	def remove_question_attribute(self):
+		a1 = self.manager.create_attribute("a1", "v1", "string")
+		a2 = self.manager.create_attribute("a2", "v2", "strng")
+		q = self.manager.create_qa([a1, a2])
+		c = self.manager.create_card(q, list(), list())
+
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+
+		self.manager.remove_question_attribute(q.id_, "a2")
+		self.assertEqual(q.attributes_, [a1])
+	
+	def test_add_answer_attribute(self):
+		a1 = self.manager.create_attribute("a1", "v1", "string")
+		a2 = self.manager.create_attribute("a2", "v2", "strng")
+		ans = self.manager.create_qa(list())
+		c = self.manager.create_card(None, [ans, ], list())
+
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+
+		self.manager.add_answer_attribute(ans.id_, a1)
+		self.manager.add_answer_attribute(ans.id_, a2)
+
+		self.assertEqual(ans.attributes_, [a1, a2])
+
+	def test_remove_answer_attribute(self):
+		a1 = self.manager.create_attribute("a1", "v1", "string")
+		a2 = self.manager.create_attribute("a2", "v2", "strng")
+		ans = self.manager.create_qa([a1, a2])
+		c = self.manager.create_card(None, [ans, ], list())
+
+		d1 = self.manager.create_deck([c, ], list())
+		d2 = self.manager.create_deck([c, ], list())
+
+		self.manager.add_deck(d1)
+		self.manager.add_deck(d2)
+		self.manager.remove_answer_attribute(ans.id_, "a2")
+
+		self.assertEqual(ans.attributes_, [a1])
 
 
 if __name__ == "__main__":
