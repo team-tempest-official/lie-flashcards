@@ -129,15 +129,23 @@
                     user_separator: True
                     #title: ' Menu'
                     with_previous: False
-                    #size_hint_x: None
-                    width: '50dp'
+                    size_hint_x: None
+                    width: self.height
                     on_state: smsm.toggle_state()
                 #ActionSeparator:
                 #    width: 120
                 #    background_image: ''
-                ActionButton:
-                    text: 'Add'
-                    on_state: root.manager.current = 'add_card'
+				ActionLabel:
+					text: 'SoloAdventures'
+					text_size: self.width*2/3 , None
+                ActionGroup:
+					text: 'Add'
+					ActionButton:
+						text: 'Add card'
+						on_release: root.manager.current = 'add_card'
+					ActionButton:
+						text: 'Create deck'
+						on_release: root.show_createdeck()
                 ActionButton:
                     text: 'Backup'
                 ActionButton:
@@ -518,5 +526,39 @@
 			text_size: self.width -self.width/4 , None
             on_release: root.dismiss()  
     
-    
+<CreateDeck>:
+	background: ''
+    size_hint: .4 ,.2
+    pos_hint: {'left': .5 , 'top': .75}
+    background_color: 0,0,0,.2
+	BoxLayout:
+		orientation: 'vertical'
+		Label
+			#size_hint_y: 0.5
+			text: "Create new deck"
+			text_size: self.width*6/7, None
+			color: 0,0,0,1
+		BoxLayout:
+			Widget:
+				size_hint_x: .05
+			TextInput
+				font_size: '25dp'
+			Widget:
+				size_hint_x: .05
+		BoxLayout:
+			Button:
+				canvas:
+					Color:
+						rgba: 0,0,0,1
+					Rectangle:
+						pos: self.x+self.width , self.y+self.height/4
+						size: 1, self.height/2
+				text: 'Create'
+				color: 0,0,0,1
+				background_color: 0,0,0,0
+			Button:
+				text: 'Cancel'
+				color:0,0,0,1
+				background_color: 0,0,0,0
+				on_release: root.dismiss()
     

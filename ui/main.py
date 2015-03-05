@@ -10,7 +10,7 @@ from kivy.uix.togglebutton import ToggleButton
 from kivy.base import runTouchApp
 from kivy.animation import Animation
 from kivy.uix.scatter import Scatter
-from kivy.uix.actionbar import ActionBar
+from kivy.uix.actionbar import ActionBar , ActionItem
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.utils import platform
 from kivy.animation import Animation
@@ -33,7 +33,11 @@ class CustomModal1(ModalView):
     
 class CustomModal2(ModalView):
     pass
-    
+
+
+class CreateDeck(ModalView):
+	pass
+
 
 class AddCard(Screen):
     ids_ch = ['ch1', 'ch2', 'ch3']
@@ -79,13 +83,18 @@ class PlayMenu(Screen):
 
 
 class SoloMenu(Screen):
-    pass
+    def show_createdeck(self):
+		modal = CreateDeck()
+		modal.open()
     
     
 class DeckMenu(Screen):
     pass
     
-    
+
+class ActionLabel(Label,ActionItem):
+	pass
+   
     
 class SlideMenu(NavigationDrawer):
     def __init__(self, **kwargs):
