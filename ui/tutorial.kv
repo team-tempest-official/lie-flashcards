@@ -76,35 +76,30 @@
         anim_type: 'slide_above_anim'
         BoxLayout:
             id: sv
-            #y: root.y - ac.height 
-            #do_scroll_x: False# only vertical scrolling
-            #do_scroll_y: True
-                
-		    #width:  dg.x
             orientation: 'vertical'
             
             BoxLayout:
                 orientation: 'vertical'
                 Button:
                     text: 'Decks'
-	        	    color:[0,0,0,.8]
-		            background_color:(3, 3, 3, 1)
+                    color:[0,0,0,.8]
+                    background_color:(3, 3, 3, 1)
                 Button:
                     text: 'Card Browser'
-	        	    color:[0,0,0,.8]
-			        background_color:(3, 3, 3, 1)
+                    color:[0,0,0,.8]
+                    background_color:(3, 3, 3, 1)
                 Button:
                     text: 'Statistics'
-	        	    color:[0,0,0,.8]
-			        background_color:(3, 3, 3, 1)
+                    color:[0,0,0,.8]
+                    background_color:(3, 3, 3, 1)
                 Button:
                     text: 'Settings'
-		            color:[0,0,0,.8]
-		            background_color:(3, 3, 3, 1)
+                    color:[0,0,0,.8]
+                    background_color:(3, 3, 3, 1)
                 Button:
                     text: 'Help'
-		            color:[0,0,0,.8]
-	        	    background_color:(3, 3, 3, 1)
+                    color:[0,0,0,.8]
+                    background_color:(3, 3, 3, 1)
 	        Widget:
 	            size_hint: 1,.4
 	            canvas:
@@ -132,12 +127,9 @@
                     size_hint_x: None
                     width: self.height
                     on_state: smsm.toggle_state()
-                #ActionSeparator:
-                #    width: 120
-                #    background_image: ''
-				ActionLabel:
-					text: 'SoloAdventures'
-					text_size: self.width*2/3 , None
+                ActionLabel:
+                    text: 'SoloAdventures'
+                    text_size: self.width*2/3 , None
                 ActionGroup:
                     text: 'Add'
                     ActionButton:
