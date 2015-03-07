@@ -27,6 +27,7 @@ from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, Di
 from kivy.resources import resource_add_path
 import os.path
 
+
 class CustomModal1(ModalView):
     pass
     
@@ -91,6 +92,10 @@ class SoloMenu(Screen):
 class DeckMenu(Screen):
     pass
     
+
+class PlayDeck(Screen):
+    pass
+
 
 class ActionLabel(Label,ActionItem):
     pass

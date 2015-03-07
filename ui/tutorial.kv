@@ -4,6 +4,7 @@
     SoloMenu
     DeckMenu
     AddCard
+    PlayDeck
     
 <MainMenu>
     name: 'main_menu'
@@ -116,20 +117,20 @@
         ActionBar:
             background_color: 0,.6,1,1
             id: ac
-           # background_image: ''
+            #background_image: ''
             pos_hint: {'top':1}
             ActionView:
                 use_separator: True
                 ActionPrevious:
-                    user_separator: True
-                    #title: ' Menu'
                     with_previous: False
                     size_hint_x: None
                     width: self.height
-                    on_state: smsm.toggle_state()
+                    #previous_image: ''
+                    on_release: smsm.toggle_state() 
                 ActionLabel:
+                    id: aclabel
                     text: 'SoloAdventures'
-                    text_size: self.width*2/3 , None
+                    text_size: self.width  , None
                 ActionGroup:
                     text: 'Add'
                     ActionButton:
@@ -142,13 +143,6 @@
                     text: 'Backup'
                 ActionButton:
                     text: 'Help'
-                #ActionGroup:
-                 #   text: 'Group1'
-                 #   ActionButton:
-                  #      text: 'Btn5'
-                  #  ActionButton:
-                  #      text: 'Btn6'
-                  #  ActionButton:
     SlideMenu
         id: smsm
         size_hint_y: None
@@ -188,15 +182,41 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-        FloatLayout:
+        BoxLayout:
             canvas:
                 Color:
                     rgba: 1,1,1,.9
                 Rectangle:
                     pos: self.pos  
                     size: self.size
-            Image:
-                source: 'Bundesarchiv_Bild_101I-299-1805-16,_Nordfrankreich,_Panzer_VI_(Tiger_I).2.png'
+            Widget:
+                size_hint_x: .05
+            BoxLayout:
+                id: bl1
+                orientation: 'vertical'
+                spacing: '20dp'
+                Widget
+                    size_hint_y: .05
+                Button:
+                    size_hint_y: .12
+                    color: 0,0,0,1
+                    text: 'Default'
+                    text_size: self.width * 3/4 , None
+                    background_normal: ''
+                    background_color: 1,1,1,1
+                    on_release: root.manager.current = 'play_deck'
+                Button:
+                    size_hint_y: .12
+                    color: 0,0,0,1
+                    text: 'New Deck'
+                    text_size: self.width * 3/4 , None
+                    background_normal: ''
+                    background_color: 1,1,1,1
+                Widget
+            Widget:
+                size_hint_x: .05
+            #Image:
+                #source: 'Bundesarchiv_Bild_101I-299-1805-16,_Nordfrankreich,_Panzer_VI_(Tiger_I).2.png'
 <DeckMenu>
     name: 'deck_menu'
     SlideMenu
@@ -237,128 +257,204 @@
                         size: self.size
         Label
             text: 'This Page is under construction  Check back soon'
-            
+
+<PlayDeck>
+    name: 'play_deck'
+    BoxLayout:
+        orientation: 'vertical'
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac
+            #background_image: ''
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    with_previous: True
+                    size_hint_x: None
+                    width: self.height
+                    on_release: root.manager.current = 'solo_menu'
+                ActionLabel:
+                    text: 'Default'
+                    text_size: self.width  , None 
+                ActionButton:
+                    text: 'Add card'
+                    on_release: root.manager.current = 'add_card'
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 1,1,1,.9
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Widget
+                size_hint_x: .05
+            BoxLayout
+                spacing: '20dp'
+                orientation: 'vertical'
+                Widget:
+                BoxLayout
+                    orientation: 'vertical'
+                    spacing: '5dp'
+                    canvas:
+                        Color:
+                            rgba: 1,1,1,.9
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        color: 0,0,0,1
+                        text: 'Default'
+                        font_size: 20
+                    Widget
+                Button
+                    size_hint_y: .5
+                    background_normal: ''
+                    background_color: 1,1,1,1
+                    color: 0,0,0,1
+                    text: 'Study'
+                Widget                   
+            Widget
+                size_hint_x: .05
+           
 <AddCard>:
     name: 'add_card'
-    ScrollView:
-        BoxLayout:
-            Widget
-                size_hint_x:0.05
-                canvas:
-                    Color:
-                        rgba: 1,1,1,.9
-                    Rectangle:
-                        pos: self.pos  
-                        size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac
+            #background_image: ''
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    with_previous: True
+                    size_hint_x: None
+                    width: self.height
+                    on_release: root.manager.current = 'solo_menu'
+                ActionLabel:
+                    text: 'Add new card'
+                    text_size: self.width  , None 
+                ActionButton:
+                    text: 'Create card'
+        ScrollView:
             BoxLayout:
-                canvas:
-                    Color:
-                        rgba: 1,1,1,.9
-                    Rectangle:
-                        pos: self.pos   
-                        size: self.size
-                orientation: 'vertical'
-                BoxLayout:
-                    size_hint_y: 0.7
-                    orientation: 'vertical'
-                    BoxLayout:
-                        id: b1
-                        Label:
-                            size_hint_x: 0.3
-                            text: 'Card type:'
-                            #text_size: self.width, None
-                            color: 0,0,0,1
-                        Button:
-                            canvas.before:
-                                Color:
-                                    rgba: 0,0,0,1
-                                Rectangle:
-                                    pos: self.x , self.y+self.height/4  
-                                    size: self.width,1
-                            canvas:
-                                Color:
-                                    rgba: 0,0,0,1
-                                Triangle:
-                                    points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
-                            id: butp
-                            text: 'Default'
-                            text_size: self.width -self.width/4 , None
-                            color: 0,0,0,1
-                            background_color: 0,0,0,0
-                            #background_normal: ''
-                            #background_down: 'atlas://data/images/defaulttheme/button'
-                            on_release: root.show_modal1()
-                    BoxLayout:
-                        Label:
-                            size_hint_x: 0.3
-                            text: 'Deck:'
-                            #text_size: self.width, None
-                            color: 0,0,0,1
-				        Button:
-                            canvas.before:
-                                Color:
-                                    rgba: 0,0,0,1
-                                Rectangle:
-                                    pos: self.x , self.y+self.height/4  
-                                    size: self.width,1
-                            canvas:
-                                Color:
-                                    rgba: 0,0,0,1
-                                Triangle:
-                                    points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
-                            id: butd
-                            text: 'Default'
-                            color: 0,0,0,1
-                            background_color: 0,0,0,0
-                            background_normal: ''
-                            text_size: self.width -self.width/4 , None
-                            background_down: 'atlas://data/images/defaulttheme/button'
-                            on_release: root.show_modal2()
+                Widget
+                    size_hint_x:0.05
+                    canvas:
+                        Color:
+                            rgba: 1,1,1,.9
+                        Rectangle:
+                            pos: self.pos  
+                            size: self.size
                 BoxLayout:
                     canvas:
                         Color:
-                            rgba: 1,1,1,1
+                            rgba: 1,1,1,.9
                         Rectangle:
                             pos: self.pos   
                             size: self.size
-                    size_hint_y: 0.9
-                    Widget:
-                        size_hint_x: .05
+                    orientation: 'vertical'
                     BoxLayout:
+                        size_hint_y: 0.7
                         orientation: 'vertical'
-                        Label
-                            text: 'Front'
-                            font_size: '20dp'
-                            text_size: self.width, None
-                            color: 0,0,0,1
-                        TextInput
-                            id: txt1
-                            text: 'card front'
-                            font_size: '25dp'
-                        Label:
-                            text: 'Back'
-                            font_size: '20dp'
-                            text_size: self.width, None
-                            color: 0,0,0,1
-                        TextInput
-                            id: txt2
-                            text: 'card back'
-                            font_size: '25dp'
-                        Label
-                            size_hint_y: 0.2
-                    Widget:
-                        size_hint_x: .2
-                Button
-                    background_normal: ''
-                    background_color: 0,0,0,0
-            Widget:
-                size_hint_x:0.05
-                canvas.before:
-                    Color:
-                        rgba: 1,1,1,.9
-                    Rectangle:
-                        pos: self.pos  
-                        size: self.size          
+                        BoxLayout:
+                            id: b1
+                            Label:
+                                size_hint_x: 0.3
+                                text: 'Card type:'
+                                #text_size: self.width, None
+                                color: 0,0,0,1
+                            Button:
+                                canvas.before:
+                                    Color:
+                                        rgba: 0,0,0,1
+                                    Rectangle:
+                                        pos: self.x , self.y+self.height/4  
+                                        size: self.width,1
+                                canvas:
+                                    Color:
+                                        rgba: 0,0,0,1
+                                    Triangle:
+                                        points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
+                                id: butp
+                                text: 'Default'
+                                text_size: self.width -self.width/4 , None
+                                color: 0,0,0,1
+                                background_color: 0,0,0,0
+                                #background_normal: ''
+                                #background_down: 'atlas://data/images/defaulttheme/button'
+                                on_release: root.show_modal1()
+                        BoxLayout:
+                            Label:
+                                size_hint_x: 0.3
+                                text: 'Deck:'
+                                #text_size: self.width, None
+                                color: 0,0,0,1
+				            Button:
+                                canvas.before:
+                                    Color:
+                                        rgba: 0,0,0,1
+                                    Rectangle:
+                                        pos: self.x , self.y+self.height/4  
+                                        size: self.width,1
+                                canvas:
+                                    Color:
+                                        rgba: 0,0,0,1
+                                    Triangle:
+                                        points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
+                                id: butd
+                                text: 'Default'
+                                color: 0,0,0,1
+                                background_color: 0,0,0,0
+                                background_normal: ''
+                                text_size: self.width -self.width/4 , None
+                                background_down: 'atlas://data/images/defaulttheme/button'
+                                on_release: root.show_modal2()
+                    BoxLayout:
+                        canvas:
+                            Color:
+                                rgba: 1,1,1,1
+                            Rectangle:
+                                pos: self.pos   
+                                size: self.size
+                        size_hint_y: 0.9
+                        Widget:
+                            size_hint_x: .05
+                        BoxLayout:
+                            orientation: 'vertical'
+                            Label
+                                text: 'Front'
+                                font_size: '20dp'
+                                text_size: self.width , None
+                                color: 0,0,0,1
+                            TextInput
+                                id: txt1
+                                text: 'card front'
+                                font_size: '25dp'
+                            Label:
+                                text: 'Back'
+                                font_size: '20dp'
+                                text_size: self.width, None
+                                color: 0,0,0,1
+                            TextInput
+                                id: txt2
+                                text: 'card back'
+                                font_size: '25dp'
+                            Label
+                                size_hint_y: 0.2
+                        Widget:
+                            size_hint_x: .2
+                    Button
+                        background_normal: ''
+                        background_color: 0,0,0,0
+                Widget:
+                    size_hint_x:0.05
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,.9
+                        Rectangle:
+                            pos: self.pos  
+                            size: self.size          
 
 <CustomModal1>:
     id: cm
@@ -474,7 +570,7 @@
     
 <CreateDeck>:
     background: ''
-    size_hint: .4 ,.2
+    size_hint: .6 ,.2
     pos_hint: {'left': .5 , 'top': .75}
     background_color: 0,0,0,.2
     BoxLayout:
