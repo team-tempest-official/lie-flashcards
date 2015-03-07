@@ -84,8 +84,8 @@ class PlayMenu(Screen):
 
 class SoloMenu(Screen):
     def show_createdeck(self):
-		modal = CreateDeck()
-		modal.open()
+        modal = CreateDeck()
+        modal.open()
     
     
 class DeckMenu(Screen):
@@ -93,7 +93,7 @@ class DeckMenu(Screen):
     
 
 class ActionLabel(Label,ActionItem):
-	pass
+    pass
    
     
 class SlideMenu(NavigationDrawer):
