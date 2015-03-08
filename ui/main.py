@@ -27,6 +27,37 @@ from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, Di
 from kivy.resources import resource_add_path
 import os.path
 
+class TabTextInput(TextInput):
+
+    ok = NumericProperty(0)
+    ko = NumericProperty(0)
+    test = NumericProperty(0)
+
+    def __init__(self, *args, **kwargs):
+        super(TabTextInput, self).__init__(*args, **kwargs)
+
+    def keyboard_on_key_down(self, window, keycode, text, modifiers):
+        key, key_str = keycode
+        if key is not 8:
+            if key is 13 or self.cursor_col == 20:
+                self.test += 1
+                self.insert_text('\n')
+                self.add_line()
+                return False
+        else:
+            if self.cursor_col==0 and self.cursor_row>0:
+                self.remove_line()
+        return super(TabTextInput, self).keyboard_on_key_down(window, keycode, text, modifiers)
+
+    def add_line(self):
+        self.height += self.line_height
+        self.ok += 1
+        #self.y -= self.line_height
+
+    def remove_line(self):
+        self.height -= self.line_height
+        self.ko += 1
+        #self.y += self.line_height
 
 class CustomModal1(ModalView):
     pass

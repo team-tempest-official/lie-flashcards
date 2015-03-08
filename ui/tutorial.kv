@@ -1,5 +1,5 @@
 <GameManager>:
-    MainMenu
+    AddCard
         id: s1
     PlayMenu
         id: s2
@@ -7,7 +7,7 @@
         id: s3
     DeckMenu
         id: s4
-    AddCard
+    MainMenu
         id: s5
     PlayDeck
         id: s6
@@ -462,11 +462,10 @@
            
 <AddCard>:
     name: 'add_card'
-    BoxLayout:
-        orientation: 'vertical'
+	FloatLayout:
         ActionBar:
             background_color: 0,.6,1,1
-            id: ac
+            id: ac2
             #background_image: ''
             pos_hint: {'top':1}
             ActionView:
@@ -480,26 +479,28 @@
                     text_size: self.width  , None 
                 ActionButton:
                     text: 'Create card'
-        ScrollView:
-            BoxLayout:
-                Widget
-                    size_hint_x:0.05
+                    on_release: print lab1.height, lab1.y
+        FloatLayout:
+            id: flboss
+            size_hint_y: None
+            height: root.height - ac2.height
+    		ScrollView:
+                id: sv5
+    			FloatLayout:
+                    id: flboss
+                    size_hint_y: None
+                    height: root.height - ac2.height + fl10.height - (root.height - ac2.height - bbig.height )
                     canvas:
                         Color:
                             rgba: 1,1,1,.9
                         Rectangle:
-                            pos: self.pos  
+                            pos: self.pos
                             size: self.size
-                BoxLayout:
-                    canvas:
-                        Color:
-                            rgba: 1,1,1,.9
-                        Rectangle:
-                            pos: self.pos   
-                            size: self.size
-                    orientation: 'vertical'
                     BoxLayout:
-                        size_hint_y: 0.7
+                        id: bbig
+                        size_hint_y: None
+                        y: root.height - ac2.height - self.height
+                        height: '150dp' 
                         orientation: 'vertical'
                         BoxLayout:
                             id: b1
@@ -534,7 +535,7 @@
                                 text: 'Deck:'
                                 #text_size: self.width, None
                                 color: 0,0,0,1
-				            Button:
+    			            Button:
                                 canvas.before:
                                     Color:
                                         rgba: 0,0,0,1
@@ -554,52 +555,77 @@
                                 text_size: self.width -self.width/4 , None
                                 background_down: 'atlas://data/images/defaulttheme/button'
                                 on_release: root.show_modal2()
-                    BoxLayout:
+	
+                    FloatLayout:
+                        id: fl10
+                        size_hint_y: None
+                        height: (root.height - ac2.height - bbig.height )  + tti1.height + tti2.height - 3 * tti1.line_height
                         canvas:
                             Color:
                                 rgba: 1,1,1,1
                             Rectangle:
-                                pos: self.pos   
                                 size: self.size
-                        size_hint_y: 0.9
-                        Widget:
-                            size_hint_x: .05
-                        BoxLayout:
-                            orientation: 'vertical'
-                            Label
-                                text: 'Front'
-                                font_size: '20dp'
-                                text_size: self.width , None
-                                color: 0,0,0,1
-                            TextInput
-                                id: txt1
-                                text: 'card front'
-                                font_size: '25dp'
-                            Label:
-                                text: 'Back'
-                                font_size: '20dp'
-                                text_size: self.width, None
-                                color: 0,0,0,1
-                            TextInput
-                                id: txt2
-                                text: 'card back'
-                                font_size: '25dp'
-                            Label
-                                size_hint_y: 0.2
-                        Widget:
-                            size_hint_x: .2
-                    Button
-                        background_normal: ''
-                        background_color: 0,0,0,0
-                Widget:
-                    size_hint_x:0.05
-                    canvas.before:
-                        Color:
-                            rgba: 1,1,1,.9
-                        Rectangle:
-                            pos: self.pos  
-                            size: self.size          
-
+                                pos: self.pos
+                        Label:
+                            id: lab1
+                            size_hint_y: None
+                            y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3/2 #- tti1.line_height
+                            height: tti1.line_height * 3/2
+                            text: 'Card Front'
+                            color: 0,0,0,1
+                        TabTextInput:
+                            id: tti1
+                            size_hint_y: None
+                            font_size: '25dp'
+                            y: (root.height - ac2.height - bbig.height ) - self.line_height * 3 #- self.line_height
+                            height: self.line_height * 3/2
+                            #on_height: print (root.height - (b.y + b.height) - ac2.height - bbig.height) / (flboss.height - (b.y + b.height))# in range (0,1): sv5.scroll_y = ((root.height - b.height) / self.height) - 0.03
+                            #on_height: if self.test is 4: sv5.scroll_y = .7
+                            on_ok:  lab1.y += self.line_height; bbig.y += self.line_height
+                            on_ko: lab1.y -= self.line_height; bbig.y -= self.line_height
+                        Label:
+                            id: lab2
+                            size_hint_y: None
+                            y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3 - tti1.line_height * 3/2 #- tti1.line_height
+                            height: tti1.line_height * 3/2
+                            text: 'Card Back'
+                            color: 0,0,0,1
+                        TabTextInput
+                            id: tti2
+                            size_hint_y: None
+                            font_size: '25dp'
+                            y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3 - tti1.line_height * 3/2 - self.line_height * 3/2
+                            height: self.line_height * 3/2
+                            on_height: if (root.height - b.height) / self.height in range (0,1): sv5.scroll_y = ((root.height - b.height) / self.height) - 0.03
+                            on_ok: bbig.y += self.line_height ; tti1.y += self.line_height ; lab2.y += self.line_height ; lab1.y += self.line_height
+                            on_ko: bbig.y -= self.line_height ; tti1.y -= self.line_height ; lab2.y -= self.line_height ; lab1.y -= self.line_height
+                    BoxLayout:
+                        id: bmin
+                        size_hint_y: None
+                        height: (root.height - ac2.height - bbig.height ) / 3
+                        orientation: 'vertical'
+                        Label
+                            canvas:
+                                Color:
+                                    rgba: 1,0,0,0.7
+                                Rectangle:
+                                    size: self.width, 2
+                                    pos: self.pos
+                            size_hint_y: 0.3
+                            text: 'Tags'
+                            color: 0,0,0,1
+                        Label
+                            id: b
+                            canvas:
+                                Color:
+                                    rgba: 1,0,0,0.7
+                                Rectangle:
+                                    size: self.width, 2
+                                    pos: self.pos
+                            size_hint_y: 0.3
+                            text: 'Filler'
+                            color: 0,0,0,1
+                        Widget
 <CustomModal1>:
     id: cm
     background: ''
