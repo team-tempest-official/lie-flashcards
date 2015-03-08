@@ -3,7 +3,7 @@ from storage.database_manager import DatabaseManager
 from storage.simple_implementation import SimpleImplementation
 import unittest
 from random import randint
-
+import time
 
 class SimpleImplementationTest(unittest.TestCase):
 
@@ -306,7 +306,7 @@ class SimpleImplementationTest(unittest.TestCase):
 
 		self.assertEqual(q.attributes_, [a1, a2])
 	
-	def remove_question_attribute(self):
+	def test_remove_question_attribute(self):
 		a1 = self.manager.create_attribute("a1", "v1", "string")
 		a2 = self.manager.create_attribute("a2", "v2", "strng")
 		q = self.manager.create_qa([a1, a2])
@@ -353,6 +353,101 @@ class SimpleImplementationTest(unittest.TestCase):
 
 		self.assertEqual(ans.attributes_, [a1])
 
+	def test_find_card_by_attribute(self):
+		author = self.manager.create_attribute("author", "string", "AndreiRO")	
+		name1 = self.manager.create_attribute("name", "string", "First")
+		name2 = self.manager.create_attribute("name", "string", "Second")
+
+		c1 = self.manager.create_card(None, None, [author, name1])
+		c2 = self.manager.create_card(None, None, [author, name2])
+		d = self.manager.create_deck([c1, c2], [author, ])
+
+		self.manager.add_deck(d)
+
+		self.assertEqual(
+			self.manager.find_card_by_attribute("author", "AndreiRO"),
+			[c1, c2]
+		)
+		self.assertEqual(
+			self.manager.find_card_by_attribute("name", "First"),
+			[c1, ]
+		)		
+	
+	def test_find_question_by_attribute(self):
+		author = self.manager.create_attribute("author", "string", "AndreiRO")	
+		name1 = self.manager.create_attribute("question", "string", "First?")
+		name2 = self.manager.create_attribute("question", "string", "Second?")
+
+		q1 = self.manager.create_qa([author, name1])
+		q2 = self.manager.create_qa([author, name2])
+		c = self.manager.create_card(q1, None, None)
+		c2 = self.manager.create_card(q2, None, None)
+		d = self.manager.create_deck([c, c2], [author, ])
+
+		self.manager.add_deck(d)
+
+		self.assertEqual(
+			self.manager.find_question_by_attribute("author", "AndreiRO"),
+			[q1, q2]
+		)
+		self.assertEqual(
+			self.manager.find_question_by_attribute("question", "First?"),
+			[q1, ]
+		)
+	
+	def test_find_answer_by_attribute(self):
+		author = self.manager.create_attribute("author", "string", "AndreiRO")	
+		name1 = self.manager.create_attribute("question", "string", "First!")
+		name2 = self.manager.create_attribute("question", "string", "Second!")
+
+		a1 = self.manager.create_qa([author, name1])
+		a2 = self.manager.create_qa([author, name2])
+		c = self.manager.create_card(None, [a1, ], None)
+		c2 = self.manager.create_card(None, [a2, ], None)
+		d = self.manager.create_deck([c, c2], [author, ])
+
+		self.manager.add_deck(d)
+
+		self.assertEqual(
+			self.manager.find_answer_by_attribute("author", "AndreiRO"),
+			[a1, a2]
+		)
+		self.assertEqual(
+			self.manager.find_answer_by_attribute("question", "First!"),
+			[a1, ]
+		)
+
+	def test_find_deck_by_attribute(self):
+		author = self.manager.create_attribute("author", "string", "AndreiRO")	
+		name1 = self.manager.create_attribute("name", "string", "First")
+		name2 = self.manager.create_attribute("name", "string", "Second")
+		
+
+		d = self.manager.create_deck(None, [author, name1])
+		d2 = self.manager.create_deck(None, [author, name2])
+
+		self.manager.add_deck(d)
+		self.manager.add_deck(d2)
+
+		self.assertEqual(
+			self.manager.find_deck_by_attribute("author", "AndreiRO"),
+			[d, d2]
+		)
+		self.assertEqual(
+			self.manager.find_deck_by_attribute("name", "First"),
+			[d, ]
+		)
+
+	def test_generate_data(self):
+		self.manager.generate_data()
+		self.assertEqual(len(self.manager.implementation.decks), 2)
+		for d in self.manager.implementation.decks:
+			self.assertNotEqual(d.attributes_, None)		
+			for c in d.cards_:
+				self.assertNotEqual(c.attributes_, None)
+				self.assertNotEqual(c.question_, None)
+				self.assertNotEqual(c.answers_, None)
+				
 
 if __name__ == "__main__":
 	suite = unittest.TestLoader().loadTestsFromTestCase(SimpleImplementationTest)

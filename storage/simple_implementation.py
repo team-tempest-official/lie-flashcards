@@ -2,6 +2,8 @@ from model.attribute import Attribute
 from model.card import Card
 from model.deck import Deck
 from model.qa import QA
+import time
+from random import randint
 
 
 class SimpleImplementation(object):
@@ -179,7 +181,7 @@ class SimpleImplementation(object):
 			for c in d.cards_:
 				if c.question_.id_ == q_id_:
 					for i in range(len(c.question_.attributes_)):
-						if c.question_.attributes_[i].key == key:
+						if c.question_.attributes_[i].attribute_key_ == key:
 							index = i
 					if index != -1:
 						del c.question_.attributes_[i]
@@ -237,4 +239,5 @@ class SimpleImplementation(object):
 		self.id_gen_ += 1
 
 		return d
+
 	

@@ -1,4 +1,4 @@
-
+import time
 
 class DatabaseManager(object):
 
@@ -118,3 +118,80 @@ class DatabaseManager(object):
 			print "-- Creating deck"
 		return self.implementation.create_deck(cards, attributes)
 
+	def generate_data(self, decks=2):
+		author = self.create_attribute("author", "string", "AndreiRO")
+		date = self.create_attribute("date", "string",
+time.strftime("%d:%m:%Y"))
+		opt  = self.create_attribute("type", "string", "single answer")
+
+		qs = [
+			self.create_attribute("question", "string", "What's your name?"),
+			self.create_attribute("question", "string", "9+1=?"),
+			self.create_attribute("question", "string", "What is the capital of Romania?"),
+			self.create_attribute("question", "string", "What is the name of the app?")
+		]
+		ans = [
+			self.create_attribute("question", "string", "..."),
+			self.create_attribute("question", "string", "10"),
+			self.create_attribute("question", "string", "Bucharest"),
+			self.create_attribute("question", "string", "Lie")
+		]
+
+		i = 0
+		while i < decks:
+			cards = []
+			j = 0
+			while j < len(qs):
+				q = self.create_qa([qs[j], author, date, opt])
+				a = self.create_qa([ans[j], author, date, opt])
+				cards.append(self.create_card(q, [a,], [author, date]))
+				j += 1
+
+			d = self.create_deck(cards, [author, date])
+			self.add_deck(d)
+			i += 1
+
+	def find_card_by_attribute(self, attribute_key, attribute_value):
+		cards = []
+		for d in self.implementation.decks:
+			for c in d.cards_:
+				for a in c.attributes_:
+					if a.attribute_key_ == attribute_key and \
+					   a.attribute_value_ == attribute_value:
+						cards.append(c)
+		return cards
+
+
+	def find_question_by_attribute(self, attribute_key, attribute_value):
+		qs = []
+		for d in self.implementation.decks:
+			for c in d.cards_:
+				for a in c.question_.attributes_:
+					if a.attribute_key_ == attribute_key and \
+					   a.attribute_value_ == attribute_value:
+						qs.append(c.question_)
+		return qs
+
+
+
+	def find_answer_by_attribute(self, attribute_key, attribute_value):
+		ans = []
+		for d in self.implementation.decks:
+			for c in d.cards_:
+				for an in c.answers_:
+					for a in an.attributes_:
+						if a.attribute_key_ == attribute_key and \
+					   		a.attribute_value_ == attribute_value:
+							ans.append(an)
+
+		return ans
+
+	def find_deck_by_attribute(self, attribute_key, attribute_value):
+		decks = []
+		for d in self.implementation.decks:
+			for a in d.attributes_:
+				if a.attribute_key_ == attribute_key and \
+					a.attribute_value_ == attribute_value:
+					decks.append(d)
+
+		return decks

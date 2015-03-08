@@ -8,4 +8,8 @@ class Card(object):
 		self.answers_ = answers # list of answers
 		self.attributes_ = attributes
 
+	def find_attribute(self, key):
+		for attr in self.attributes_:
+			if attr.attribute_key_ == key:
+				return attr
 
