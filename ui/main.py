@@ -37,7 +37,7 @@ class CustomModal2(ModalView):
 
 
 class CreateDeck(ModalView):
-	pass
+    pass
 
 
 class AddCard(Screen):
@@ -72,7 +72,11 @@ class AddCard(Screen):
             self.ids.butd.text = args[0]
 
 class GameManager(ScreenManager):
-    pass
+
+    def switch_to_deckplay(self , button ):
+        self.ids.s6.ids.deck_label.text = button.text
+        self.ids.s6.ids.action_deck_label.text = button.text
+        self.current = 'play_deck'
 
 
 class MainMenu(Screen):
@@ -84,10 +88,33 @@ class PlayMenu(Screen):
 
 
 class SoloMenu(Screen):
-    def show_createdeck(self):
-        modal = CreateDeck()
-        modal.open()
     
+    deck_nr = NumericProperty(1)
+    b = ObjectProperty()
+    create_deck_modalview = ObjectProperty()
+    curr_y = NumericProperty('476dp')
+
+    def show_createdeck(self):
+        self.create_deck_modalview = CreateDeck()
+        self.create_deck_modalview.ids.but1.bind(on_release = self.create_deck)
+        self.create_deck_modalview.open()
+
+    def create_deck(self , *args):
+        self.curr_y -=self.ids.b1.height * 3/2
+        self.b = Button( id = 'b'+str(self.deck_nr+1) ,
+                    text = self.create_deck_modalview.ids.deck_txt.text ,
+                    x = self.ids.fl1.x ,
+                    size_hint_y = None ,
+                    height = '50dp' ,
+                    y = self.curr_y , #self.ids['b'+str(self.deck_nr)].y - self.ids['b'+str(self.deck_nr)].height * 3/2  ,
+                    color = [0,0,0,1] ,
+                    text_size = (self.width * 3/4 , None) ,
+                    background_normal = '' ,
+                    background_color = [1,1,1,1] ,
+                    on_release = self.manager.switch_to_deckplay)
+        self.deck_nr+=1
+        self.ids.fl1.add_widget(self.b)
+
     
 class DeckMenu(Screen):
     pass
@@ -111,7 +138,7 @@ class TutorialApp(App):
     prev = StringProperty()
 
     def build(self):
-        self.sm = ScreenManager(transition=NoTransition())
+        self.sm = GameManager(transition=NoTransition())
         self.history.append('main_menu')
         a = Screen()
         for a in self.sm.screens:
