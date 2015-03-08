@@ -157,7 +157,7 @@ Builder.load_string('''
     _side_panel: sidepanel
     _main_panel: mainpanel
     _join_image: joinimage
-    side_panel_width: min(dp(650), 0.65*self.width)
+    side_panel_width:  0.8*self.width
     BoxLayout:
         id: sidepanel
         y: root.y
@@ -264,10 +264,10 @@ class NavigationDrawer(StencilView):
     'closed'. Setting its value automatically jumps to the relevant state,
     or users may use the anim_to_state() method to animate the
     transition.'''
-    anim_time = NumericProperty(0.3)
+    anim_time = NumericProperty(0.2)
     '''The time taken for the panel to slide to the open/closed state when
     released or manually animated with anim_to_state.'''
-    min_dist_to_open = NumericProperty(0.7)
+    min_dist_to_open = NumericProperty(0.3)
     '''Must be between 0 and 1. Specifies the fraction of the hidden panel
     width beyond which the NavigationDrawer will relax to open state when
     released. Defaults to 0.7.'''

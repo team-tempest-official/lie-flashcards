@@ -1,36 +1,31 @@
-<ScreenManager>:
+<GameManager>:
     MainMenu
+        id: s1
     PlayMenu
+        id: s2
     SoloMenu
+        id: s3
     DeckMenu
+        id: s4
     AddCard
+        id: s5
     PlayDeck
+        id: s6
     
 <MainMenu>
     name: 'main_menu'
     BoxLayout:
+        orientation: 'vertical'
         canvas:
             Color:
-                rgba: 0,0.1,0,1
+                rgba: 0,0,0.1,1
             Rectangle:
                 pos: self.pos   
                 size: self.size
-        BoxLayout:
-            size_hint_x: 0.6
-            orientation: 'vertical'
-            Widget
-            AnchorLayout:
-                anchor_x: 'left'
-                anchor_y: 'bottom'
-                Label:
-                    size_hint: 0.4, 0.1
-                    font_size: '10dp'
-                    text: 'version 1.00'
         BoxLayout
-            #size_hint_y: 0.7
-            orientation: 'vertical'
-            spacing: '20dp'
-            BoxLayout:
+        BoxLayout
+            size_hint_y: .4
+            BoxLayout
                 orientation: 'vertical'
                 Label:
                     text: 'L I E'
@@ -40,75 +35,158 @@
                 Label:
                     size_hint_y: 0.1
                     text: '-- learning is easy --'
-            Widget:
-                size_hint_y: 0.5
-            BoxLayout
-                spacing: 5
-                orientation: 'vertical'
-                canvas:
-                    Color: 
-                        rgba: 0,0.6,1,1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                Widget
+                    size_hint_y: .4
+            Widget
+            Widget
+                
+        BoxLayout
+            orientation: 'vertical'
+            size_hint_y: .15
+            BoxLayout:
+                spacing: '12dp'
+                Widget
+                    size_hint_x: .05
                 Button
                     background_color: 1,1,1,1
                     background_normal: '' 
                     text: 'Play'
                     color: 0.6,0,0,1
-                    on_state: root.manager.current = 'play_menu'
+                    on_release: root.manager.current = 'play_menu'
                 Button
                     text: 'Solo Adventures'
                     color: 0.6,0,0,1
                     background_normal: '' 
-                    on_state: root.manager.current = 'solo_menu'
+                    on_release: root.manager.current = 'solo_menu'
                 Button
                     text: 'Collection'
                     color: 0.6,0,0,1
                     background_normal: '' 
-                    on_state: root.manager.current = 'deck_menu'
-            Widget:
-                size_hint_y: 0.5
-        Widget:
-            size_hint_x: 0.6
+                    on_release: root.manager.current = 'deck_menu'
+                Widget
+                    size_hint_x: .05 
+            Widget
+                size_hint_y: .5       
+#    BoxLayout:
+#        canvas:
+#            Color:
+#                rgba: 0,0,0.1,1
+#            Rectangle:
+#                pos: self.pos   
+#                size: self.size
+#        BoxLayout:
+#            size_hint_x: 0.6
+#            orientation: 'vertical'
+#            Widget
+#            AnchorLayout:
+#                anchor_x: 'left'
+#               anchor_y: 'bottom'
+#                Label:
+#                    size_hint: 0.4, 0.1
+#                    font_size: '10dp'
+#                    text: 'version 1.00'
+#        BoxLayout
+#            #size_hint_y: 0.7
+#            orientation: 'vertical'
+#            spacing: '20dp'
+#            BoxLayout:
+#                orientation: 'vertical'
+#                Label:
+#                    text: 'L I E'
+#                    bold: True
+#                    font_size: '72dp'
+#                    color: 0.5,0,0,1
+#                Label:
+#                    size_hint_y: 0.1
+#                    text: '-- learning is easy --'
+#            Widget:
+#                size_hint_y: 0.5
+#            BoxLayout
+#                spacing: 5
+#                orientation: 'vertical'
+#                canvas:
+#                    Color: 
+#                        rgba: 0,0.6,1,1
+#                    Rectangle:
+#                        pos: self.pos
+#                        size: self.size
+#                Button
+#                    background_color: 1,1,1,1
+#                    background_normal: '' 
+#                    text: 'Play'
+#                    color: 0.6,0,0,1
+#                    on_state: root.manager.current = 'play_menu'
+#                Button
+#                    text: 'Solo Adventures'
+#                    color: 0.6,0,0,1
+#                    background_normal: '' 
+#                    on_state: root.manager.current = 'solo_menu'
+#                Button
+#                    text: 'Collection'
+#                    color: 0.6,0,0,1
+#                    background_normal: '' 
+#                    on_state: root.manager.current = 'deck_menu'
+#            Widget:
+#                size_hint_y: 0.5
+#        Widget:
+#            size_hint_x: 0.6
 <PlayMenu>
     name: 'play_menu'
     SlideMenu
         anim_type: 'slide_above_anim'
         BoxLayout:
-            id: sv
             orientation: 'vertical'
-            
-            BoxLayout:
-                orientation: 'vertical'
-                Button:
-                    text: 'Decks'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Card Browser'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Statistics'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Settings'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Help'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-	        Widget:
-	            size_hint: 1,.4
-	            canvas:
-	                Color:
-	                    rgba: 1,1,1,1
-	                Rectangle:
-	                    pos: self.pos
-	                    size: self.size
+            spacing: '1dp'
+            Button:
+                text: 'Decks'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Card Browser'
+                color:[0,0,0,.8]
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Statistics'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Settings'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Help'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Send feedback'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Widget:
+                size_hint: 1,2.5
+                canvas:
+                    Color:
+                        rgba: 1,1,1,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
         Label: 
             text: 'This Page is under construction  Check back soon'
 <SoloMenu>
@@ -137,6 +215,7 @@
                         text: 'Add card'
                         on_release: root.manager.current = 'add_card'
                     ActionButton:
+                        id: cdb
                         text: 'Create deck'
                         on_release: root.show_createdeck()
                 ActionButton:
@@ -149,33 +228,163 @@
         height: root.height - ac.height
         anim_type: 'slide_above_anim'
         BoxLayout:
-            id: sv
             orientation: 'vertical'
-            
-            BoxLayout:
-                orientation: 'vertical'
-                Button:
-                    text: 'Decks'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Card Browser'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Statistics'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Settings'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Help'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
+            spacing: '1dp'
+            Button:
+                text: 'Decks'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Card Browser'
+                color:[0,0,0,.8]
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Statistics'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Settings'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Help'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Send feedback'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
             Widget:
-                size_hint: 1,.4
+                size_hint: 1,2.5
+                canvas:
+                    Color:
+                        rgba: 1,1,1,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+        ScrollView
+            BoxLayout:
+                id: bl
+                #size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 1,1,1,.9
+                    Rectangle:
+                        pos: self.pos  
+                        size: self.size
+                Widget:
+                    size_hint_x: .05
+                FloatLayout:
+                    #size_hint_y: None
+                    #height: root.height - ac.height
+                    #on_height: bl.height = self.height                                                  
+                    id: fl1
+                    Button:
+                        id: b1
+                        size_hint_y: None
+                        height: '50dp'
+                        x: fl1.x
+                        y: root.height - ac.height - self.height * 3/2 
+                        color: 0,0,0,1
+                        text: 'Default'
+                        text_size: (self.width * 4.7/5.7 , None)
+                        background_normal: ''
+                        background_color: 1,1,1,1
+                        on_release: root.manager.switch_to_deckplay(self)
+                   
+                Widget:
+                    size_hint_x: .05
+<DeckMenu>
+    name: 'deck_menu'
+    FloatLayout:
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac3
+            #background_image: ''
+            pos_hint: {'top':1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    with_previous: False
+                    size_hint_x: None
+                    width: self.height
+                    #previous_image: ''
+                    on_release: pmsm.toggle_state() 
+                ActionLabel:
+                    id: aclabel
+                    text: 'Collection'
+                    text_size: self.width  , None
+
+    SlideMenu
+        id: pmsm
+        size_hint_y: None
+        height: root.height - ac3.height
+        anim_type: 'slide_above_anim'
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '1dp'
+            Button:
+                text: 'Decks'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Card Browser'
+                color:[0,0,0,.8]
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Statistics'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Settings'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Help'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Send feedback'
+                text_size: self.width *1/2 ,  None
+                #font_size: 20
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Widget:
+                size_hint: 1,2.5
                 canvas:
                     Color:
                         rgba: 1,1,1,1
@@ -187,76 +396,11 @@
                 Color:
                     rgba: 1,1,1,.9
                 Rectangle:
-                    pos: self.pos  
+                    pos: self.pos
                     size: self.size
-            Widget:
-                size_hint_x: .05
-            BoxLayout:
-                id: bl1
-                orientation: 'vertical'
-                spacing: '20dp'
-                Widget
-                    size_hint_y: .05
-                Button:
-                    size_hint_y: .12
-                    color: 0,0,0,1
-                    text: 'Default'
-                    text_size: self.width * 3/4 , None
-                    background_normal: ''
-                    background_color: 1,1,1,1
-                    on_release: root.manager.current = 'play_deck'
-                Button:
-                    size_hint_y: .12
-                    color: 0,0,0,1
-                    text: 'New Deck'
-                    text_size: self.width * 3/4 , None
-                    background_normal: ''
-                    background_color: 1,1,1,1
-                Widget
-            Widget:
-                size_hint_x: .05
-            #Image:
-                #source: 'Bundesarchiv_Bild_101I-299-1805-16,_Nordfrankreich,_Panzer_VI_(Tiger_I).2.png'
-<DeckMenu>
-    name: 'deck_menu'
-    SlideMenu
-        anim_type: 'slide_above_anim'
-        BoxLayout:
-            id: box1
-            orientation: 'vertical'
-            
-            BoxLayout:
-                orientation: 'vertical'
-                Button:
-                    text: 'Decks'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Card Browser'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Statistics'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Settings'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-                Button:
-                    text: 'Help'
-                    color:[0,0,0,.8]
-                    background_color:(3, 3, 3, 1)
-            Widget:
-                size_hint: 1,.4
-                canvas:
-                    Color:
-                        rgba: 1,1,1,1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-        Label
-            text: 'This Page is under construction  Check back soon'
+            Label
+                text: 'This Page is under construction  Check back soon'
+                color: 0,0,0,1
 
 <PlayDeck>
     name: 'play_deck'
@@ -274,7 +418,7 @@
                     width: self.height
                     on_release: root.manager.current = 'solo_menu'
                 ActionLabel:
-                    text: 'Default'
+                    id: action_deck_label
                     text_size: self.width  , None 
                 ActionButton:
                     text: 'Add card'
@@ -302,8 +446,8 @@
                             pos: self.pos
                             size: self.size
                     Label:
+                        id: deck_label
                         color: 0,0,0,1
-                        text: 'Default'
                         font_size: 20
                     Widget
                 Button
@@ -460,7 +604,7 @@
     id: cm
     background: ''
     size_hint: .8, .3
-    pos_hint: {'left': 0.7, 'top': .885}
+    pos_hint: {'left': 0.7, 'top': .810}
     background_color: 0,0,0,.1
     BoxLayout:
         BoxLayout
@@ -544,7 +688,7 @@
 <CustomModal2>:
     background: ''
     size_hint: .8 ,.2
-    pos_hint: {'left': 0 , 'top': .75}
+    pos_hint: {'left': 0 , 'top': .685}
     background_color: 0,0,0,.1
     BoxLayout:
         orientation: 'vertical'
@@ -583,23 +727,28 @@
             Widget:
                 size_hint_x: .05
             TextInput
+                id: deck_txt
                 font_size: '25dp'
             Widget:
                 size_hint_x: .05
         BoxLayout:
             Button:
+                id: but1
                 canvas:
                     Color:
                         rgba: 0,0,0,1
                     Rectangle:
-                        pos: self.x+self.width , self.y+self.height/4
+                        pos: self.x+self.width-1 , self.y+self.height/4
                         size: 1, self.height/2
                 text: 'Create'
                 color: 0,0,0,1
-                background_color: 0,0,0,0
+                background_normal: ''
+                background_color: 1,1,1,1
+                on_release: root.dismiss()
             Button:
                 text: 'Cancel'
                 color:0,0,0,1
-                background_color: 0,0,0,0
+                background_normal: ''
+                background_color: 1,1,1,1
                 on_release: root.dismiss()
     
