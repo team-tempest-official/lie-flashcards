@@ -486,6 +486,7 @@
             height: root.height - ac2.height
     		ScrollView:
                 id: sv5
+                scroll_y: 1
     			FloatLayout:
                     id: flboss
                     size_hint_y: None
@@ -566,6 +567,7 @@
                             Rectangle:
                                 size: self.size
                                 pos: self.pos
+                        on_height: print ( root.height - 282 - ac2.height ) / (flboss.height - ( root.height - 282 - ac2.height ) + ( bbig.height + lab1.height + self.height ))
                         Label:
                             id: lab1
                             size_hint_y: None
@@ -579,10 +581,10 @@
                             font_size: '25dp'
                             y: (root.height - ac2.height - bbig.height ) - self.line_height * 3 #- self.line_height
                             height: self.line_height * 3/2
-                            #on_height: print (root.height - (b.y + b.height) - ac2.height - bbig.height) / (flboss.height - (b.y + b.height))# in range (0,1): sv5.scroll_y = ((root.height - b.height) / self.height) - 0.03
-                            #on_height: if self.test is 4: sv5.scroll_y = .7
-                            on_ok:  lab1.y += self.line_height; bbig.y += self.line_height
-                            on_ko: lab1.y -= self.line_height; bbig.y -= self.line_height
+                            on_ok: bbig.y += self.line_height ; lab1.y+= self.line_height ; print bmin.height  , self.test
+                            on_test: if self.test is 3: root.do_me_a_favour()
+                            on_test1: if self.test1 >=4: fl10.height-= 2 * self.line_height
+                            on_ko: bbig.y -= self.line_height; lab1.y -= self.line_height ; root.do_backwards()
                         Label:
                             id: lab2
                             size_hint_y: None
@@ -596,14 +598,21 @@
                             font_size: '25dp'
                             y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3 - tti1.line_height * 3/2 - self.line_height * 3/2
                             height: self.line_height * 3/2
-                            on_height: if (root.height - b.height) / self.height in range (0,1): sv5.scroll_y = ((root.height - b.height) / self.height) - 0.03
+                            #on_height: if (root.height - b.height) / self.height in range (0,1): sv5.scroll_y = ((root.height - b.height) / self.height) - 0.03
                             on_ok: bbig.y += self.line_height ; tti1.y += self.line_height ; lab2.y += self.line_height ; lab1.y += self.line_height
                             on_ko: bbig.y -= self.line_height ; tti1.y -= self.line_height ; lab2.y -= self.line_height ; lab1.y -= self.line_height
                     BoxLayout:
                         id: bmin
                         size_hint_y: None
-                        height: (root.height - ac2.height - bbig.height ) / 3
+                        height: (root.height - ac2.height - bbig.height ) / 3 
+                        y:( 2 * tti1.line_height)
                         orientation: 'vertical'
+                        canvas:
+                            Color:
+                                rgba: 1,1,1,1
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
                         Label
                             canvas:
                                 Color:
@@ -611,7 +620,7 @@
                                 Rectangle:
                                     size: self.width, 2
                                     pos: self.pos
-                            size_hint_y: 0.3
+                            size_hint_y: 0.5
                             text: 'Tags'
                             color: 0,0,0,1
                         Label
@@ -622,10 +631,11 @@
                                 Rectangle:
                                     size: self.width, 2
                                     pos: self.pos
-                            size_hint_y: 0.3
+                            size_hint_y: 0.5
                             text: 'Filler'
                             color: 0,0,0,1
                         Widget
+                            
 <CustomModal1>:
     id: cm
     background: ''

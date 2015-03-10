@@ -25,13 +25,17 @@ from kivy.clock import Clock
 from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, DictProperty,
                              BooleanProperty, StringProperty, ListProperty)
 from kivy.resources import resource_add_path
+from kivy.core.window import Window , Keyboard
 import os.path
+
 
 class TabTextInput(TextInput):
 
     ok = NumericProperty(0)
     ko = NumericProperty(0)
     test = NumericProperty(0)
+    test1 = NumericProperty(0)
+    counter = NumericProperty(0)
 
     def __init__(self, *args, **kwargs):
         super(TabTextInput, self).__init__(*args, **kwargs)
@@ -40,7 +44,6 @@ class TabTextInput(TextInput):
         key, key_str = keycode
         if key is not 8:
             if key is 13 or self.cursor_col == 20:
-                self.test += 1
                 self.insert_text('\n')
                 self.add_line()
                 return False
@@ -51,12 +54,16 @@ class TabTextInput(TextInput):
 
     def add_line(self):
         self.height += self.line_height
+        self.test+=1
+        self.test1+=1
+        self.counter +=1
         self.ok += 1
         #self.y -= self.line_height
 
     def remove_line(self):
         self.height -= self.line_height
         self.ko += 1
+        self.counter -=1
         #self.y += self.line_height
 
 class CustomModal1(ModalView):
@@ -101,6 +108,25 @@ class AddCard(Screen):
             self.ids.butp.text = args[0]
         else:
             self.ids.butd.text = args[0]
+
+    
+    def do_me_a_favour(self):
+        self.ids.sv5.scroll_y = 0
+        self.ids.tti1.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
+        self.ids.lab2.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
+        self.ids.tti2.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
+        self.ids.bmin.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
+        self.ids.lab1.y -= 2 * self.ids.tti1.line_height
+        self.ids.bbig.y -= 2 * self.ids.tti1.line_height
+        self.ids.fl10.height -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
+
+    def do_backwards(self):
+        self.ids.fl10.height -= 2 * self.ids.tti1.line_height
+        if self.ids.tti1.height is self.ids.tti1.line_height * 7/2 and self.ids.bmin.height <194 :
+            self.ids.bmin.height += 2 * self.ids.tti1.line_height
+            a = Widget( size_hint_y = None , height = 2 * self.ids.tti1.line_height )
+            self.ids.bmin.add_widget(a)
+            self.ids.bmin.y -= 2 * self.ids.tti1.line_height
 
 class GameManager(ScreenManager):
 
