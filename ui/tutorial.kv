@@ -133,6 +133,7 @@
 <PlayMenu>
     name: 'play_menu'
     SlideMenu
+        id: smsm
         anim_type: 'slide_above_anim'
         BoxLayout:
             orientation: 'vertical'
@@ -140,7 +141,8 @@
             Button:
                 text: 'Decks'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'decks pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
@@ -148,34 +150,39 @@
                 text: 'Card Browser'
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed' 
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Settings'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'settings pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Help'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'halp pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Send feedback'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
@@ -233,7 +240,8 @@
             Button:
                 text: 'Decks'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'decks pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
@@ -241,34 +249,39 @@
                 text: 'Card Browser'
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed' 
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Settings'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'settings pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Help'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'halp pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Send feedback'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
@@ -334,7 +347,7 @@
                     text_size: self.width  , None
 
     SlideMenu
-        id: pmsm
+        id: smsm
         size_hint_y: None
         height: root.height - ac3.height
         anim_type: 'slide_above_anim'
@@ -344,7 +357,8 @@
             Button:
                 text: 'Decks'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'decks pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
@@ -352,34 +366,39 @@
                 text: 'Card Browser'
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed' 
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Settings'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'settings pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Help'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'halp pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Send feedback'
                 text_size: self.width *1/2 ,  None
-                #font_size: 20
+                on_x: self.state = 'normal' 
+                on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
