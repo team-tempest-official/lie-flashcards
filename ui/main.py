@@ -29,6 +29,8 @@ from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, Di
 from kivy.resources import resource_add_path
 from kivy.core.window import Window , Keyboard
 import os.path
+from storage.simple_implementation import SimpleImplementation
+from storage.database_manager import DatabaseManager
 
 
 class ScrollBox(ScrollView):
@@ -49,13 +51,9 @@ class TabTextInput(TextInput):
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
         key, key_str = keycode
         if key is not 8:
-            if key is 13 or self.cursor_col == 20:
+            if self.cursor_offset() >  self.width - self.width * 6/100 :
                 self.insert_text('\n')
-                self.add_line()
                 return False
-        else:
-            if self.cursor_col==0 and self.cursor_row>0:
-                self.remove_line()
         return super(TabTextInput, self).keyboard_on_key_down(window, keycode, text, modifiers)
 
     def add_line(self):
@@ -74,15 +72,22 @@ class TabTextInput(TextInput):
 
 class CustomModal1(ModalView):
     pass
-    
-    
+
+
 class CustomModal2(ModalView):
     pass
 
+class CustomModal3(ModalView):
+    pass
+
+class CustomModal4(ModalView):
+    pass
+
+class CustomModal5(ModalView):
+    pass
 
 class CreateDeck(ModalView):
     pass
-
 
 class AddCard(Screen):
     ids_ch = ['ch1', 'ch2', 'ch3']
@@ -99,15 +104,31 @@ class AddCard(Screen):
         self.modal.ids.ch2.fast_bind('active', self.chg_text, self.modal.ids.bu2.text,2)
         self.modal.ids.ch3.fast_bind('active', self.chg_text, self.modal.ids.bu3.text,3)
         self.modal.open()
-        
-        
-        
+
+
+
     def show_modal2(self):
         self.modal = CustomModal2()
         self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
-          
-        
+
+    def show_modal3(self):
+        self.modal = CustomModal3()
+        self.modal.ids.done.bind(on_release = self.done)
+        #self.modal.ids.answer.bind(on_release = self.answer)
+        self.modal.open()
+
+    def done(self, *args):
+        self.ids.lab_q.text = self.modal.ids.tit.text
+
+    def show_modal4(self):
+        self.modal = CustomModal4()
+        self.modal.open()
+
+    def show_modal5(self):
+        self.modal = CustomModal5()
+        self.modal.open()
+
     def chg_text(self, *args):
         if args[1]:
             self.index = args[1] - 1
@@ -115,26 +136,14 @@ class AddCard(Screen):
         else:
             self.ids.butd.text = args[0]
 
-    
-    def do_me_a_favour(self):
-        self.ids.sv5.scroll_y = 0
-        self.ids.tti1.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
-        self.ids.lab2.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
-        self.ids.tti2.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
-        self.ids.bmin.y -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
-        self.ids.lab1.y -= 2 * self.ids.tti1.line_height
-        self.ids.bbig.y -= 2 * self.ids.tti1.line_height
-        self.ids.fl10.height -= (self.ids.tti1.test - 1) * self.ids.tti1.line_height
-
-    def do_backwards(self):
-        self.ids.fl10.height -= 2 * self.ids.tti1.line_height
-        if self.ids.tti1.height is self.ids.tti1.line_height * 7/2 and self.ids.bmin.height <194 :
-            self.ids.bmin.height += 2 * self.ids.tti1.line_height
-            a = Widget( size_hint_y = None , height = 2 * self.ids.tti1.line_height )
-            self.ids.bmin.add_widget(a)
-            self.ids.bmin.y -= 2 * self.ids.tti1.line_height
-
 class GameManager(ScreenManager):
+
+    def __init__(self, **kwargs):
+        super(GameManager, self).__init__(**kwargs)
+        self.manager = DatabaseManager(SimpleImplementation())
+        self.manager.generate_data()
+        print self.manager.get_card_answers(2)[0].find_attribute("answer")#.attribute_value_
+
 
     def switch_to_deckplay(self , button ):
         self.ids.s6.ids.deck_label.text = button.text
@@ -144,14 +153,14 @@ class GameManager(ScreenManager):
 
 class MainMenu(Screen):
     pass
-    
-    
+
+
 class PlayMenu(Screen):
     pass
 
 
 class SoloMenu(Screen):
-    
+
     buttons = ListProperty([])
     deck_nr = NumericProperty(1)
     copy_deck_nr = NumericProperty(1)
@@ -166,11 +175,11 @@ class SoloMenu(Screen):
         self.create_deck_modalview.open()
 
     def create_deck(self , *args):
-        print 'das' , self.ids.bl.height , 
+        print 'das' , self.ids.bl.height ,
         if self.once:
             self.buttons.append(self.ids.b1)
             self.once = False
-        if self.buttons[-1].y < self.ids.b1.height * 3/2 : 
+        if self.buttons[-1].y < self.ids.b1.height * 3/2 :
             self.ids.bl.height += self.ids.b1.height *3/2
             self.ids.fl1.height += self.ids.b1.height * 3/2
             for btn in self.buttons:
@@ -190,10 +199,10 @@ class SoloMenu(Screen):
         self.buttons.append(self.b)
         self.ids.fl1.add_widget(self.b)
 
-    
+
 class DeckMenu(Screen):
     pass
-    
+
 
 class PlayDeck(Screen):
     pass
@@ -201,15 +210,15 @@ class PlayDeck(Screen):
 
 class ActionLabel(Label,ActionItem):
     pass
-   
-    
+
+
 class SlideMenu(NavigationDrawer):
     def __init__(self, **kwargs):
         super(SlideMenu, self).__init__( **kwargs)
-    
+
 class TutorialApp(App):
     sm = ObjectProperty()
-    history = ListProperty()    
+    history = ListProperty()
     prev = StringProperty()
 
     def build(self):
@@ -228,7 +237,7 @@ class TutorialApp(App):
             android.map_key(android.KEYCODE_MENU, 1001)
         win = self._app_window
         win.bind(on_keyboard=self._key_handler)
- 
+
     def _key_handler(self, *args):
         key = args[1]
         if key in (1000, 27):
@@ -243,8 +252,7 @@ class TutorialApp(App):
     def record_history(self, *args, **kwargs):
         if self.prev != self.sm.current:
             self.history.append(self.sm.current)
-        
+
 
 if __name__ == "__main__":
     TutorialApp().run()
-

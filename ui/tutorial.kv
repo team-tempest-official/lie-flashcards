@@ -1,9 +1,9 @@
 <GameManager>:
-    SoloMenu
+    AddCard
         id: s1
     PlayMenu
         id: s2
-    AddCard
+    SoloMenu
         id: s3
     DeckMenu
         id: s4
@@ -11,7 +11,7 @@
         id: s5
     PlayDeck
         id: s6
-    
+
 <MainMenu>
     name: 'main_menu'
     BoxLayout:
@@ -20,7 +20,7 @@
             Color:
                 rgba: 0,0,0.1,1
             Rectangle:
-                pos: self.pos   
+                pos: self.pos
                 size: self.size
         BoxLayout
         BoxLayout
@@ -39,7 +39,7 @@
                     size_hint_y: .4
             Widget
             Widget
-                
+
         BoxLayout
             orientation: 'vertical'
             size_hint_y: .15
@@ -49,30 +49,30 @@
                     size_hint_x: .05
                 Button
                     background_color: 1,1,1,1
-                    background_normal: '' 
+                    background_normal: ''
                     text: 'Play'
                     color: 0.6,0,0,1
                     on_release: root.manager.current = 'play_menu'
                 Button
                     text: 'Solo Adventures'
                     color: 0.6,0,0,1
-                    background_normal: '' 
+                    background_normal: ''
                     on_release: root.manager.current = 'solo_menu'
                 Button
                     text: 'Collection'
                     color: 0.6,0,0,1
-                    background_normal: '' 
+                    background_normal: ''
                     on_release: root.manager.current = 'deck_menu'
                 Widget
-                    size_hint_x: .05 
+                    size_hint_x: .05
             Widget
-                size_hint_y: .5       
+                size_hint_y: .5
 #    BoxLayout:
 #        canvas:
 #            Color:
 #                rgba: 0,0,0.1,1
 #            Rectangle:
-#                pos: self.pos   
+#                pos: self.pos
 #                size: self.size
 #        BoxLayout:
 #            size_hint_x: 0.6
@@ -105,26 +105,26 @@
 #                spacing: 5
 #                orientation: 'vertical'
 #                canvas:
-#                    Color: 
+#                    Color:
 #                        rgba: 0,0.6,1,1
 #                    Rectangle:
 #                        pos: self.pos
 #                        size: self.size
 #                Button
 #                    background_color: 1,1,1,1
-#                    background_normal: '' 
+#                    background_normal: ''
 #                    text: 'Play'
 #                    color: 0.6,0,0,1
 #                    on_state: root.manager.current = 'play_menu'
 #                Button
 #                    text: 'Solo Adventures'
 #                    color: 0.6,0,0,1
-#                    background_normal: '' 
+#                    background_normal: ''
 #                    on_state: root.manager.current = 'solo_menu'
 #                Button
 #                    text: 'Collection'
 #                    color: 0.6,0,0,1
-#                    background_normal: '' 
+#                    background_normal: ''
 #                    on_state: root.manager.current = 'deck_menu'
 #            Widget:
 #                size_hint_y: 0.5
@@ -141,7 +141,7 @@
             Button:
                 text: 'Decks'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'decks pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -150,22 +150,22 @@
                 text: 'Card Browser'
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
-                on_release: if smsm._anim_progress >=1 : print 'statistics pressed' 
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Settings'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'settings pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -173,7 +173,7 @@
             Button:
                 text: 'Help'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'halp pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -181,7 +181,7 @@
             Button:
                 text: 'Send feedback'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -194,7 +194,7 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-        Label: 
+        Label:
             text: 'This Page is under construction  Check back soon'
 <SoloMenu>
     name: 'solo_menu'
@@ -211,7 +211,7 @@
                     size_hint_x: None
                     width: self.height
                     #previous_image: ''
-                    on_release: smsm.toggle_state() 
+                    on_release: smsm.toggle_state()
                 ActionLabel:
                     id: aclabel
                     text: 'SoloAdventures'
@@ -240,7 +240,7 @@
             Button:
                 text: 'Decks'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'decks pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -249,22 +249,22 @@
                 text: 'Card Browser'
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
-                on_release: if smsm._anim_progress >=1 : print 'statistics pressed' 
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Settings'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'settings pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -272,7 +272,7 @@
             Button:
                 text: 'Help'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'halp pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -280,7 +280,7 @@
             Button:
                 text: 'Send feedback'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -302,27 +302,27 @@
                     Color:
                         rgba: 1,1,1,.9
                     Rectangle:
-                        pos: self.pos  
+                        pos: self.pos
                         size: self.size
                 Widget:
                     size_hint_x: .05
                 FloatLayout:
                     size_hint_y: None
-                    height: root.height - ac.height                                                 
+                    height: root.height - ac.height
                     id: fl1
                     Button:
                         id: b1
                         size_hint_y: None
                         height: '50dp'
                         x: fl1.x
-                        y: root.height - ac.height - self.height * 3/2 
+                        y: root.height - ac.height - self.height * 3/2
                         color: 0,0,0,1
                         text: 'Default'
                         text_size: (self.width * 4.7/5.7 , None)
                         background_normal: ''
                         background_color: 1,1,1,1
                         on_release: root.manager.switch_to_deckplay(self)
-                   
+
                 Widget:
                     size_hint_x: .05
 <DeckMenu>
@@ -340,7 +340,7 @@
                     size_hint_x: None
                     width: self.height
                     #previous_image: ''
-                    on_release: pmsm.toggle_state() 
+                    on_release: pmsm.toggle_state()
                 ActionLabel:
                     id: aclabel
                     text: 'Collection'
@@ -357,7 +357,7 @@
             Button:
                 text: 'Decks'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'decks pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -366,22 +366,22 @@
                 text: 'Card Browser'
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
-                on_release: if smsm._anim_progress >=1 : print 'statistics pressed' 
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
             Button:
                 text: 'Settings'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'settings pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -389,7 +389,7 @@
             Button:
                 text: 'Help'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'halp pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -397,7 +397,7 @@
             Button:
                 text: 'Send feedback'
                 text_size: self.width *1/2 ,  None
-                on_x: self.state = 'normal' 
+                on_x: self.state = 'normal'
                 on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
                 color:[0,0,0,.8]
                 background_normal: ''
@@ -438,7 +438,7 @@
                     on_release: root.manager.current = 'solo_menu'
                 ActionLabel:
                     id: action_deck_label
-                    text_size: self.width  , None 
+                    text_size: self.width  , None
                 ActionButton:
                     text: 'Add card'
                     on_release: root.manager.current = 'add_card'
@@ -475,17 +475,16 @@
                     background_color: 1,1,1,1
                     color: 0,0,0,1
                     text: 'Study'
-                Widget                   
+                Widget
             Widget
                 size_hint_x: .05
-           
+
 <AddCard>:
     name: 'add_card'
 	FloatLayout:
         ActionBar:
             background_color: 0,.6,1,1
             id: ac2
-            #background_image: ''
             pos_hint: {'top':1}
             ActionView:
                 ActionPrevious:
@@ -495,166 +494,218 @@
                     on_release: root.manager.current = 'solo_menu'
                 ActionLabel:
                     text: 'Add new card'
-                    text_size: self.width  , None 
+                    text_size: self.width  , None
                 ActionButton:
                     text: 'Create card'
                     on_release: print lab1.height, lab1.y
-        FloatLayout:
-            id: flboss
+        BoxLayout:
+            id: bbig
             size_hint_y: None
-            height: root.height - ac2.height
-    		ScrollBox:
-                id: sv5
-                scroll_y: 1
-    			FloatLayout:
-                    id: flboss
-                    size_hint_y: None
-                    height: root.height - ac2.height + fl10.height - (root.height - ac2.height - bbig.height )
+            height: '150dp'
+            y: ac2.y - self.height
+            orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                id: b1
+                Label:
+                    size_hint_x: 0.3
+                    text: 'Card type:'
+                    #text_size: self.width, None
+                    color: 0,0,0,1
+                Button:
+                    canvas.before:
+                        Color:
+                            rgba: 0,0,0,1
+                        Rectangle:
+                            pos: self.x , self.y+self.height/4
+                            size: self.width,1
                     canvas:
                         Color:
-                            rgba: 1,1,1,.9
+                            rgba: 0,0,0,1
+                        Triangle:
+                            points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
+                    id: butp
+                    text: 'Default'
+                    text_size: self.width -self.width/4 , None
+                    color: 0,0,0,1
+                    background_color: 0,0,0,0
+                    #background_normal: ''
+                    #background_down: 'atlas://data/images/defaulttheme/button'
+                    on_release: root.show_modal1()
+            BoxLayout:
+                Label:
+                    size_hint_x: 0.3
+                    text: 'Deck:'
+                    #text_size: self.width, None
+                    color: 0,0,0,1
+                Button:
+                    canvas.before:
+                        Color:
+                            rgba: 0,0,0,1
                         Rectangle:
-                            pos: self.pos
-                            size: self.size
-                    BoxLayout:
-                        id: bbig
-                        size_hint_y: None
-                        y: root.height - ac2.height - self.height
-                        height: '150dp' 
-                        orientation: 'vertical'
-                        BoxLayout:
-                            id: b1
-                            Label:
-                                size_hint_x: 0.3
-                                text: 'Card type:'
-                                #text_size: self.width, None
-                                color: 0,0,0,1
-                            Button:
-                                canvas.before:
-                                    Color:
-                                        rgba: 0,0,0,1
-                                    Rectangle:
-                                        pos: self.x , self.y+self.height/4  
-                                        size: self.width,1
-                                canvas:
-                                    Color:
-                                        rgba: 0,0,0,1
-                                    Triangle:
-                                        points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
-                                id: butp
-                                text: 'Default'
-                                text_size: self.width -self.width/4 , None
-                                color: 0,0,0,1
-                                background_color: 0,0,0,0
-                                #background_normal: ''
-                                #background_down: 'atlas://data/images/defaulttheme/button'
-                                on_release: root.show_modal1()
-                        BoxLayout:
-                            Label:
-                                size_hint_x: 0.3
-                                text: 'Deck:'
-                                #text_size: self.width, None
-                                color: 0,0,0,1
-    			            Button:
-                                canvas.before:
-                                    Color:
-                                        rgba: 0,0,0,1
-                                    Rectangle:
-                                        pos: self.x , self.y+self.height/4  
-                                        size: self.width,1
-                                canvas:
-                                    Color:
-                                        rgba: 0,0,0,1
-                                    Triangle:
-                                        points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
-                                id: butd
-                                text: 'Default'
-                                color: 0,0,0,1
-                                background_color: 0,0,0,0
-                                background_normal: ''
-                                text_size: self.width -self.width/4 , None
-                                background_down: 'atlas://data/images/defaulttheme/button'
-                                on_release: root.show_modal2()
-	
-                    FloatLayout:
-                        id: fl10
-                        size_hint_y: None
-                        height: (root.height - ac2.height - bbig.height )  + tti1.height + tti2.height - 3 * tti1.line_height
-                        canvas:
-                            Color:
-                                rgba: 1,1,1,1
-                            Rectangle:
-                                size: self.size
-                                pos: self.pos
-                        on_height: print ( root.height - 282 - ac2.height ) / (flboss.height - ( root.height - 282 - ac2.height ) + ( bbig.height + lab1.height + self.height ))
-                        Label:
-                            id: lab1
-                            size_hint_y: None
-                            y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3/2 #- tti1.line_height
-                            height: tti1.line_height * 3/2
-                            text: 'Card Front'
-                            color: 0,0,0,1
-                        TabTextInput:
-                            id: tti1
-                            size_hint_y: None
-                            font_size: '25dp'
-                            y: (root.height - ac2.height - bbig.height ) - self.line_height * 3 #- self.line_height
-                            height: self.line_height * 3/2
-                            on_ok: bbig.y += self.line_height ; lab1.y+= self.line_height ; print bmin.height  , self.test
-                            on_test: if self.test is 3: root.do_me_a_favour()
-                            on_test1: if self.test1 >=4: fl10.height-= 2 * self.line_height
-                            on_ko: bbig.y -= self.line_height; lab1.y -= self.line_height ; root.do_backwards()
-                        Label:
-                            id: lab2
-                            size_hint_y: None
-                            y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3 - tti1.line_height * 3/2 #- tti1.line_height
-                            height: tti1.line_height * 3/2
-                            text: 'Card Back'
-                            color: 0,0,0,1
-                        TabTextInput
-                            id: tti2
-                            size_hint_y: None
-                            font_size: '25dp'
-                            y: (root.height - ac2.height - bbig.height ) - tti1.line_height * 3 - tti1.line_height * 3/2 - self.line_height * 3/2
-                            height: self.line_height * 3/2
-                            #on_height: if (root.height - b.height) / self.height in range (0,1): sv5.scroll_y = ((root.height - b.height) / self.height) - 0.03
-                            on_ok: bbig.y += self.line_height ; tti1.y += self.line_height ; lab2.y += self.line_height ; lab1.y += self.line_height
-                            on_ko: bbig.y -= self.line_height ; tti1.y -= self.line_height ; lab2.y -= self.line_height ; lab1.y -= self.line_height
-                    BoxLayout:
-                        id: bmin
-                        size_hint_y: None
-                        height: (root.height - ac2.height - bbig.height ) / 3 
-                        y:( 2 * tti1.line_height)
-                        orientation: 'vertical'
-                        canvas:
-                            Color:
-                                rgba: 1,1,1,1
-                            Rectangle:
-                                size: self.size
-                                pos: self.pos
-                        Label
-                            canvas:
-                                Color:
-                                    rgba: 1,0,0,0.7
-                                Rectangle:
-                                    size: self.width, 2
-                                    pos: self.pos
-                            size_hint_y: 0.5
-                            text: 'Tags'
-                            color: 0,0,0,1
-                        Label
-                            id: b
-                            canvas:
-                                Color:
-                                    rgba: 1,0,0,0.7
-                                Rectangle:
-                                    size: self.width, 2
-                                    pos: self.pos
-                            size_hint_y: 0.5
-                            text: 'Filler'
-                            color: 0,0,0,1
-                        Widget
-                            
+                            pos: self.x , self.y+self.height/4
+                            size: self.width,1
+                    canvas:
+                        Color:
+                            rgba: 0,0,0,1
+                        Triangle:
+                            points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
+                    id: butd
+                    text: 'Default'
+                    color: 0,0,0,1
+                    background_color: 0,0,0,0
+                    background_normal: ''
+                    text_size: self.width -self.width/4 , None
+                    background_down: 'atlas://data/images/defaulttheme/button'
+                    on_release: root.show_modal2()
+        BoxLayout:
+            size_hint_y: None
+            height: root.height - ac2.height - butoane.height - bbig.height
+            y: butoane.height
+            orientation: 'vertical'
+            BoxLayout
+                Label
+                    id: lab_q
+                    color: 1,1,1,1
+                Label
+            Label
+        BoxLayout:
+            id: butoane
+            size_hint_y: None
+            height: '75dp'
+            Button
+                text: 'Add Card Question'
+                on_release: root.show_modal3()
+            Button
+                text: 'Add Card Answer'
+                on_release: root.show_modal4()
+            Button
+                text: 'Tags'
+                on_release: root.show_modal5()
+<CustomModal5>:
+    background: ''
+    size_hint: .6 ,.2
+    pos_hint: {'left': .5 , 'top': .75}
+    background_color: 0,0,0,.2
+    BoxLayout:
+        orientation: 'vertical'
+        Label
+            text: "Add Tags        (eg: Creier,Ficat)"
+            text_size: self.width*6/7, None
+            color: 0,0,0,1
+        BoxLayout:
+            Widget:
+                size_hint_x: .05
+            TextInput
+                id: deck_txt
+                font_size: '25dp'
+            Widget:
+                size_hint_x: .05
+        BoxLayout:
+            Button:
+                id: but1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
+                text: 'Done'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                on_release: root.dismiss()
+            Button:
+                text: 'Cancel'
+                color:0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                on_release: root.dismiss()
+
+<CustomModal3>:
+    id: cm3
+    background: ''
+    size_hint: .8, .5
+    pos_hint: {'left': .8, 'top': .9}
+    background_color: 0,0,0,.5
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: tit.line_height/root.height
+            Label
+                text: 'Add Question'
+                color: 0,0,0,1
+                bold: True
+                text_size: self.width * 3/4, None
+            Label:
+                text: 'Characters remaining 360'
+                color: 0,0,0,1
+        BoxLayout
+            Widget:
+                size_hint_x: .1
+            TabTextInput:
+                id: tit
+                font_size: 35
+            Widget:
+                size_hint_x: .1
+        BoxLayout
+            size_hint_y: 0.3
+            spacing: 10
+            Button
+                text: 'Cancel'
+                on_release: root.dismiss()
+            Button
+                id: done
+                text: 'Done'
+                on_release: root.dismiss()
+            Button
+                id: answer
+                text: 'Add Answer'
+                on_release: root.dismiss()
+<CustomModal4>:
+    id: cm4
+    background: ''
+    size_hint: .8, .5
+    pos_hint: {'left': .8, 'top': .9}
+    background_color: 0,0,0,.5
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: tit.line_height/root.height
+            Label
+                text: 'Add Answer'
+                color: 0,0,0,1
+                bold: True
+                text_size: self.width * 3/4, None
+            Label:
+                id: lab
+                text: 'Characters remaining %d' % (360 - tit.cursor_row * tit.cursor_col)
+                color: 0,0,0,1
+        BoxLayout
+            Widget:
+                size_hint_x: .1
+            TabTextInput:
+                id: tit
+                font_size: 35
+            Widget:
+                size_hint_x: .1
+        BoxLayout
+            size_hint_y: 0.3
+            spacing: 10
+            Button
+                text: 'Cancel'
+                on_release: root.dismiss()
+            Button
+                text: 'Done'
+                on_release: root.dismiss()
+            Button
+                text: 'Create Card'
+                on_release: root.dismiss()
 <CustomModal1>:
     id: cm
     background: ''
@@ -670,7 +721,7 @@
                     Color:
                         rgba: 0,0,0,1
                     Rectangle:
-                        pos: self.pos   
+                        pos: self.pos
                         size: self.width, 1
                 id: bu1
                 text: 'Default'
@@ -679,13 +730,13 @@
                 background_color: 0,0,0,0
                 on_press: ch1._toggle_active()
                 on_release: root.dismiss()
-			
+
             Button:
                 canvas:
                     Color:
                         rgba: 0,0,0,1
                     Rectangle:
-                        pos: self.pos   
+                        pos: self.pos
                         size: self.width, 1
                 id: bu2
                 text: 'Cloze'
@@ -711,11 +762,11 @@
                         Color:
                             rgba: 0,0,0,1
                         Rectangle:
-                            pos: self.pos   
+                            pos: self.pos
                             size: self.width, 1
                     id: ch1
                     background_radio_normal: 'cerc.png'
-                    background_radio_down: 'cerc_down.png'	
+                    background_radio_down: 'cerc_down.png'
                     on_release: root.dismiss()
                     group: 'pops'
                 CheckBox:
@@ -724,7 +775,7 @@
                         Color:
                             rgba: 0,0,0,1
                         Rectangle:
-                            pos: self.pos   
+                            pos: self.pos
                             size: self.width, 1
                     id: ch2
                     background_radio_normal: 'cerc.png'
@@ -739,7 +790,7 @@
                     background_radio_down: 'cerc_down.png'
                     on_release: root.dismiss()
                     group: 'pops'
-        
+
 <CustomModal2>:
     background: ''
     size_hint: .8 ,.2
@@ -765,8 +816,8 @@
             text: 'Ura'
             color: 0,0,0,1
             text_size: self.width -self.width/4 , None
-            on_release: root.dismiss()  
-    
+            on_release: root.dismiss()
+
 <CreateDeck>:
     background: ''
     size_hint: .6 ,.2
@@ -806,4 +857,3 @@
                 background_normal: ''
                 background_color: 1,1,1,1
                 on_release: root.dismiss()
-    
