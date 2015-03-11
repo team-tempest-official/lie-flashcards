@@ -35,7 +35,7 @@ class DatabaseManager(object):
 
 	def add_deck_attribute(self, d_id_, attribute):
 		if self.to_log:
-			print "-- Adding deck attribute: " + str(d_id_) 
+			print "-- Adding deck attribute: " + str(d_id_)
 		return self.implementation.add_deck_attribute(d_id_, attribute)
 
 	def remove_deck_attribute(self, d_id_, attribute_key):
@@ -62,7 +62,7 @@ class DatabaseManager(object):
 		if self.to_log:
 			print "-- Getting card answers: " + str(c_id_)
 		return self.implementation.get_card_answers(c_id_)
-		
+
 	def remove_card_answer(self, c_id_, a_id_):
 		if self.to_log:
 			print "-- Removing card answer: " + str(c_id_)
@@ -131,10 +131,10 @@ time.strftime("%d:%m:%Y"))
 			self.create_attribute("question", "string", "What is the name of the app?")
 		]
 		ans = [
-			self.create_attribute("question", "string", "..."),
-			self.create_attribute("question", "string", "10"),
-			self.create_attribute("question", "string", "Bucharest"),
-			self.create_attribute("question", "string", "Lie")
+			self.create_attribute("answer", "string", "..."),
+			self.create_attribute("answer", "string", "10"),
+			self.create_attribute("answer", "string", "Bucharest"),
+			self.create_attribute("answer", "string", "Lie")
 		]
 
 		i = 0
