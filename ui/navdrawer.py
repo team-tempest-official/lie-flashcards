@@ -141,6 +141,7 @@ __all__ = ('NavigationDrawer', )
 from kivy.animation import Animation
 from kivy.uix.widget import Widget
 from kivy.uix.stencilview import StencilView
+from kivy.uix.floatlayout import FloatLayout
 from kivy.metrics import dp
 from kivy.clock import Clock
 from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty,
@@ -267,7 +268,7 @@ class NavigationDrawer(StencilView):
     anim_time = NumericProperty(0.2)
     '''The time taken for the panel to slide to the open/closed state when
     released or manually animated with anim_to_state.'''
-    min_dist_to_open = NumericProperty(0.3)
+    min_dist_to_open = NumericProperty(0.7)
     '''Must be between 0 and 1. Specifies the fraction of the hidden panel
     width beyond which the NavigationDrawer will relax to open state when
     released. Defaults to 0.7.'''
@@ -515,6 +516,11 @@ class NavigationDrawer(StencilView):
                 return False
         else:
             if col_side and not self._main_above:
+                Animation.cancel_all(self)
+                self._anim_init_progress = self._anim_progress
+                self._touch = touch
+                touch.ud['type'] = self.state
+                touch.ud['panels_jiggled'] = False  
                 self._side_panel.on_touch_down(touch)
                 return False
             valid_region = (self._main_panel.x <=
@@ -545,6 +551,7 @@ class NavigationDrawer(StencilView):
             self._main_panel.on_touch_down(touch)
             return False
         return True
+
 
     def on_touch_move(self, touch):
         if touch is self._touch:
