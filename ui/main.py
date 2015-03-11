@@ -93,6 +93,11 @@ class AddCard(Screen):
     ids_ch = ['ch1', 'ch2', 'ch3']
     index = 0
     modal = ObjectProperty(None)
+    man = ObjectProperty(None)
+    q = ObjectProperty(None)
+    a = ObjectProperty(None)
+    ok_q = BooleanProperty(False)
+    ok_a = BooleanProperty(False)
 
     def show_modal1(self):
         self.modal = CustomModal1()
@@ -106,23 +111,73 @@ class AddCard(Screen):
         self.modal.open()
 
 
-
     def show_modal2(self):
         self.modal = CustomModal2()
         self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
 
+##TODO:
+    """ Adding "Add Answer" Button bind to switch to CustomModal4 + calling
+        done1 method(registering what was typed) """
+
     def show_modal3(self):
         self.modal = CustomModal3()
-        self.modal.ids.done.bind(on_release = self.done)
+        self.modal.ids.done.bind(on_release = self.done1)
         #self.modal.ids.answer.bind(on_release = self.answer)
         self.modal.open()
 
-    def done(self, *args):
-        self.ids.lab_q.text = self.modal.ids.tit.text
+    def done1(self, *args):
+        if self.modal.ids.tit.text is not '':
+            self.ids.lab_q.text = self.modal.ids.tit.text
+            self.q = self.manager.manager.create_attribute("question","string",self.ids.lab_q.text)
+            self.ok_q = True
+
+    def done2(self, *args):
+        if self.modal.ids.tit.text is not '':
+            self.ids.lab_a.text = self.modal.ids.tit.text
+            self.a = self.manager.manager.create_attribute("answer","string",self.ids.lab_a.text)
+            self.ok_a = True
+
+##TODO:
+        """ Add Question/Answer should turn into Edit Question/Answer and
+            the text enter previously should be found in the TextInput """
+
+    def ac_create_card(self):
+        if self.ok_q and self.ok_a:
+            ans = self.manager.manager.create_qa([self.a, ])
+            que = self.manager.manager.create_qa([self.q, ])
+            card = self.manager.manager.create_card(que,[ans, ],[])
+            print 'Card %r created' % card
+            self.ok_q = False
+            self.ok_a = False
+            self.lab_a.text = ''
+            self.lab_q.text = ''
+        elif self.ok_q is False:
+            print 'Please add question'
+        elif self.ok_a is False:
+            print 'Please add answer'
+
+
+    def create_card(self, *args):
+        self.done2()
+        if self.ok_a and self.ok_q:
+            ans = self.manager.manager.create_qa([self.a, ])
+            que = self.manager.manager.create_qa([self.q, ])
+            card = self.manager.manager.create_card(que,[ans, ],[])
+            print 'Card %r created' % card
+            self.ok_q = False
+            self.ok_a = False
+            self.lab_a.text = ''
+            self.lab_q.text = ''
+        elif self.ok_q is False:
+            print 'Please add question'
+        elif self.ok_a is False:
+            print 'Please add answer'
 
     def show_modal4(self):
         self.modal = CustomModal4()
+        self.modal.ids.done.bind(on_release = self.done2)
+        self.modal.ids.create_card.bind(on_release = self.create_card)
         self.modal.open()
 
     def show_modal5(self):
@@ -142,8 +197,6 @@ class GameManager(ScreenManager):
         super(GameManager, self).__init__(**kwargs)
         self.manager = DatabaseManager(SimpleImplementation())
         self.manager.generate_data()
-        print self.manager.get_card_answers(2)[0].find_attribute("answer")#.attribute_value_
-
 
     def switch_to_deckplay(self , button ):
         self.ids.s6.ids.deck_label.text = button.text

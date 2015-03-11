@@ -495,9 +495,10 @@
                 ActionLabel:
                     text: 'Add new card'
                     text_size: self.width  , None
-                ActionButton:
+                ActionButton
+                    id: ac_create_card
                     text: 'Create card'
-                    on_release: print lab1.height, lab1.y
+                    on_release: root.ac_create_card()
         BoxLayout:
             id: bbig
             size_hint_y: None
@@ -573,6 +574,8 @@
                     id: lab_q
                     color: 1,1,1,1
                 Label
+                    id: lab_a
+                    color: 1,1,1,1
             Label
         BoxLayout:
             id: butoane
@@ -701,9 +704,11 @@
                 text: 'Cancel'
                 on_release: root.dismiss()
             Button
+                id: done
                 text: 'Done'
                 on_release: root.dismiss()
             Button
+                id: create_card
                 text: 'Create Card'
                 on_release: root.dismiss()
 <CustomModal1>:
