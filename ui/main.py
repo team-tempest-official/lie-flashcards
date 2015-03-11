@@ -146,10 +146,13 @@ class PlayMenu(Screen):
 
 class SoloMenu(Screen):
     
+    buttons = ListProperty([])
     deck_nr = NumericProperty(1)
+    copy_deck_nr = NumericProperty(1)
     b = ObjectProperty()
     create_deck_modalview = ObjectProperty()
-    curr_y = NumericProperty('476dp')
+    curr_y = NumericProperty()
+    once = True
 
     def show_createdeck(self):
         self.create_deck_modalview = CreateDeck()
@@ -157,19 +160,28 @@ class SoloMenu(Screen):
         self.create_deck_modalview.open()
 
     def create_deck(self , *args):
-        self.curr_y -=self.ids.b1.height * 3/2
-        self.b = Button( id = 'b'+str(self.deck_nr+1) ,
-                    text = self.create_deck_modalview.ids.deck_txt.text ,
+        print 'das' , self.ids.bl.height , 
+        if self.once:
+            self.buttons.append(self.ids.b1)
+            self.once = False
+        if self.buttons[-1].y < self.ids.b1.height * 3/2 : 
+            self.ids.bl.height += self.ids.b1.height *3/2
+            self.ids.fl1.height += self.ids.b1.height * 3/2
+            for btn in self.buttons:
+                btn.y += self.ids.b1.height * 3/2
+        self.b = Button( text = self.create_deck_modalview.ids.deck_txt.text ,
                     x = self.ids.fl1.x ,
                     size_hint_y = None ,
                     height = '50dp' ,
-                    y = self.curr_y , #self.ids['b'+str(self.deck_nr)].y - self.ids['b'+str(self.deck_nr)].height * 3/2  ,
+                    y = self.buttons[-1].y - self.buttons[-1].height * 3/2,
                     color = [0,0,0,1] ,
                     text_size = (self.width * 3/4 , None) ,
                     background_normal = '' ,
                     background_color = [1,1,1,1] ,
                     on_release = self.manager.switch_to_deckplay)
         self.deck_nr+=1
+        self.b.id = 'b'+str(self.deck_nr)
+        self.buttons.append(self.b)
         self.ids.fl1.add_widget(self.b)
 
     

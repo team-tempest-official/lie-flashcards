@@ -1,9 +1,9 @@
 <GameManager>:
-    AddCard
+    SoloMenu
         id: s1
     PlayMenu
         id: s2
-    SoloMenu
+    AddCard
         id: s3
     DeckMenu
         id: s4
@@ -283,7 +283,8 @@
         ScrollView
             BoxLayout:
                 id: bl
-                #size_hint_y: None
+                size_hint_y: None
+                height: fl1.height
                 canvas:
                     Color:
                         rgba: 1,1,1,.9
@@ -293,9 +294,8 @@
                 Widget:
                     size_hint_x: .05
                 FloatLayout:
-                    #size_hint_y: None
-                    #height: root.height - ac.height
-                    #on_height: bl.height = self.height                                                  
+                    size_hint_y: None
+                    height: root.height - ac.height                                                 
                     id: fl1
                     Button:
                         id: b1
