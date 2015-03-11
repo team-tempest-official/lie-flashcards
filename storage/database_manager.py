@@ -120,15 +120,18 @@ class DatabaseManager(object):
 
 	def generate_data(self, decks=2):
 		author = self.create_attribute("author", "string", "AndreiRO")
-		date = self.create_attribute("date", "string",
-time.strftime("%d:%m:%Y"))
+		date = self.create_attribute("date", "string", time.strftime("%d:%m:%Y"))
 		opt  = self.create_attribute("type", "string", "single answer")
 
 		qs = [
 			self.create_attribute("question", "string", "What's your name?"),
 			self.create_attribute("question", "string", "9+1=?"),
-			self.create_attribute("question", "string", "What is the capital of Romania?"),
-			self.create_attribute("question", "string", "What is the name of the app?")
+			self.create_attribute("question", 
+								  "string", 
+								  "What is the capital of Romania?"),
+			self.create_attribute("question",
+								  "string",
+								  "What is the name of the app?")
 		]
 		ans = [
 			self.create_attribute("answer", "string", "..."),
@@ -157,7 +160,8 @@ time.strftime("%d:%m:%Y"))
 			for c in d.cards_:
 				for a in c.attributes_:
 					if a.attribute_key_ == attribute_key and \
-					   a.attribute_value_ == attribute_value:
+					   a.attribute_value_ == attribute_value and \
+						c not in cards:
 						cards.append(c)
 		return cards
 
@@ -168,7 +172,8 @@ time.strftime("%d:%m:%Y"))
 			for c in d.cards_:
 				for a in c.question_.attributes_:
 					if a.attribute_key_ == attribute_key and \
-					   a.attribute_value_ == attribute_value:
+					   a.attribute_value_ == attribute_value and \
+						c.question_ not in qs:
 						qs.append(c.question_)
 		return qs
 
@@ -181,7 +186,8 @@ time.strftime("%d:%m:%Y"))
 				for an in c.answers_:
 					for a in an.attributes_:
 						if a.attribute_key_ == attribute_key and \
-					   		a.attribute_value_ == attribute_value:
+					   		a.attribute_value_ == attribute_value and \
+							an not in ans:
 							ans.append(an)
 
 		return ans
@@ -191,7 +197,8 @@ time.strftime("%d:%m:%Y"))
 		for d in self.implementation.decks:
 			for a in d.attributes_:
 				if a.attribute_key_ == attribute_key and \
-					a.attribute_value_ == attribute_value:
+					a.attribute_value_ == attribute_value and \
+					d not in decks:
 					decks.append(d)
 
 		return decks
