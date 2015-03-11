@@ -157,7 +157,6 @@ class AddCard(Screen):
         elif self.ok_a is False:
             print 'Please add answer'
 
-
     def create_card(self, *args):
         self.done2()
         if self.ok_a and self.ok_q:
@@ -183,6 +182,10 @@ class AddCard(Screen):
     def show_modal5(self):
         self.modal = CustomModal5()
         self.modal.open()
+
+##TODO:
+        """ Create Tags functionality , basicaly add an attribute to card +
+            bind the button from the CustomModal5"""
 
     def chg_text(self, *args):
         if args[1]:
