@@ -17,6 +17,8 @@ from kivy.animation import Animation
 from kivy.uix.modalview import ModalView
 from kivy.uix.widget import Widget
 from kivy.uix.stencilview import StencilView
+from kivy.uix.scrollview import ScrollView
+from kivy.effects.scroll import ScrollEffect
 from kivy.uix.textinput import TextInput
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.popup import Popup
@@ -27,6 +29,10 @@ from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, Di
 from kivy.resources import resource_add_path
 from kivy.core.window import Window , Keyboard
 import os.path
+
+
+class ScrollBox(ScrollView):
+    effect_cls = ScrollEffect
 
 
 class TabTextInput(TextInput):
