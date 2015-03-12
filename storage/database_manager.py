@@ -126,8 +126,8 @@ class DatabaseManager(object):
 		qs = [
 			self.create_attribute("question", "string", "What's your name?"),
 			self.create_attribute("question", "string", "9+1=?"),
-			self.create_attribute("question", 
-								  "string", 
+			self.create_attribute("question",
+								  "string",
 								  "What is the capital of Romania?"),
 			self.create_attribute("question",
 								  "string",
@@ -140,6 +140,8 @@ class DatabaseManager(object):
 			self.create_attribute("answer", "string", "Lie")
 		]
 
+		name = self.create_attribute("name", "string", "Generated Deck")
+
 		i = 0
 		while i < decks:
 			cards = []
@@ -150,7 +152,7 @@ class DatabaseManager(object):
 				cards.append(self.create_card(q, [a,], [author, date]))
 				j += 1
 
-			d = self.create_deck(cards, [author, date])
+			d = self.create_deck(cards, [author, date, name])
 			self.add_deck(d)
 			i += 1
 
