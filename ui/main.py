@@ -76,12 +76,14 @@ class CustomModal1(ModalView):
 class CustomModal2(ModalView):
 
     mn = ObjectProperty(None)
+    scrn = ObjectProperty(None)
 
-    def __init__(self, man, **kwargs):
+    def __init__(self, man, screen, **kwargs):
         super(CustomModal2, self).__init__(**kwargs)
         self.mn = man
+        self.scrn = screen
         for d in self.mn.implementation.decks:
-            b = Button(text = d.find_attribute("name").attribute_value_)
+            b = Button(on_release = self.scrn.chg_text_md2, text = d.find_attribute("name").attribute_value_)
             self.ids.gl1.height += b.height / 2
             if self.height < 250:
                 self.height += b.height / 2
@@ -126,7 +128,7 @@ class AddCard(Screen):
 
 
     def show_modal2(self):
-        self.modal = CustomModal2(self.manager.manager)
+        self.modal = CustomModal2(self.manager.manager,self)
         #self.modal.ids.cm1.text = self.manager.manager.implementation.decks[0].find_attribute("name").attribute_value_
         #self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
@@ -211,6 +213,10 @@ class AddCard(Screen):
         """ Create Tags functionality , basicaly add an attribute to card +
             bind the button from the CustomModal5"""
 
+    def chg_text_md2(self, b):
+        self.ids.butd.text = b.text
+        self.modal.dismiss()
+
     def chg_text(self, *args):
         if args[1]:
             self.index = args[1] - 1
@@ -220,13 +226,18 @@ class AddCard(Screen):
 
 class GameManager(ScreenManager):
 
-    #manager = ObjectProperty(None)
+    current_deck = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(GameManager, self).__init__(**kwargs)
         self.manager = DatabaseManager(SimpleImplementation())
         self.manager.generate_data()
-        #print self.manager#.implementation.decks[0].find_attribute("name").attribute_value_
+
+    def prepare(self, text):
+        self.current_deck = self.manager.find_deck_by_attribute("name",text)[0]
+        self.ids.s7.ids.lab1.text = self.current_deck.cards_[0].question_.find_attribute("question").attribute_value_
+        self.ids.s7.i = 1
+        self.current = 'study'
 
     def switch_to_deckplay(self , button ):
         self.ids.s6.ids.deck_label.text = button.text
@@ -296,10 +307,29 @@ class DeckMenu(Screen):
 class PlayDeck(Screen):
     pass
 
+class Study(Screen):
+
+    i = NumericProperty(1)
+
+    def __init__(self, **kwargs):
+        super(Study, self).__init__(**kwargs)
+
+    def reset(self, *args):
+        self.ids.bl_ans.clear_widgets()
+        self.ids.bl_ans.add_widget(Button(on_release = self.show_ans, text = "Show Answer",id = 'b_show_ans'))
+        self.ids.lab1.text = self.manager.current_deck.cards_[self.i].question_.find_attribute("question").attribute_value_
+        self.ids.lab2.text = ''
+        self.i += 1
+
+    def show_ans(self, *args):
+        self.ids.bl_ans.clear_widgets()
+        self.ids.lab2.text = self.manager.current_deck.cards_[self.i - 1].answers_[0].find_attribute("answer").attribute_value_
+        self.ids.bl_ans.add_widget(Button(on_release = self.reset, text = "Hard",id="b1"))
+        self.ids.bl_ans.add_widget(Button(on_release = self.reset, text = "Normal",id="b2"))
+        self.ids.bl_ans.add_widget(Button(on_release = self.reset ,text = "Easy",id="b3"))
 
 class ActionLabel(Label,ActionItem):
     pass
-
 
 class SlideMenu(NavigationDrawer):
     def __init__(self, **kwargs):
