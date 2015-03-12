@@ -1,9 +1,9 @@
 <GameManager>:
-    AddCard
+    SoloMenu
         id: s1
     PlayMenu
         id: s2
-    SoloMenu
+    AddCard
         id: s3
     DeckMenu
         id: s4
@@ -202,7 +202,6 @@
         ActionBar:
             background_color: 0,.6,1,1
             id: ac
-            #background_image: ''
             pos_hint: {'top':1}
             ActionView:
                 use_separator: True
@@ -210,7 +209,6 @@
                     with_previous: False
                     size_hint_x: None
                     width: self.height
-                    #previous_image: ''
                     on_release: smsm.toggle_state()
                 ActionLabel:
                     id: aclabel
@@ -317,7 +315,6 @@
                         x: fl1.x
                         y: root.height - ac.height - self.height * 3/2
                         color: 0,0,0,1
-                        text: 'Default'
                         text_size: (self.width * 4.7/5.7 , None)
                         background_normal: ''
                         background_color: 1,1,1,1
@@ -498,7 +495,7 @@
                 ActionButton
                     id: ac_create_card
                     text: 'Create card'
-                    on_release: root.ac_create_card()
+                    on_release: root.ac_create_card(); root.yolo()
         BoxLayout:
             id: bbig
             size_hint_y: None
@@ -535,8 +532,6 @@
                     text_size: self.width -self.width/4 , None
                     color: 0,0,0,1
                     background_color: 0,0,0,0
-                    #background_normal: ''
-                    #background_down: 'atlas://data/images/defaulttheme/button'
                     on_release: root.show_modal1()
             BoxLayout:
                 Label:
@@ -557,7 +552,7 @@
                         Triangle:
                             points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
                     id: butd
-                    text: 'Default'
+                    text: ''
                     color: 0,0,0,1
                     background_color: 0,0,0,0
                     background_normal: ''
@@ -798,30 +793,16 @@
 
 <CustomModal2>:
     background: ''
-    size_hint: .8 ,.2
+    size_hint: .8 , None
+    height: 0
     pos_hint: {'left': 0 , 'top': .685}
     background_color: 0,0,0,.1
-    BoxLayout:
-        orientation: 'vertical'
-        Button:
-            canvas.before:
-                Color:
-                    rgba: 0,0,0,1
-                Rectangle:
-                    pos: self.pos
-                    size: self.width,1
-            id: cm1
-            background_color: 0,0,0,0
-            text: 'Click me to dismiss'
-            color: 0,0,0,1
-            text_size: self.width - self.width/4 , None
-            on_release: root.dismiss()
-        Button:
-            background_color: 0,0,0,0
-            text: 'Ura'
-            color: 0,0,0,1
-            text_size: self.width -self.width/4 , None
-            on_release: root.dismiss()
+    ScrollView
+        GridLayout:
+            id: gl1
+            size_hint_y: None
+            height: 0
+            cols: 1
 
 <CreateDeck>:
     background: ''

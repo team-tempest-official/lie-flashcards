@@ -73,9 +73,20 @@ class TabTextInput(TextInput):
 class CustomModal1(ModalView):
     pass
 
-
 class CustomModal2(ModalView):
-    pass
+
+    mn = ObjectProperty(None)
+
+    def __init__(self, man, **kwargs):
+        super(CustomModal2, self).__init__(**kwargs)
+        self.mn = man
+        for d in self.mn.implementation.decks:
+            b = Button(text = d.find_attribute("name").attribute_value_)
+            self.ids.gl1.height += b.height / 2
+            if self.height < 250:
+                self.height += b.height / 2
+            self.ids.gl1.add_widget(b)
+            print self.height
 
 class CustomModal3(ModalView):
     pass
@@ -99,6 +110,9 @@ class AddCard(Screen):
     ok_q = BooleanProperty(False)
     ok_a = BooleanProperty(False)
 
+    def __init__(self, **kwargs):
+        return super(AddCard, self).__init__(**kwargs)
+
     def show_modal1(self):
         self.modal = CustomModal1()
         self.modal.ids[self.ids_ch[self.index]].active = True
@@ -112,18 +126,27 @@ class AddCard(Screen):
 
 
     def show_modal2(self):
-        self.modal = CustomModal2()
-        self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
+        self.modal = CustomModal2(self.manager.manager)
+        #self.modal.ids.cm1.text = self.manager.manager.implementation.decks[0].find_attribute("name").attribute_value_
+        #self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
 
 ##TODO:
     """ Adding "Add Answer" Button bind to switch to CustomModal4 + calling
         done1 method(registering what was typed) """
 
+##TODO:
+    """ Add focus true on textinput when the modalview pops """
     def show_modal3(self):
         self.modal = CustomModal3()
         self.modal.ids.done.bind(on_release = self.done1)
         #self.modal.ids.answer.bind(on_release = self.answer)
+        self.modal.open()
+
+    def show_modal4(self):
+        self.modal = CustomModal4()
+        self.modal.ids.done.bind(on_release = self.done2)
+        self.modal.ids.create_card.bind(on_release = self.create_card)
         self.modal.open()
 
     def done1(self, *args):
@@ -150,8 +173,8 @@ class AddCard(Screen):
             print 'Card %r created' % card
             self.ok_q = False
             self.ok_a = False
-            self.lab_a.text = ''
-            self.lab_q.text = ''
+            self.ids.lab_a.text = ''
+            self.ids.lab_q.text = ''
         elif self.ok_q is False:
             print 'Please add question'
         elif self.ok_a is False:
@@ -164,20 +187,21 @@ class AddCard(Screen):
             que = self.manager.manager.create_qa([self.q, ])
             card = self.manager.manager.create_card(que,[ans, ],[])
             print 'Card %r created' % card
+
+
+    ## [0] must be removed when find_deck_by_attributes will be fixed
+            self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
+
+            #print self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_
+
             self.ok_q = False
             self.ok_a = False
-            self.lab_a.text = ''
-            self.lab_q.text = ''
+            self.ids.lab_a.text = ''
+            self.ids.lab_q.text = ''
         elif self.ok_q is False:
             print 'Please add question'
         elif self.ok_a is False:
             print 'Please add answer'
-
-    def show_modal4(self):
-        self.modal = CustomModal4()
-        self.modal.ids.done.bind(on_release = self.done2)
-        self.modal.ids.create_card.bind(on_release = self.create_card)
-        self.modal.open()
 
     def show_modal5(self):
         self.modal = CustomModal5()
@@ -196,10 +220,13 @@ class AddCard(Screen):
 
 class GameManager(ScreenManager):
 
+    #manager = ObjectProperty(None)
+
     def __init__(self, **kwargs):
         super(GameManager, self).__init__(**kwargs)
         self.manager = DatabaseManager(SimpleImplementation())
         self.manager.generate_data()
+        #print self.manager#.implementation.decks[0].find_attribute("name").attribute_value_
 
     def switch_to_deckplay(self , button ):
         self.ids.s6.ids.deck_label.text = button.text
@@ -231,7 +258,13 @@ class SoloMenu(Screen):
         self.create_deck_modalview.open()
 
     def create_deck(self , *args):
-        print 'das' , self.ids.bl.height ,
+
+        name = self.manager.manager.create_attribute("name","string",self.create_deck_modalview.ids.deck_txt.text)
+        deck = self.manager.manager.create_deck([],[name, ])
+        self.manager.manager.add_deck(deck)
+
+        print self.manager.manager.implementation.decks[2].cards_
+
         if self.once:
             self.buttons.append(self.ids.b1)
             self.once = False
@@ -279,6 +312,8 @@ class TutorialApp(App):
 
     def build(self):
         self.sm = GameManager(transition=NoTransition())
+        self.sm.ids.s3.ids.butd.text = self.sm.manager.implementation.decks[0].find_attribute("name").attribute_value_
+        self.sm.ids.s1.ids.b1.text = self.sm.manager.implementation.decks[0].find_attribute("name").attribute_value_
         self.history.append('main_menu')
         a = Screen()
         for a in self.sm.screens:
