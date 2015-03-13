@@ -40,9 +40,10 @@
                 color:[0,0,0,.8]
                 text_size: self.width *1/2 ,  None
                 on_x: self.state = 'normal'
-                on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
+                #on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
                 background_normal: ''
                 background_color: 1,1,1,1
+                on_release: root.manager.switch_to_card_browser()
             Button:
                 text: 'Statistics'
                 text_size: self.width *1/2 ,  None

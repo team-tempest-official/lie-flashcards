@@ -41,6 +41,7 @@ Builder.load_file('screens/play_deck.kv')
 Builder.load_file('screens/play_menu.kv')
 Builder.load_file('screens/solo_menu.kv')
 Builder.load_file('screens/study.kv')
+Builder.load_file('screens/card_browser.kv')
 Builder.load_file('modalviews/create_deck.kv')
 Builder.load_file('modalviews/custom_modal_1.kv')
 Builder.load_file('modalviews/custom_modal_2.kv')
@@ -273,6 +274,13 @@ class GameManager(ScreenManager):
         self.current = 'add_card'
 
 
+    def switch_to_card_browser(self):
+        self.current = 'card_browser'
+        for card in self.manager.implementation.decks[0].cards_:
+            self.ids.s8.ids.gl.add_widget(Button(text = card.question_.find_attribute("question").attribute_value_))
+            self.ids.s8.ids.gl.add_widget(Button(text = card.answers_[0].find_attribute("answer").attribute_value_))
+            #print card.find_attribu
+
 class MainMenu(Screen):
     pass
 
@@ -280,6 +288,9 @@ class MainMenu(Screen):
 class PlayMenu(Screen):
     pass
 
+
+class CardBrowser(Screen):
+    pass
 
 class SoloMenu(Screen):
 
@@ -388,6 +399,7 @@ class TutorialApp(App):
         self.sm.ids.s1.ids.b1.text = self.sm.manager.implementation.decks[0].find_attribute("name").attribute_value_
         self.history.append('main_menu')
         a = Screen()
+        print self.sm.screens
         for a in self.sm.screens:
             a.bind(on_enter=self.record_history)
         self.bind(on_start=self.post_build_init)
