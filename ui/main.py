@@ -253,6 +253,10 @@ class GameManager(ScreenManager):
         self.ids.s6.ids.action_deck_label.text = button.text
         self.current = 'play_deck'
 
+    def set_deck(self,text):
+        self.ids.s3.ids.butd.text = text
+        self.current = 'add_card'
+
 
 class MainMenu(Screen):
     pass
@@ -282,8 +286,6 @@ class SoloMenu(Screen):
         name = self.manager.manager.create_attribute("name","string",self.create_deck_modalview.ids.deck_txt.text)
         deck = self.manager.manager.create_deck([],[name, ])
         self.manager.manager.add_deck(deck)
-
-        print self.manager.manager.implementation.decks[2].cards_
 
         if self.once:
             self.buttons.append(self.ids.b1)
