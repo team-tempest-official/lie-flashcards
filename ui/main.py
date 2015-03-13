@@ -31,7 +31,22 @@ from kivy.core.window import Window , Keyboard
 import os.path
 from storage.simple_implementation import SimpleImplementation
 from storage.database_manager import DatabaseManager
+from kivy.lang import Builder
 
+Builder.load_file('screens/add_card.kv')
+Builder.load_file('screens/deck_menu.kv')
+Builder.load_file('screens/game_manager.kv')
+Builder.load_file('screens/main_menu.kv')
+Builder.load_file('screens/play_deck.kv')
+Builder.load_file('screens/play_menu.kv')
+Builder.load_file('screens/solo_menu.kv')
+Builder.load_file('screens/study.kv')
+Builder.load_file('modalviews/create_deck.kv')
+Builder.load_file('modalviews/custom_modal_1.kv')
+Builder.load_file('modalviews/custom_modal_2.kv')
+Builder.load_file('modalviews/custom_modal_3.kv')
+Builder.load_file('modalviews/custom_modal_4.kv')
+Builder.load_file('modalviews/custom_modal_5.kv')
 
 class ScrollBox(ScrollView):
     effect_cls = ScrollEffect

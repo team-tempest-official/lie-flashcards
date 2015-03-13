@@ -1,0 +1,55 @@
+<MainMenu>
+    name: 'main_menu'
+    BoxLayout:
+        orientation: 'vertical'
+        canvas:
+            Color:
+                rgba: 0,0,0.1,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout
+        BoxLayout
+            size_hint_y: .4
+            BoxLayout
+                orientation: 'vertical'
+                Label:
+                    text: 'L I E'
+                    bold: True
+                    font_size: '72dp'
+                    color: 0.5,0,0,1
+                Label:
+                    size_hint_y: 0.1
+                    text: '-- learning is easy --'
+                Widget
+                    size_hint_y: .4
+            Widget
+            Widget
+
+        BoxLayout
+            orientation: 'vertical'
+            size_hint_y: .15
+            BoxLayout:
+                spacing: '12dp'
+                Widget
+                    size_hint_x: .05
+                Button
+                    background_color: 1,1,1,1
+                    background_normal: ''
+                    text: 'Play'
+                    color: 0.6,0,0,1
+                    on_release: root.manager.current = 'play_menu'
+                Button
+                    text: 'Solo Adventures'
+                    color: 0.6,0,0,1
+                    background_normal: ''
+                    on_release: root.manager.current = 'solo_menu'
+                Button
+                    text: 'Collection'
+                    color: 0.6,0,0,1
+                    background_normal: ''
+                    on_release: root.manager.current = 'deck_menu'
+                Widget
+                    size_hint_x: .05
+            Widget
+                size_hint_y: .5

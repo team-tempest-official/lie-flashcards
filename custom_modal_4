@@ -1,0 +1,41 @@
+<CustomModal4>:
+    id: cm4
+    background: ''
+    size_hint: .8, .5
+    pos_hint: {'left': .8, 'top': .9}
+    background_color: 0,0,0,.5
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: tit.line_height/root.height
+            Label
+                text: 'Add Answer'
+                color: 0,0,0,1
+                bold: True
+                text_size: self.width * 3/4, None
+            Label:
+                id: lab
+                text: 'Characters remaining %d' % (360 - tit.cursor_row * tit.cursor_col)
+                color: 0,0,0,1
+        BoxLayout
+            Widget:
+                size_hint_x: .1
+            TabTextInput:
+                id: tit
+                font_size: 35
+            Widget:
+                size_hint_x: .1
+        BoxLayout
+            size_hint_y: 0.3
+            spacing: 10
+            Button
+                text: 'Cancel'
+                on_release: root.dismiss()
+            Button
+                id: done
+                text: 'Done'
+                on_release: root.dismiss()
+            Button
+                id: create_card
+                text: 'Create Card'
+                on_release: root.dismiss()

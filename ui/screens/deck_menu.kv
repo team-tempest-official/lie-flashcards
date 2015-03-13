@@ -1,0 +1,95 @@
+<DeckMenu>
+    name: 'deck_menu'
+    FloatLayout:
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac3
+            #background_image: ''
+            pos_hint: {'top':1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    with_previous: False
+                    size_hint_x: None
+                    width: self.height
+                    #previous_image: ''
+                    on_release: pmsm.toggle_state()
+                ActionLabel:
+                    id: aclabel
+                    text: 'Collection'
+                    text_size: self.width  , None
+
+    SlideMenu
+        id: smsm
+        size_hint_y: None
+        height: root.height - ac3.height
+        anim_type: 'slide_above_anim'
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '1dp'
+            Button:
+                text: 'Decks'
+                text_size: self.width *1/2 ,  None
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'decks pressed'
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Card Browser'
+                color:[0,0,0,.8]
+                text_size: self.width *1/2 ,  None
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'card browser pressed'
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Statistics'
+                text_size: self.width *1/2 ,  None
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'statistics pressed'
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Settings'
+                text_size: self.width *1/2 ,  None
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'settings pressed'
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Help'
+                text_size: self.width *1/2 ,  None
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'halp pressed'
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Button:
+                text: 'Send feedback'
+                text_size: self.width *1/2 ,  None
+                on_x: self.state = 'normal'
+                on_release: if smsm._anim_progress >=1 : print 'send feedback pressed'
+                color:[0,0,0,.8]
+                background_normal: ''
+                background_color: 1,1,1,1
+            Widget:
+                size_hint: 1,2.5
+                canvas:
+                    Color:
+                        rgba: 1,1,1,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 1,1,1,.9
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label
+                text: 'This Page is under construction  Check back soon'
+                color: 0,0,0,1
