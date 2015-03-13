@@ -6,6 +6,7 @@
             id: ac
             pos_hint: {'top':1}
             ActionView:
+                id: av
                 use_separator: True
                 ActionPrevious:
                     with_previous: False
@@ -16,6 +17,9 @@
                     id: aclabel
                     text: 'Card Browser'
                     text_size: self.width  , None
+                ActionButton:
+                    size_hint_x: None
+                    width: 100
         SlideMenu
             id: smsm
             size_hint_y: None
@@ -85,24 +89,39 @@
                     id: dad
                     size_hint_y: None
                     height: root.height - ac.height
+                    BoxLayout
+                        id: bl1
+                        size_hint_y: None
+                        y: bl.height + bl.y
+                        height: ti.minimum_height
+                        Widget:
+                            size_hint_x: 0.1
+                        PressTextInput:
+                            id: ti
+                            multiline: False
+                            my_button: search
+                        Button:
+                            id: search
+                            text: 'Search'
+                            on_state: if self.state is 'down': root.manager.cb_display_cards('search',root.manager.mainbutton,ti.text)
                     BoxLayout:
                         id: bl
                         size_hint_y: None
                         height: '50dp'
-                        y: gl.height
-                        Label
-                            text: 'Question'
+                        y: fl10.height
+                        Label:
+                            text: "Question"
+                            #markup: True
                         Label
                             text: 'Answer'
-                    GridLayout:
-                        canvas:
-                            Color:
-                                rgba: 1,0,0,1
-                            Rectangle:
-                                size: self.size
-                                pos: self.pos
-                        id: gl
+                    FloatLayout:
+                        id: fl10
                         size_hint_y: None
-                        height: root.height - ac.height - bl.height
-                        on_height: print self.y
-                        cols: 2
+                        height: root.height - ac.height - bl.height - ti.height
+                        ScrollView
+                            GridLayout:
+                                orientation: 'vertical'
+                                id: gl
+                                size_hint_y: None
+                                size: self.minimum_size
+                                cols: 2

@@ -118,7 +118,7 @@ class DatabaseManager(object):
 			print "-- Creating deck"
 		return self.implementation.create_deck(cards, attributes)
 
-	def generate_data(self, decks=2):
+	def generate_data(self, decks = 1):
 		author = self.create_attribute("author", "string", "AndreiRO")
 		date = self.create_attribute("date", "string", time.strftime("%d:%m:%Y"))
 		opt  = self.create_attribute("type", "string", "single answer")
@@ -141,6 +141,7 @@ class DatabaseManager(object):
 		]
 
 		name = self.create_attribute("name", "string", "Generated Deck")
+		name1 = self.create_attribute("name", "string", "Fun Deck")
 
 		i = 0
 		while i < decks:
@@ -153,6 +154,9 @@ class DatabaseManager(object):
 				j += 1
 
 			d = self.create_deck(cards, [author, date, name])
+			e = self.create_deck(cards, [author, date, name1])
+
+			self.add_deck(e)
 			self.add_deck(d)
 			i += 1
 

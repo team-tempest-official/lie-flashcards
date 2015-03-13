@@ -10,10 +10,11 @@ from kivy.uix.togglebutton import ToggleButton
 from kivy.base import runTouchApp
 from kivy.animation import Animation
 from kivy.uix.scatter import Scatter
-from kivy.uix.actionbar import ActionBar , ActionItem
+from kivy.uix.actionbar import ActionBar , ActionItem, ActionButton
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.utils import platform
 from kivy.animation import Animation
+from kivy.uix.dropdown import DropDown
 from kivy.uix.modalview import ModalView
 from kivy.uix.widget import Widget
 from kivy.uix.stencilview import StencilView
@@ -31,7 +32,11 @@ from kivy.core.window import Window , Keyboard
 import os.path
 from storage.simple_implementation import SimpleImplementation
 from storage.database_manager import DatabaseManager
+
+from kivy.core.text.markup import MarkupLabel
+
 from kivy.lang import Builder
+import re
 
 Builder.load_file('screens/add_card.kv')
 Builder.load_file('screens/deck_menu.kv')
@@ -52,6 +57,20 @@ Builder.load_file('modalviews/custom_modal_5.kv')
 class ScrollBox(ScrollView):
     effect_cls = ScrollEffect
 
+class PressTextInput(TextInput):
+
+    my_button = ObjectProperty(None)
+
+    def __init__(self, *args, **kwargs):
+        super(PressTextInput, self).__init__(*args, **kwargs)
+
+    def keyboard_on_key_down(self, window, keycode, text, modifiers):
+        key, key_str = keycode
+        if key is 13:
+            self.my_button.state = 'down'
+            print 'castane'
+            return False
+        return super(PressTextInput, self).keyboard_on_key_down(window, keycode, text, modifiers)
 
 class TabTextInput(TextInput):
 
@@ -251,6 +270,7 @@ class AddCard(Screen):
 class GameManager(ScreenManager):
 
     current_deck = ObjectProperty(None)
+    mainbutton = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(GameManager, self).__init__(**kwargs)
@@ -276,10 +296,70 @@ class GameManager(ScreenManager):
 
     def switch_to_card_browser(self):
         self.current = 'card_browser'
-        for card in self.manager.implementation.decks[0].cards_:
-            self.ids.s8.ids.gl.add_widget(Button(text = card.question_.find_attribute("question").attribute_value_))
-            self.ids.s8.ids.gl.add_widget(Button(text = card.answers_[0].find_attribute("answer").attribute_value_))
-            #print card.find_attribu
+
+        dropdown = DropDown()
+
+        self.mainbutton = Button(text = 'All cards')
+        self.ids.s8.ids.bl1.add_widget(self.mainbutton)
+        self.mainbutton.bind(on_release = dropdown.open)
+
+        btn = Button(text = 'All cards', size_hint_y = None, height = '48dp')
+        btn.fast_bind('on_release', self.dd_select ,btn,dropdown)
+        dropdown.add_widget(btn)
+
+        for decks in self.manager.implementation.decks:
+            btn = Button(text = decks.find_attribute("name").attribute_value_,size_hint_y = None, height = '48dp')
+            btn.fast_bind('on_release', self.dd_select,btn,dropdown)
+            dropdown.add_widget(btn)
+
+        dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
+
+        self.cb_display_cards('basic',self.mainbutton)
+
+    def dd_select(self, *args):
+        args[1].select(args[0].text)
+        self.cb_display_cards('basic',args[0])
+
+    def cb_display_cards(self, *args):
+
+ ## TODO:
+        """ Add search bar in the ActionBar by inheriting it from ActionItem """
+
+
+ ## BUG:
+        """ Find a way to cancel re.search() special regex characters . We want it to look
+            only normal """
+
+ ## TODO:
+        """ Add better implementation of this """
+
+
+        self.ids.s8.ids.gl.clear_widgets()
+        self.ids.s8.ids.search.state = 'normal'
+        if args[0] is 'basic':
+            if args[1].text == 'All cards':
+                for deck in self.manager.implementation.decks:
+                    for card in deck.cards_:
+                        self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.question_.find_attribute("question").attribute_value_))
+                        self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_))
+                return
+            for card in self.manager.implementation.decks[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
+                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.question_.find_attribute("question").attribute_value_))
+                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_))
+        elif args[0] is 'search':
+            if args[1].text == 'All cards':
+                for deck in self.manager.implementation.decks:
+                    for card in deck.cards_:
+                        if args[2] in card.question_.find_attribute("question").attribute_value_ or \
+                            args[2] in card.answers_[0].find_attribute("answer").attribute_value_:
+                            self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
+                            self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
+                return
+            for card in self.manager.implementation.decks[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
+                if args[2] in card.question_.find_attribute("question").attribute_value_ or \
+                    args[2] in card.answers_[0].find_attribute("answer").attribute_value_:
+                    self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
+                    self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
 
 class MainMenu(Screen):
     pass
