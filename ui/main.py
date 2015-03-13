@@ -82,10 +82,16 @@ class CustomModal2(ModalView):
         super(CustomModal2, self).__init__(**kwargs)
         self.mn = man
         self.scrn = screen
+
         for d in self.mn.implementation.decks:
-            b = Button(on_release = self.scrn.chg_text_md2, text = d.find_attribute("name").attribute_value_)
+            b = Button(text = d.find_attribute("name").attribute_value_ ,
+                        background_normal = '' ,
+                        color = [0,0,0,1] ,
+                        text_size = (self.width * 5 , None) ,
+                        background_color = [1,1,1,1] ,
+                        on_release = self.scrn.chg_text_md2 )
             self.ids.gl1.height += b.height / 2
-            if self.height < 250:
+            if self.height < 300:
                 self.height += b.height / 2
             self.ids.gl1.add_widget(b)
             print self.height
@@ -133,17 +139,20 @@ class AddCard(Screen):
         #self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
 
-##TODO:
-    """ Adding "Add Answer" Button bind to switch to CustomModal4 + calling
-        done1 method(registering what was typed) """
 
 ##TODO:
     """ Add focus true on textinput when the modalview pops """
     def show_modal3(self):
         self.modal = CustomModal3()
         self.modal.ids.done.bind(on_release = self.done1)
-        #self.modal.ids.answer.bind(on_release = self.answer)
+        # 'Add answer' button binded to answer method
+        self.modal.ids.answer.bind(on_release = self.answer)
         self.modal.open()
+
+    # method for releasing 'Add answer' button to send the user directly to add answer modalview 
+    def answer(self, b):
+        self.done1()
+        self.show_modal4()
 
     def show_modal4(self):
         self.modal = CustomModal4()
@@ -235,8 +244,8 @@ class GameManager(ScreenManager):
 
     def prepare(self, text):
         self.current_deck = self.manager.find_deck_by_attribute("name",text)[0]
-        self.ids.s7.ids.lab1.text = self.current_deck.cards_[0].question_.find_attribute("question").attribute_value_
-        self.ids.s7.i = 1
+        self.ids.s7.i = 0
+        self.ids.s7.reset()
         self.current = 'study'
 
     def switch_to_deckplay(self , button ):

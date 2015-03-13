@@ -1,10 +1,10 @@
 <GameManager>:
-    SoloMenu
-        id: s1
-    PlayMenu
-        id: s2
     AddCard
         id: s3
+    PlayMenu
+        id: s2
+    SoloMenu
+        id: s1
     DeckMenu
         id: s4
     MainMenu
@@ -529,6 +529,12 @@
 <AddCard>:
     name: 'add_card'
 	FloatLayout:
+        canvas:
+            Color:
+                rgba: 1,1,1,.9
+            Rectangle
+                pos: self.pos
+                size: self.size 
         ActionBar:
             background_color: 0,.6,1,1
             id: ac2
@@ -545,18 +551,15 @@
                 ActionButton
                     id: ac_create_card
                     text: 'Create card'
+                    on_release: root.ac_create_card()
         BoxLayout:
             id: bbig
-            size_hint_y: None
+            size_hint: None , None
+            x: '30dp'
+            width: root.width - 2 * self.x
             height: '150dp'
             y: ac2.y - self.height
             orientation: 'vertical'
-            canvas.before:
-                Color:
-                    rgba: 1,1,1,1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
             BoxLayout:
                 id: b1
                 Label:
@@ -580,6 +583,7 @@
                     text: 'Default'
                     text_size: self.width -self.width/4 , None
                     color: 0,0,0,1
+                    #background_normal: ''
                     background_color: 0,0,0,0
                     on_release: root.show_modal1()
             BoxLayout:
@@ -609,30 +613,98 @@
                     background_down: 'atlas://data/images/defaulttheme/button'
                     on_release: root.show_modal2()
         BoxLayout:
-            size_hint_y: None
-            height: root.height - ac2.height - butoane.height - bbig.height
-            y: butoane.height
+            canvas:
+                Color:
+                    rgba: 1,1,1,.9
+                Rectangle
+                    pos: self.pos
+                    size: self.size 
+            size_hint: None , None
+            x: bbig.x
+            width: bbig.width
+            height: root.height - ac2.height - butoane.height - bbig.height - 2 * bbig.x
+            y: butoane.height + bbig.x 
             orientation: 'vertical'
+            #spacing: '20dp'
             BoxLayout
-                Label
-                    id: lab_q
-                    color: 1,1,1,1
-                Label
-                    id: lab_a
-                    color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width/20 , self.y
+                        size: self.width/1.1, 1
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas:
+                        Color:
+                            rgba: 0,0,0,1
+                        Rectangle:
+                            pos: self.x+self.width-1 , self.y+self.height/4
+                            size: 1, self.height/2
+                    Label
+                        color: 0,0,0,1
+                        text: ' Question'
+                        text_size: None , self.height/2
+                    Label
+                        id: lab_q
+                        color: 0,0,0,1
+                    Widget
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label
+                        color: 0,0,0,1
+                        text: 'Answer'
+                        text_size: None , self.height/2
+                    Label
+                        id: lab_a
+                        color: 0,0,0,1
+                    Widget
             Label
+                id: tags_label
+                size_hint: None, None
+                x: bbig.x
+                width: bbig.width
+                height: '65dp'
+                color: 0,0,0,1
+                text: 'Tags :'
+                text_size: self.width * 3/4 , None 
         BoxLayout:
             id: butoane
-            size_hint_y: None
-            height: '75dp'
+            size_hint: None, None
+            x: bbig.x
+            width: bbig.width
+            #spacing: '10dp'
+            height: '65dp'
+            y: '10dp'
             Button
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 text: 'Add Card Question'
+                background_color: 1,1,1,.9
+                background_normal: ''
+                color: 0,0,0,1
                 on_release: root.show_modal3()
             Button
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
+                background_color: 1,1,1,.9
+                background_normal: ''
+                color: 0,0,0,1
                 text: 'Add Card Answer'
                 on_release: root.show_modal4()
             Button
                 text: 'Tags'
+                background_normal: ''
+                color: 0,0,0,1
+                background_color: 1,1,1,.9
                 on_release: root.show_modal5()
 <CustomModal5>:
     background: ''
@@ -682,8 +754,9 @@
     background_color: 0,0,0,.5
     BoxLayout:
         orientation: 'vertical'
+        spacing: '10dp'
         BoxLayout:
-            size_hint_y: tit.line_height/root.height
+            size_hint_y: .3
             Label
                 text: 'Add Question'
                 color: 0,0,0,1
@@ -693,27 +766,48 @@
                 text: 'Characters remaining 360'
                 color: 0,0,0,1
         BoxLayout
-            Widget:
-                size_hint_x: .1
+            Widget
+                size_hint_x: .05
             TabTextInput:
                 id: tit
                 font_size: 35
-            Widget:
-                size_hint_x: .1
+            Widget
+                size_hint_x: .05
         BoxLayout
             size_hint_y: 0.3
-            spacing: 10
             Button
                 text: 'Cancel'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 on_release: root.dismiss()
             Button
                 id: done
                 text: 'Done'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 on_release: root.dismiss()
             Button
                 id: answer
                 text: 'Add Answer'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
                 on_release: root.dismiss()
+
 <CustomModal4>:
     id: cm4
     background: ''
@@ -723,7 +817,7 @@
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
-            size_hint_y: tit.line_height/root.height
+            size_hint_y: .3
             Label
                 text: 'Add Answer'
                 color: 0,0,0,1
@@ -734,26 +828,46 @@
                 text: 'Characters remaining %d' % (360 - tit.cursor_row * tit.cursor_col)
                 color: 0,0,0,1
         BoxLayout
-            Widget:
-                size_hint_x: .1
+            Widget
+                size_hint_x: .05
             TabTextInput:
                 id: tit
                 font_size: 35
-            Widget:
-                size_hint_x: .1
+            Widget
+                size_hint_x: .05
         BoxLayout
             size_hint_y: 0.3
-            spacing: 10
             Button
                 text: 'Cancel'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 on_release: root.dismiss()
             Button
                 id: done
                 text: 'Done'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 on_release: root.dismiss()
             Button
                 id: create_card
                 text: 'Create Card'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
                 on_release: root.dismiss()
 <CustomModal1>:
     id: cm
@@ -846,7 +960,7 @@
     height: 0
     pos_hint: {'left': 0 , 'top': .685}
     background_color: 0,0,0,.1
-    ScrollView
+    ScrollBox
         GridLayout:
             id: gl1
             size_hint_y: None
