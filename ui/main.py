@@ -163,7 +163,7 @@ class AddCard(Screen):
         self.modal.ids.answer.bind(on_release = self.answer)
         self.modal.open()
 
-    # method for releasing 'Add answer' button to send the user directly to add answer modalview 
+    # method for releasing 'Add answer' button to send the user directly to add answer modalview
     def answer(self, b):
         self.done1()
         self.show_modal4()
