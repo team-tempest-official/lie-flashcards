@@ -1,0 +1,58 @@
+<PlayDeck>
+    name: 'play_deck'
+    BoxLayout:
+        orientation: 'vertical'
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac
+            #background_image: ''
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    with_previous: True
+                    size_hint_x: None
+                    width: self.height
+                    on_release: root.manager.current = 'solo_menu'
+                ActionLabel:
+                    id: action_deck_label
+                    text_size: self.width  , None
+                ActionButton:
+                    text: 'Add card'
+                    on_release: root.manager.current = 'add_card'
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 1,1,1,.9
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Widget
+                size_hint_x: .05
+            BoxLayout
+                spacing: '20dp'
+                orientation: 'vertical'
+                Widget:
+                BoxLayout
+                    orientation: 'vertical'
+                    spacing: '5dp'
+                    canvas:
+                        Color:
+                            rgba: 1,1,1,.9
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        id: deck_label
+                        color: 0,0,0,1
+                        font_size: 20
+                    Widget
+                Button
+                    size_hint_y: .5
+                    background_normal: ''
+                    background_color: 1,1,1,1
+                    color: 0,0,0,1
+                    text: 'Study'
+                    on_release: root.manager.prepare(deck_label.text)
+                Widget
+            Widget
+                size_hint_x: .05

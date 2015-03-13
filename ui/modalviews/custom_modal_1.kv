@@ -1,0 +1,84 @@
+<CustomModal1>:
+    id: cm
+    background: ''
+    size_hint: .8, .3
+    pos_hint: {'left': 0.7, 'top': .810}
+    background_color: 0,0,0,.1
+    BoxLayout:
+        BoxLayout
+            size_hint_x:2
+            orientation: 'vertical'
+            Button:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.width, 1
+                id: bu1
+                text: 'Default'
+                text_size: self.width -self.width/4, None
+                color: 0,0,0,1
+                background_color: 0,0,0,0
+                on_press: ch1._toggle_active()
+                on_release: root.dismiss()
+
+            Button:
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.width, 1
+                id: bu2
+                text: 'Cloze'
+                text_size: self.width -self.width/4, None
+                color: 0,0,0,1
+                background_color: 0,0,0,0
+                on_press: ch2._toggle_active()
+                on_release: root.dismiss()
+            Button:
+                id: bu3
+                text: 'Lcoze'
+                text_size: self.width - self.width/4 , None
+                color: 0,0,0,1
+                background_color: 0,0,0,0
+                on_press: ch3._toggle_active()
+                on_release: root.dismiss()
+        BoxLayout
+            BoxLayout
+                orientation: 'vertical'
+                CheckBox:
+                    name: 'Default'
+                    canvas:
+                        Color:
+                            rgba: 0,0,0,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.width, 1
+                    id: ch1
+                    background_radio_normal: 'cerc.png'
+                    background_radio_down: 'cerc_down.png'
+                    on_release: root.dismiss()
+                    group: 'pops'
+                CheckBox:
+                    name: 'Cloze'
+                    canvas:
+                        Color:
+                            rgba: 0,0,0,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.width, 1
+                    id: ch2
+                    background_radio_normal: 'cerc.png'
+                    background_radio_down: 'cerc_down.png'
+                    on_release: root.dismiss()
+                    group: 'pops'
+                CheckBox:
+                    name: 'Lcoze'
+                    value: 'down'
+                    id: ch3
+                    background_radio_normal: 'cerc.png'
+                    background_radio_down: 'cerc_down.png'
+                    on_release: root.dismiss()
+                    group: 'pops'

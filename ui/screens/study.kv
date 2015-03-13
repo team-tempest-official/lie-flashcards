@@ -1,0 +1,41 @@
+<Study>
+    name: 'study'
+    FloatLayout:
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac2
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    with_previous: True
+                    size_hint_x: None
+                    width: self.height
+                    on_release: root.manager.current = 'solo_menu'
+                ActionLabel:
+                    text: 'Add new card'
+                    text_size: self.width  , None
+                ActionButton
+                    id: ac_create_card
+                    text: 'Create card'
+        BoxLayout:
+            size_hint_y: None
+            y: bl_ans.height
+            height: root.height - ac2.height - bl_ans.height
+            orientation: 'vertical'
+            Label:
+                id: lab1
+                canvas:
+                    Color:
+                        rgba: 1,0,0,1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.width, 3
+            Label:
+                id: lab2
+        BoxLayout:
+            id: bl_ans
+            size_hint_y: None
+            Button:
+                id: b_show_ans
+                text: 'Show Answer'
+                on_release: root.show_ans()

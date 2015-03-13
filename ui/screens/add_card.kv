@@ -1,0 +1,108 @@
+<AddCard>:
+    name: 'add_card'
+	FloatLayout:
+        ActionBar:
+            background_color: 0,.6,1,1
+            id: ac2
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    with_previous: True
+                    size_hint_x: None
+                    width: self.height
+                    on_release: root.manager.current = 'solo_menu'
+                ActionLabel:
+                    text: 'Add new card'
+                    text_size: self.width  , None
+                ActionButton
+                    id: ac_create_card
+                    text: 'Create card'
+        BoxLayout:
+            id: bbig
+            size_hint_y: None
+            height: '150dp'
+            y: ac2.y - self.height
+            orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                id: b1
+                Label:
+                    size_hint_x: 0.3
+                    text: 'Card type:'
+                    #text_size: self.width, None
+                    color: 0,0,0,1
+                Button:
+                    canvas.before:
+                        Color:
+                            rgba: 0,0,0,1
+                        Rectangle:
+                            pos: self.x , self.y+self.height/4
+                            size: self.width,1
+                    canvas:
+                        Color:
+                            rgba: 0,0,0,1
+                        Triangle:
+                            points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
+                    id: butp
+                    text: 'Default'
+                    text_size: self.width -self.width/4 , None
+                    color: 0,0,0,1
+                    background_color: 0,0,0,0
+                    on_release: root.show_modal1()
+            BoxLayout:
+                Label:
+                    size_hint_x: 0.3
+                    text: 'Deck:'
+                    #text_size: self.width, None
+                    color: 0,0,0,1
+                Button:
+                    canvas.before:
+                        Color:
+                            rgba: 0,0,0,1
+                        Rectangle:
+                            pos: self.x , self.y+self.height/4
+                            size: self.width,1
+                    canvas:
+                        Color:
+                            rgba: 0,0,0,1
+                        Triangle:
+                            points: self.x+self.width,self.y+self.height/4, self.x+self.width-12,self.y+self.height/4, self.x+self.width,self.y+ self.height/4+12
+                    id: butd
+                    text: ''
+                    color: 0,0,0,1
+                    background_color: 0,0,0,0
+                    background_normal: ''
+                    text_size: self.width -self.width/4 , None
+                    background_down: 'atlas://data/images/defaulttheme/button'
+                    on_release: root.show_modal2()
+        BoxLayout:
+            size_hint_y: None
+            height: root.height - ac2.height - butoane.height - bbig.height
+            y: butoane.height
+            orientation: 'vertical'
+            BoxLayout
+                Label
+                    id: lab_q
+                    color: 1,1,1,1
+                Label
+                    id: lab_a
+                    color: 1,1,1,1
+            Label
+        BoxLayout:
+            id: butoane
+            size_hint_y: None
+            height: '75dp'
+            Button
+                text: 'Add Card Question'
+                on_release: root.show_modal3()
+            Button
+                text: 'Add Card Answer'
+                on_release: root.show_modal4()
+            Button
+                text: 'Tags'
+                on_release: root.show_modal5()
