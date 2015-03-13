@@ -87,7 +87,6 @@ class CustomModal2(ModalView):
             b = Button(text = d.find_attribute("name").attribute_value_ ,
                         background_normal = '' ,
                         color = [0,0,0,1] ,
-                        text_size = (self.width * 5 , None) ,
                         background_color = [1,1,1,1] ,
                         on_release = self.scrn.chg_text_md2 )
             self.ids.gl1.height += b.height / 2
@@ -245,6 +244,7 @@ class GameManager(ScreenManager):
     def prepare(self, text):
         self.current_deck = self.manager.find_deck_by_attribute("name",text)[0]
         self.ids.s7.i = 0
+        self.ids.s7.ids.stal.text = 'Study ' + text
         self.ids.s7.reset()
         self.current = 'study'
 
@@ -325,7 +325,11 @@ class Study(Screen):
 
     def reset(self, *args):
         self.ids.bl_ans.clear_widgets()
-        self.ids.bl_ans.add_widget(Button(on_release = self.show_ans, text = "Show Answer",id = 'b_show_ans'))
+        self.ids.bl_ans.add_widget(Button(text = "Show Answer",
+                                            color = [0,0,0,1] ,
+                                            background_normal =  '' ,
+                                            background_color= [1,1,1,1] ,
+                                            on_release = self.show_ans))
         self.ids.lab1.text = self.manager.current_deck.cards_[self.i].question_.find_attribute("question").attribute_value_
         self.ids.lab2.text = ''
         self.i += 1
@@ -333,9 +337,21 @@ class Study(Screen):
     def show_ans(self, *args):
         self.ids.bl_ans.clear_widgets()
         self.ids.lab2.text = self.manager.current_deck.cards_[self.i - 1].answers_[0].find_attribute("answer").attribute_value_
-        self.ids.bl_ans.add_widget(Button(on_release = self.reset, text = "Hard",id="b1"))
-        self.ids.bl_ans.add_widget(Button(on_release = self.reset, text = "Normal",id="b2"))
-        self.ids.bl_ans.add_widget(Button(on_release = self.reset ,text = "Easy",id="b3"))
+        self.ids.bl_ans.add_widget(Button(text = "Hard",
+                                          color = [0,0,0,1] ,
+                                          background_normal =  '' ,
+                                          background_color= [1,1,1,1] ,
+                                          on_release = self.reset))
+        self.ids.bl_ans.add_widget(Button(text = "Normal",
+                                          color = [0,0,0,1] ,
+                                          background_normal =  '' ,
+                                          background_color= [1,1,1,1] ,
+                                          on_release = self.reset))
+        self.ids.bl_ans.add_widget(Button(text = "Easy",
+                                          color = [0,0,0,1] ,
+                                          background_normal =  '' ,
+                                          background_color= [1,1,1,1] ,
+                                          on_release = self.reset))
 
 class ActionLabel(Label,ActionItem):
     pass

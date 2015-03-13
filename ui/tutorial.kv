@@ -1,10 +1,10 @@
 <GameManager>:
-    AddCard
-        id: s3
-    PlayMenu
-        id: s2
     SoloMenu
         id: s1
+    PlayMenu
+        id: s2
+    AddCard
+        id: s3
     DeckMenu
         id: s4
     MainMenu
@@ -487,6 +487,12 @@
 <Study>
     name: 'study'
     FloatLayout:
+        canvas:
+            Color:
+                rgba: 1,1,1,.9
+            Rectangle
+                pos: self.pos
+                size: self.size 
         ActionBar:
             background_color: 0,.6,1,1
             id: ac2
@@ -498,33 +504,43 @@
                     width: self.height
                     on_release: root.manager.current = 'solo_menu'
                 ActionLabel:
-                    text: 'Add new card'
+                    id: stal
+                    #text: 'Study'
                     text_size: self.width  , None
-                ActionButton
-                    id: ac_create_card
-                    text: 'Create card'
         BoxLayout:
-            size_hint_y: None
-            y: bl_ans.height
-            height: root.height - ac2.height - bl_ans.height
+            id: stbox
+            canvas:
+                Color:
+                    rgba: 1,1,1,.9
+                Rectangle
+                    pos: self.pos
+                    size: self.size 
+            size_hint: None , None
+            x: root.width / 26
+            width: root.width - 2 * self.x
+            y: bl_ans.height + self.x
+            height: root.height - ac2.height - bl_ans.height - 2 * self.x
             orientation: 'vertical'
             Label:
                 id: lab1
+                color: 0,0,0,1
                 canvas:
                     Color:
-                        rgba: 1,0,0,1
+                        rgba: 0,0,0,1
                     Rectangle:
-                        pos: self.pos
-                        size: self.width, 3
+                        pos: self.x+self.width/20 , self.y
+                        size: self.width/1.1, 1
             Label:
                 id: lab2
+                color: 0,0,0,1
         BoxLayout:
             id: bl_ans
-            size_hint_y: None
-            Button:
-                id: b_show_ans
-                text: 'Show Answer'
-                on_release: root.show_ans()
+            size_hint: None , None
+            x: stbox.x
+            width: stbox.width
+            y: root.height / 60
+            spacing: root.width / 80
+            height: root.height / 8
 
 <AddCard>:
     name: 'add_card'
@@ -555,9 +571,9 @@
         BoxLayout:
             id: bbig
             size_hint: None , None
-            x: '30dp'
+            x: root.width / 26
             width: root.width - 2 * self.x
-            height: '150dp'
+            height: root.height / 4
             y: ac2.y - self.height
             orientation: 'vertical'
             BoxLayout:
@@ -625,7 +641,6 @@
             height: root.height - ac2.height - butoane.height - bbig.height - 2 * bbig.x
             y: butoane.height + bbig.x 
             orientation: 'vertical'
-            #spacing: '20dp'
             BoxLayout
                 canvas:
                     Color:
@@ -664,7 +679,7 @@
                 size_hint: None, None
                 x: bbig.x
                 width: bbig.width
-                height: '65dp'
+                height: root.height / 9
                 color: 0,0,0,1
                 text: 'Tags :'
                 text_size: self.width * 3/4 , None 
@@ -674,8 +689,8 @@
             x: bbig.x
             width: bbig.width
             #spacing: '10dp'
-            height: '65dp'
-            y: '10dp'
+            height: root.height / 9
+            y: root.height / 60
             Button
                 canvas:
                     Color:
