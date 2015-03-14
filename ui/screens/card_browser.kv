@@ -84,26 +84,40 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
-            ScrollView:
+            ScrollBox:
                 FloatLayout:
+                    canvas:
+                        Color:
+                            rgba: 1,1,1,.9
+                        Rectangle
+                            pos: self.pos
+                            size: self.size 
                     id: dad
                     size_hint_y: None
                     height: root.height - ac.height
                     BoxLayout
                         id: bl1
-                        size_hint_y: None
-                        y: bl.height + bl.y
+                        size_hint: None , None
+                        x: root.height/26
+                        width: root.width - 2 * self.x
+                        y: root.height - ac.height - 1.3 * self.height
                         height: ti.minimum_height
-                        Widget:
-                            size_hint_x: 0.1
                         PressTextInput:
                             id: ti
                             multiline: False
+                            font_size: '25dp'
                             my_button: search
                         Button:
                             id: search
                             text: 'Search'
+                            color: 0,0,0,1
+                            background_color: 1,1,1,1
+                            background_normal: ''
                             on_state: if self.state is 'down': root.manager.cb_display_cards('search',root.manager.mainbutton,ti.text)
+                        Widget:
+                            size_hint_x: .02
+                        BoxLayout:
+                            id: ddbox
                     BoxLayout:
                         id: bl
                         size_hint_y: None
@@ -111,17 +125,28 @@
                         y: fl10.height
                         Label:
                             text: "Question"
+                            color: 0,0,0,1
                             #markup: True
                         Label
                             text: 'Answer'
-                    FloatLayout:
+                            color: 0,0,0,1
+
+                    ScrollBox
                         id: fl10
-                        size_hint_y: None
-                        height: root.height - ac.height - bl.height - ti.height
-                        ScrollView
-                            GridLayout:
-                                orientation: 'vertical'
-                                id: gl
-                                size_hint_y: None
-                                size: self.minimum_size
-                                cols: 2
+                        size_hint: None , None
+                        x: root.height/26
+                        width: bl1.width
+                        y: root.height /60
+                        height: root.height - ac.height - bl.height - bl1.height
+                        GridLayout:
+                            canvas:
+                                Color:
+                                    rgba: 0,0,0,1
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size
+                            id: gl
+                            spacing: [0 , '1dp'] 
+                            size_hint_y: None
+                            size: self.minimum_size
+                            cols: 2

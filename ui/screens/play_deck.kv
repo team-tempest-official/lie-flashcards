@@ -18,7 +18,7 @@
                     text_size: self.width  , None
                 ActionButton:
                     text: 'Add card'
-                    on_release: root.manager.current = 'add_card'
+                    on_release: root.manager.set_deck(deck_label.text)
         BoxLayout:
             canvas:
                 Color:

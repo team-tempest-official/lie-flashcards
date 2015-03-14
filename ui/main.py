@@ -216,6 +216,7 @@ class AddCard(Screen):
             que = self.manager.manager.create_qa([self.q, ])
             card = self.manager.manager.create_card(que,[ans, ],[])
             print 'Card %r created' % card
+            self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
             self.ok_q = False
             self.ok_a = False
             self.ids.lab_a.text = ''
@@ -298,17 +299,27 @@ class GameManager(ScreenManager):
         self.current = 'card_browser'
 
         dropdown = DropDown()
+        self.ids.s8.ids.ddbox.clear_widgets()
 
-        self.mainbutton = Button(text = 'All cards')
-        self.ids.s8.ids.bl1.add_widget(self.mainbutton)
+        self.mainbutton = Button(text = 'All cards',
+                                 color = [0,0,0,1] ,
+                                 background_color = [1,1,1,1] ,
+                                 background_normal = '' )
+        self.ids.s8.ids.ddbox.add_widget(self.mainbutton)
         self.mainbutton.bind(on_release = dropdown.open)
 
-        btn = Button(text = 'All cards', size_hint_y = None, height = '48dp')
+        btn = Button(text = 'All cards', size_hint_y = None, height = '48dp',
+                     color = [0,0,0,1] ,
+                     background_color = [1,1,1,1] ,
+                     background_normal = '' )
         btn.fast_bind('on_release', self.dd_select ,btn,dropdown)
         dropdown.add_widget(btn)
 
         for decks in self.manager.implementation.decks:
-            btn = Button(text = decks.find_attribute("name").attribute_value_,size_hint_y = None, height = '48dp')
+            btn = Button(text = decks.find_attribute("name").attribute_value_,size_hint_y = None, height = '48dp' ,
+                         color = [0,0,0,1] ,
+                         background_color = [1,1,1,1] ,
+                         background_normal = '' )
             btn.fast_bind('on_release', self.dd_select,btn,dropdown)
             dropdown.add_widget(btn)
 
@@ -340,26 +351,82 @@ class GameManager(ScreenManager):
             if args[1].text == 'All cards':
                 for deck in self.manager.implementation.decks:
                     for card in deck.cards_:
-                        self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.question_.find_attribute("question").attribute_value_))
-                        self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_))
+                        self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
+                                                             height = '35dp', 
+                                                             text = card.question_.find_attribute("question").attribute_value_ ,
+                                                             color = [0,0,0,1] ,
+                                                             background_color = [1,1,1,1] ,
+                                                             background_normal = '' ,
+                                                             background_down = ''))
+
+                        self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
+                                                             height = '35dp', 
+                                                             text = card.answers_[0].find_attribute("answer").attribute_value_ ,
+                                                             color = [0,0,0,1] ,
+                                                             background_color = [1,1,1,1] ,
+                                                             background_normal = '' ,
+                                                             background_down = ''))
                 return
             for card in self.manager.implementation.decks[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
-                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.question_.find_attribute("question").attribute_value_))
-                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_))
+                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
+                                                     height = '35dp',
+                                                     text = card.question_.find_attribute("question").attribute_value_ ,
+                                                     color = [0,0,0,1] ,
+                                                     background_color = [1,1,1,1] ,
+                                                     background_normal = '' ,
+                                                     background_down = ''))
+
+                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
+                                                     height = '35dp', 
+                                                     text = card.answers_[0].find_attribute("answer").attribute_value_ ,
+                                                     color = [0,0,0,1] ,
+                                                     background_color = [1,1,1,1] ,
+                                                     background_normal = '' ,
+                                                     background_down = ''))
         elif args[0] is 'search':
             if args[1].text == 'All cards':
                 for deck in self.manager.implementation.decks:
                     for card in deck.cards_:
                         if args[2] in card.question_.find_attribute("question").attribute_value_ or \
                             args[2] in card.answers_[0].find_attribute("answer").attribute_value_:
-                            self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
-                            self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
+                            self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
+                                                                 markup = True , 
+                                                                 height = '35dp',
+                                                                 color = [0,0,0,1] ,
+                                                                 text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
+                                                                 background_color = [1,1,1,1] ,
+                                                                 background_normal = '' ,
+                                                                 background_down = '' ))
+
+                            self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
+                                                                 markup = True ,
+                                                                 height = '35dp',
+                                                                 color = [0,0,0,1] ,
+                                                                 text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) , 
+                                                                 background_color = [1,1,1,1] ,
+                                                                 background_normal = '' ,
+                                                                 background_down = '' ))
                 return
             for card in self.manager.implementation.decks[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
                 if args[2] in card.question_.find_attribute("question").attribute_value_ or \
                     args[2] in card.answers_[0].find_attribute("answer").attribute_value_:
-                    self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
-                    self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, markup = True , height = '35dp', text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2])))
+                    self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
+                                                         markup = True ,
+                                                         height = '35dp',
+                                                         color = [0,0,0,1] ,
+                                                         text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
+                                                         background_color = [1,1,1,1] ,
+                                                         background_normal = '' ,
+                                                         background_down = '' ))
+
+                    self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
+                                                         markup = True ,
+                                                         height = '35dp',
+                                                         color = [0,0,0,1] ,
+                                                         text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
+                                                         background_color = [1,1,1,1] ,
+                                                         background_normal = '' ,
+                                                         background_down = ''))
 
 class MainMenu(Screen):
     pass
