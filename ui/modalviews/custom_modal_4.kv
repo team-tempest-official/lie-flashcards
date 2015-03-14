@@ -7,7 +7,7 @@
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
-            size_hint_y: tit.line_height/root.height
+            size_hint_y: .3
             Label
                 text: 'Add Answer'
                 color: 0,0,0,1
@@ -18,24 +18,44 @@
                 text: 'Characters remaining %d' % (360 - tit.cursor_row * tit.cursor_col)
                 color: 0,0,0,1
         BoxLayout
-            Widget:
-                size_hint_x: .1
+            Widget
+                size_hint_x: .05
             TabTextInput:
                 id: tit
                 font_size: 35
-            Widget:
-                size_hint_x: .1
+            Widget
+                size_hint_x: .05
         BoxLayout
             size_hint_y: 0.3
-            spacing: 10
             Button
                 text: 'Cancel'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 on_release: root.dismiss()
             Button
                 id: done
                 text: 'Done'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
+                canvas:
+                    Color:
+                        rgba: 0,0,0,1
+                    Rectangle:
+                        pos: self.x+self.width-1 , self.y+self.height/4
+                        size: 1, self.height/2
                 on_release: root.dismiss()
             Button
                 id: create_card
                 text: 'Create Card'
+                color: 0,0,0,1
+                background_normal: ''
+                background_color: 1,1,1,1
                 on_release: root.dismiss()

@@ -38,7 +38,7 @@ from kivy.core.text.markup import MarkupLabel
 from kivy.lang import Builder
 import re
 
-#Builder.load_file('screens/add_card.kv')
+Builder.load_file('screens/add_card.kv')
 Builder.load_file('screens/deck_menu.kv')
 Builder.load_file('screens/game_manager.kv')
 Builder.load_file('screens/main_menu.kv')
