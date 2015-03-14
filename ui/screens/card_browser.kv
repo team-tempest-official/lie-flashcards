@@ -16,12 +16,11 @@
                     id: aclabel
                     text: 'Card Browser'
                     text_size: self.width  , None
-                ActionBL:
-                    id: ab
-                    ActionButton:
-                        id: sbutton
-                        text: 'Search'
-                        on_release: root.start_search()
+                ActionLabel:
+                ActionButton:
+                    id: sbutton
+                    text: 'Search'
+                    on_release: root.start_search()
         SlideMenu
             id: smsm
             size_hint_y: None
@@ -93,7 +92,7 @@
                             rgba: 1,1,1,.9
                         Rectangle
                             pos: self.pos
-                            size: self.size 
+                            size: self.size
                     id: dad
                     size_hint_y: None
                     height: root.height - ac.height
@@ -148,7 +147,7 @@
                                     pos: self.pos
                                     size: self.size
                             id: gl
-                            spacing: [0 , '1dp'] 
+                            spacing: [0 , '1dp']
                             size_hint_y: None
                             size: self.minimum_size
                             cols: 2

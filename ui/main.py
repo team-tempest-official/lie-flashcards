@@ -273,6 +273,9 @@ class AddCard(Screen):
 class GameManager(ScreenManager):
 
     current_deck = ObjectProperty(None)
+
+    ## mainbutton nu are rost aici , trebuie implementat altfel !
+
     mainbutton = ObjectProperty(None)
 
     def __init__(self, **kwargs):
@@ -311,16 +314,18 @@ class GameManager(ScreenManager):
         dropdown = DropDown()
         self.ids.s8.ids.ddbox.clear_widgets()
 
+
+        #self.ids.s8.ids.ddbox.add_widget(dropdown)
         self.mainbutton = Button(text = 'All Cards',
                                  color = [0,0,0,1] ,
                                  background_color = [1,1,1,1] ,
                                  background_normal = '' )
         self.ids.s8.ids.ddbox.add_widget(self.mainbutton)
-        self.mainbutton.bind(on_release = dropdown.open)
+        self.mainbutton.fast_bind('on_release' ,dropdown.open)
 
 
         for decks in self.manager.implementation.decks:
-            btn = Button(text = decks.find_attribute("name").attribute_value_,size_hint_y = None, height = '48dp' ,
+            btn = Button(text = decks.find_attribute("name").attribute_value_, size_hint_y = None, height = '48dp',
                          color = [0,0,0,1] ,
                          background_color = [1,1,1,1] ,
                          background_normal = '' )
@@ -354,23 +359,23 @@ class GameManager(ScreenManager):
         if args[0] is 'basic':
 
             for card in self.manager.find_deck_by_attribute("name",args[1].text)[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
-                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
+                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
                                                      height = '35dp',
-                                                     text = card.question_.find_attribute("question").attribute_value_ ,
+                                                     text = card.question_.find_attribute("question").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                      color = [0,0,0,1] ,
                                                      background_color = [1,1,1,1] ,
                                                      background_normal = '' ,
                                                      background_down = ''))
 
-                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None, 
-                                                     height = '35dp', 
-                                                     text = card.answers_[0].find_attribute("answer").attribute_value_ ,
+                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
+                                                     height = '35dp',
+                                                     text = card.answers_[0].find_attribute("answer").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                      color = [0,0,0,1] ,
                                                      background_color = [1,1,1,1] ,
                                                      background_normal = '' ,
                                                      background_down = ''))
         elif args[0] is 'search':
-            
+
             for card in self.manager.find_deck_by_attribute("name",args[1].text)[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
                 if args[2] in card.question_.find_attribute("question").attribute_value_ or \
                     args[2] in card.answers_[0].find_attribute("answer").attribute_value_:
@@ -378,7 +383,7 @@ class GameManager(ScreenManager):
                                                          markup = True ,
                                                          height = '35dp',
                                                          color = [0,0,0,1] ,
-                                                         text = card.question_.find_attribute("question").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
+                                                         text = card.question_.find_attribute("question").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                          background_color = [1,1,1,1] ,
                                                          background_normal = '' ,
                                                          background_down = '' ))
@@ -387,11 +392,10 @@ class GameManager(ScreenManager):
                                                          markup = True ,
                                                          height = '35dp',
                                                          color = [0,0,0,1] ,
-                                                         text = card.answers_[0].find_attribute("answer").attribute_value_.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
+                                                         text = card.answers_[0].find_attribute("answer").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                          background_color = [1,1,1,1] ,
                                                          background_normal = '' ,
                                                          background_down = ''))
-
 class MainMenu(Screen):
     pass
 
@@ -405,36 +409,31 @@ class ActionBL(BoxLayout, ActionItem):
 
 
 class CardBrowser(Screen):
-    
+
     sb = ObjectProperty()
     sinput = ObjectProperty()
+    junk = ObjectProperty()
 
     def start_search(self, *args):
-        self.ids.ab.clear_widgets()
-        self.sinput = ActionText()
+        self.ids.av.remove_widget(self.ids.av.children[0])
+        self.sinput = ActionText(font_size = 25, padding_y = [10,0])
         self.sinput.multiline = False
         self.sb = ActionButton (text = 'X',on_release = self.close)
         self.sinput.my_button = self.sb
-        self.ids.ab.add_widget(self.sinput)
-        self.ids.ab.add_widget(self.sb)
+        self.ids.av.add_widget(self.sinput)
+        self.ids.av.add_widget(self.sb)
         self.sb.bind(state = self.please_search)
 
     def close(self, *args):
-        self.ids.ab.clear_widgets()
-        self.ids.ab.add_widget(ActionButton(text = 'Search' , on_release = self.start_search))
+        print self.ids.av.children
+        self.ids.av.remove_widget(self.sinput)
+        self.ids.av.remove_widget(self.sb)
+        self.ids.av.add_widget(ActionButton(text = 'Search' , on_release = self.start_search))
 
     def please_search(self, *args):
         if self.sb.state is 'down' :
             self.manager.cb_display_cards('search' , self.manager.mainbutton , self.sinput.text)
             self.sb.state = 'normal'
-
-'''Button:
-        id: search
-        text: 'Search'
-        color: 0,0,0,1
-        background_color: 1,1,1,1
-        background_normal: ''
-        on_state: if self.state is 'down': root.manager.cb_display_cards('search',root.manager.mainbutton,ti.text)'''
 
 class SoloMenu(Screen):
 
