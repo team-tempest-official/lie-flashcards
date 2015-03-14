@@ -51,6 +51,7 @@
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
+                on_release: root.manager.switch_to_solo_menu()
             Button:
                 text: 'Card Browser'
                 color:[0,0,0,.8]
@@ -104,30 +105,18 @@
             BoxLayout:
                 id: bl
                 size_hint_y: None
-                height: fl1.height
+                height: root.height - ac.height
                 canvas:
                     Color:
                         rgba: 1,1,1,.9
                     Rectangle:
                         pos: self.pos
                         size: self.size
+                Widget
+                    size_hint_x: 0.05
+                GridLayout:
+                    spacing: 10
+                    cols: 1
+                    id: gl1
                 Widget:
-                    size_hint_x: .05
-                FloatLayout:
-                    size_hint_y: None
-                    height: root.height - ac.height
-                    id: fl1
-                    Button:
-                        id: b1
-                        size_hint_y: None
-                        height: '50dp'
-                        x: fl1.x
-                        y: root.height - ac.height - self.height * 3/2
-                        color: 0,0,0,1
-                        text_size: (self.width * 4.7/5.7 , None)
-                        background_normal: ''
-                        background_color: 1,1,1,1
-                        on_release: root.manager.switch_to_deckplay(self)
-
-                Widget:
-                    size_hint_x: .05
+                    size_hint_x: 0.05

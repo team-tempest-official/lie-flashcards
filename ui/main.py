@@ -396,6 +396,36 @@ class GameManager(ScreenManager):
                                                          background_color = [1,1,1,1] ,
                                                          background_normal = '' ,
                                                          background_down = ''))
+
+
+
+    def switch_to_solo_menu(self):
+        print 'daaaa'
+        self.current = 'solo_menu'
+        for deck in self.manager.implementation.decks:
+            btn = Button(color = (0,0,0,1),
+                        text = deck.find_attribute("name").attribute_value_,
+                        size_hint_y = None,
+                        height = '50dp',
+                        background_normal = '',
+                        background_color = (1,1,1,1),
+                        on_release = self.switch_to_deckplay)
+            self.ids.s1.ids.gl1.add_widget(btn)
+
+
+
+#Button:
+#    id: b1
+#    size_hint_y: None
+#    height: '50dp'
+#    x: fl1.x
+#    y: root.height - ac.height - self.height * 3/2
+#    color: 0,0,0,1
+#    text_size: (self.width * 4.7/5.7 , None)
+#    background_normal: ''
+#    background_color: 1,1,1,1
+#    on_release: root.manager.switch_to_deckplay(self)
+
 class MainMenu(Screen):
     pass
 
@@ -435,6 +465,20 @@ class CardBrowser(Screen):
             self.manager.cb_display_cards('search' , self.manager.mainbutton , self.sinput.text)
             self.sb.state = 'normal'
 
+
+
+#Button:
+#    id: b1
+#    size_hint_y: None
+#    height: '50dp'
+#    x: fl1.x
+#    y: root.height - ac.height - self.height * 3/2
+#    color: 0,0,0,1
+#    text_size: (self.width * 4.7/5.7 , None)
+#    background_normal: ''
+#    background_color: 1,1,1,1
+#    on_release: root.manager.switch_to_deckplay(self)
+
 class SoloMenu(Screen):
 
     buttons = ListProperty([])
@@ -456,28 +500,15 @@ class SoloMenu(Screen):
         deck = self.manager.manager.create_deck([],[name, ])
         self.manager.manager.add_deck(deck)
 
-        if self.once:
-            self.buttons.append(self.ids.b1)
-            self.once = False
-        if self.buttons[-1].y < self.ids.b1.height * 3/2 :
-            self.ids.bl.height += self.ids.b1.height *3/2
-            self.ids.fl1.height += self.ids.b1.height * 3/2
-            for btn in self.buttons:
-                btn.y += self.ids.b1.height * 3/2
-        self.b = Button( text = self.create_deck_modalview.ids.deck_txt.text ,
-                    x = self.ids.fl1.x ,
-                    size_hint_y = None ,
-                    height = '50dp' ,
-                    y = self.buttons[-1].y - self.buttons[-1].height * 3/2,
-                    color = [0,0,0,1] ,
-                    text_size = (self.width * 3/4 , None) ,
-                    background_normal = '' ,
-                    background_color = [1,1,1,1] ,
+        btn = Button(color = (0,0,0,1),
+                    text = deck.find_attribute("name").attribute_value_,
+                    size_hint_y = None,
+                    height = '50dp',
+                    background_normal = '',
+                    background_color = (1,1,1,1),
                     on_release = self.manager.switch_to_deckplay)
-        self.deck_nr+=1
-        self.b.id = 'b'+str(self.deck_nr)
-        self.buttons.append(self.b)
-        self.ids.fl1.add_widget(self.b)
+        self.ids.gl1.add_widget(btn)
+
 
 
 class DeckMenu(Screen):
@@ -542,8 +573,9 @@ class TutorialApp(App):
 
     def build(self):
         self.sm = GameManager(transition=NoTransition())
+        self.sm.switch_to_solo_menu()
         self.sm.ids.s3.ids.butd.text = self.sm.manager.implementation.decks[1].find_attribute("name").attribute_value_
-        self.sm.ids.s1.ids.b1.text = self.sm.manager.implementation.decks[1].find_attribute("name").attribute_value_
+        #self.sm.ids.s1.ids.b1.text = self.sm.manager.implementation.decks[1].find_attribute("name").attribute_value_
         self.history.append('main_menu')
         a = Screen()
         print self.sm.screens
