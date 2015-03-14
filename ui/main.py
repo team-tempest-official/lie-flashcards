@@ -400,8 +400,41 @@ class PlayMenu(Screen):
     pass
 
 
-class CardBrowser(Screen):
+class ActionBL(BoxLayout, ActionItem):
     pass
+
+
+class CardBrowser(Screen):
+    
+    sb = ObjectProperty()
+    sinput = ObjectProperty()
+
+    def start_search(self, *args):
+        self.ids.ab.clear_widgets()
+        self.sinput = ActionText()
+        self.sinput.multiline = False
+        self.sb = ActionButton (text = 'X',on_release = self.close)
+        self.sinput.my_button = self.sb
+        self.ids.ab.add_widget(self.sinput)
+        self.ids.ab.add_widget(self.sb)
+        self.sb.bind(state = self.please_search)
+
+    def close(self, *args):
+        self.ids.ab.clear_widgets()
+        self.ids.ab.add_widget(ActionButton(text = 'Search' , on_release = self.start_search))
+
+    def please_search(self, *args):
+        if self.sb.state is 'down' :
+            self.manager.cb_display_cards('search' , self.manager.mainbutton , self.sinput.text)
+            self.sb.state = 'normal'
+
+'''Button:
+        id: search
+        text: 'Search'
+        color: 0,0,0,1
+        background_color: 1,1,1,1
+        background_normal: ''
+        on_state: if self.state is 'down': root.manager.cb_display_cards('search',root.manager.mainbutton,ti.text)'''
 
 class SoloMenu(Screen):
 
@@ -494,6 +527,10 @@ class Study(Screen):
 
 class ActionLabel(Label,ActionItem):
     pass
+
+class ActionText(PressTextInput,ActionItem):
+    pass
+
 
 class SlideMenu(NavigationDrawer):
     def __init__(self, **kwargs):

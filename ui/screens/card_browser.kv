@@ -7,7 +7,6 @@
             pos_hint: {'top':1}
             ActionView:
                 id: av
-                use_separator: True
                 ActionPrevious:
                     with_previous: False
                     size_hint_x: None
@@ -17,9 +16,12 @@
                     id: aclabel
                     text: 'Card Browser'
                     text_size: self.width  , None
-                ActionButton:
-                    size_hint_x: None
-                    width: 100
+                ActionBL:
+                    id: ab
+                    ActionButton:
+                        id: sbutton
+                        text: 'Search'
+                        on_release: root.start_search()
         SlideMenu
             id: smsm
             size_hint_y: None
@@ -105,7 +107,7 @@
                         PressTextInput:
                             id: ti
                             multiline: False
-                            font_size: '25dp'
+                            font_size: root.height / 24
                             my_button: search
                         Button:
                             id: search
