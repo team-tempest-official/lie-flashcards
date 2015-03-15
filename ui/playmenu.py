@@ -1,0 +1,5 @@
+from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+
+class PlayMenu(Screen):
+    pass
+
