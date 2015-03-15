@@ -98,47 +98,56 @@
             y: butoane.height + bbig.x 
             orientation: 'vertical'
             BoxLayout
-                canvas:
-                    Color:
-                        rgba: 0,0,0,1
-                    Rectangle:
-                        pos: self.x+self.width/20 , self.y
-                        size: self.width/1.1, 1
                 BoxLayout:
                     orientation: 'vertical'
-                    canvas:
+                    canvas.after:
                         Color:
                             rgba: 0,0,0,1
                         Rectangle:
                             pos: self.x+self.width-1 , self.y+self.height/4
                             size: 1, self.height/2
-                    Label
+                    Button
+                        background_color: 1,1,1,1
+                        background_normal: ''
+                        background_down: ''
                         color: 0,0,0,1
                         text: ' Question'
                         text_size: None , self.height/2
-                    Label
+                        on_release: root.show_modal3()
+                    Button
+                        background_color: 1,1,1,1
+                        background_normal: ''
+                        background_down: ''
                         id: lab_q
                         color: 0,0,0,1
-                    Widget
+                        on_release: root.show_modal3()
+                    Button
+                        background_color: 1,1,1,1
+                        background_normal: ''
+                        background_down: ''
+                        on_release: root.show_modal3()
                 BoxLayout:
                     orientation: 'vertical'
-                    Label
+                    Button
+                        background_color: 1,1,1,1
+                        background_normal: ''
+                        background_down: ''
                         color: 0,0,0,1
                         text: 'Answer'
                         text_size: None , self.height/2
-                    Label
+                        on_release: root.show_modal4()
+                    Button
+                        background_color: 1,1,1,1
+                        background_normal: ''
+                        background_down: ''
                         id: lab_a
                         color: 0,0,0,1
-                    Widget
-            Label
-                id: tags_label
-                size_hint: None, None
-                x: bbig.x
-                width: bbig.width
-                height: root.height / 9
-                color: 0,0,0,1
-                text: 'Tags :'
-                text_size: self.width * 3/4 , None 
+                        on_release: root.show_modal4()
+                    Button
+                        background_color: 1,1,1,1
+                        background_normal: ''
+                        background_down: ''
+                        on_release: root.show_modal4()
         BoxLayout:
             id: butoane
             size_hint: None, None
@@ -148,32 +157,15 @@
             height: root.height / 9
             y: root.height / 60
             Button
-                canvas:
-                    Color:
-                        rgba: 0,0,0,1
-                    Rectangle:
-                        pos: self.x+self.width-1 , self.y+self.height/4
-                        size: 1, self.height/2
-                text: 'Add Card Question'
                 background_color: 1,1,1,.9
                 background_normal: ''
+                background_down: ''
+                id: tags_label
+                size_hint: None, None
+                x: bbig.x
+                width: bbig.width
+                height: root.height / 9
                 color: 0,0,0,1
-                on_release: root.show_modal3()
-            Button
-                canvas:
-                    Color:
-                        rgba: 0,0,0,1
-                    Rectangle:
-                        pos: self.x+self.width-1 , self.y+self.height/4
-                        size: 1, self.height/2
-                background_color: 1,1,1,.9
-                background_normal: ''
-                color: 0,0,0,1
-                text: 'Add Card Answer'
-                on_release: root.show_modal4()
-            Button
-                text: 'Tags'
-                background_normal: ''
-                color: 0,0,0,1
-                background_color: 1,1,1,.9
+                text: 'Tags :'
+                text_size: self.width * 3/4 , None 
                 on_release: root.show_modal5()
