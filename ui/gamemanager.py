@@ -50,6 +50,8 @@ class GameManager(ScreenManager):
 
     def switch_to_add_card(self, *args):
         self.current = 'add_card'
+        self.current_screen.current_card = self.manager.find_card_by_qa(self.manager.find_question_by_attribute("question",args[0].text)[0])
+        self.ids.s3.ids.ac_create_card.text = 'Save changes'
         self.ids.s3.ids.lab_q.text = args[0].text
         self.ids.s3.ids.lab_a.text = self.manager.find_card_by_qa(self.manager.find_question_by_attribute("question",args[0].text)[0]).answers_[0].find_attribute("answer").attribute_value_
 

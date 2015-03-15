@@ -39,6 +39,7 @@ class AddCard(Screen):
     a = ObjectProperty(None)
     ok_q = BooleanProperty(False)
     ok_a = BooleanProperty(False)
+    current_card = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         return super(AddCard, self).__init__(**kwargs)
@@ -94,6 +95,7 @@ class AddCard(Screen):
         self.modal.ids.done.bind(on_release = self.done2)
         Window.bind(keyboard_height = self.move)
         self.modal.ids.tit.text = self.ids.lab_a.text
+        self.modal.ids.create_card.text = self.ids.ac_create_card.text
         self.modal.ids.create_card.bind(on_release = self.create_card)
         self.modal.open()
 
@@ -116,45 +118,59 @@ class AddCard(Screen):
             the text enter previously should be found in the TextInput """
 
     def ac_create_card(self):
-        if self.ok_q and self.ok_a:
-            ans = self.manager.manager.create_qa([self.a, ])
-            que = self.manager.manager.create_qa([self.q, ])
-            card = self.manager.manager.create_card(que,[ans, ],[])
-            print 'Card %r created' % card
-            self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
-            self.manager.manager.implementation.decks[0].cards_.append(card)
-            self.ok_q = False
-            self.ok_a = False
-            self.ids.lab_a.text = ''
-            self.ids.lab_q.text = ''
-        elif self.ok_q is False:
-            print 'Please add question'
-        elif self.ok_a is False:
-            print 'Please add answer'
+        if self.ids.ac_create_card.text == 'Create card':
+            if self.ok_q and self.ok_a:
+                ans = self.manager.manager.create_qa([self.a, ])
+                que = self.manager.manager.create_qa([self.q, ])
+                card = self.manager.manager.create_card(que,[ans, ],[])
+                print 'Card %r created' % card
+                self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
+                self.manager.manager.implementation.decks[0].cards_.append(card)
+                self.ok_q = False
+                self.ok_a = False
+                self.ids.lab_a.text = ''
+                self.ids.lab_q.text = ''
+            elif self.ok_q is False:
+                print 'Please add question'
+            elif self.ok_a is False:
+                print 'Please add answer'
+        else:
+            self.current_card.question_.find_attribute("question").attribute_value_ = self.ids.lab_q.text
+            self.current_card.answers_[0].find_attribute("answer").attribute_value_ = self.ids.lab_a.text
+            self.manager.switch_to_card_browser()
+
+
+
 
     def create_card(self, *args):
         self.done2()
-        if self.ok_a and self.ok_q:
-            ans = self.manager.manager.create_qa([self.a, ])
-            que = self.manager.manager.create_qa([self.q, ])
-            card = self.manager.manager.create_card(que,[ans, ],[])
-            print 'Card %r created' % card
-            self.manager.modal_state = 1
+        if self.ids.ac_create_card.text == 'Create card':
+            if self.ok_a and self.ok_q:
+                ans = self.manager.manager.create_qa([self.a, ])
+                que = self.manager.manager.create_qa([self.q, ])
+                card = self.manager.manager.create_card(que,[ans, ],[])
+                print 'Card %r created' % card
+                self.manager.modal_state = 1
 
 
-    ## [0] must be removed when find_deck_by_attributes will be fixed
-            self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
-            self.manager.manager.implementation.decks[0].cards_.append(card)
-            #print self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_
+        ## [0] must be removed when find_deck_by_attributes will be fixed
+                self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
+                self.manager.manager.implementation.decks[0].cards_.append(card)
+                #print self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_
 
-            self.ok_q = False
-            self.ok_a = False
-            self.ids.lab_a.text = ''
-            self.ids.lab_q.text = ''
-        elif self.ok_q is False:
-            print 'Please add question'
-        elif self.ok_a is False:
-            print 'Please add answer'
+                self.ok_q = False
+                self.ok_a = False
+                self.ids.lab_a.text = ''
+                self.ids.lab_q.text = ''
+            elif self.ok_q is False:
+                print 'Please add question'
+            elif self.ok_a is False:
+                print 'Please add answer'
+        else:
+            self.current_card.question_.find_attribute("question").attribute_value_ = self.ids.lab_q.text
+            self.current_card.answers_[0].find_attribute("answer").attribute_value_ = self.ids.lab_a.text
+            self.manager.switch_to_card_browser()
+
 
     def show_modal5(self):
         self.modal = CustomModal5()

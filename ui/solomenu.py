@@ -12,7 +12,6 @@ from kivy.animation import Animation
 from kivy.uix.scatter import Scatter
 from kivy.uix.actionbar import ActionBar , ActionItem, ActionButton
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
-from kivy.utils import platform
 from kivy.animation import Animation
 from kivy.uix.dropdown import DropDown
 from kivy.uix.modalview import ModalView
@@ -65,4 +64,3 @@ class SoloMenu(Screen):
             self.manager.modal_state = 1
             self.once = False
             self.create_deck_modalview.ids.but1.background_down = ''
-
