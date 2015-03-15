@@ -51,7 +51,6 @@
                 color:[0,0,0,.8]
                 background_normal: ''
                 background_color: 1,1,1,1
-                on_release: root.manager.switch_to_solo_menu()
             Button:
                 text: 'Card Browser'
                 color:[0,0,0,.8]
@@ -101,22 +100,29 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-        ScrollBox
-            BoxLayout:
-                id: bl
-                size_hint_y: None
-                height: root.height - ac.height
-                canvas:
-                    Color:
-                        rgba: 1,1,1,.9
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                Widget
-                    size_hint_x: 0.05
+        BoxLayout:
+            id: bl
+            size_hint_y: None
+            height: root.height - ac.height
+            canvas:
+                Color:
+                    rgba: 1,1,1,.9
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Widget
+                size_hint_x: 0.02
+            ScrollBox
+                bar_color: 0,0,0,0
+                id: sv
+                size_hint_y: None 
+                y: root.height /60
+                height: root.height - ac.height - 2 * self.y
                 GridLayout:
-                    spacing: 10
+                    size_hint_y: None
+                    size: self.minimum_size
+                    spacing: '10dp'
                     cols: 1
                     id: gl1
-                Widget:
-                    size_hint_x: 0.05
+            Widget:
+                size_hint_x: 0.02
