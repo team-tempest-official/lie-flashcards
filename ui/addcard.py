@@ -126,6 +126,7 @@ class AddCard(Screen):
                 print 'Card %r created' % card
                 self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
                 self.manager.manager.implementation.decks[0].cards_.append(card)
+                self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].find_attribute("nr_of_cards").attribute_value_ = int(self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].find_attribute("nr_of_cards").attribute_value_) + 1
                 self.ok_q = False
                 self.ok_a = False
                 self.ids.lab_a.text = ''
@@ -157,6 +158,7 @@ class AddCard(Screen):
                 self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
                 self.manager.manager.implementation.decks[0].cards_.append(card)
                 #print self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_
+                self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].find_attribute("nr_of_cards").attribute_value_ = int(self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].find_attribute("nr_of_cards").attribute_value_) + 1
 
                 self.ok_q = False
                 self.ok_a = False
