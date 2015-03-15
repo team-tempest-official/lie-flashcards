@@ -132,8 +132,12 @@ class CustomModal2(ModalView):
                 print self.height
 
 class CustomModal3(ModalView):
-    pass
-
+    num = NumericProperty(0)
+    
+    def __init__(self, height, **kwargs):
+        super(CustomModal3, self).__init__(**kwargs)
+        self.num = height
+                      
 class CustomModal4(ModalView):
     pass
 
@@ -158,6 +162,7 @@ class AddCard(Screen):
 
     def show_modal1(self):
         self.modal = CustomModal1()
+        self.manager.modal_state = self.modal
         self.modal.ids[self.ids_ch[self.index]].active = True
         self.modal.ids.bu1.fast_bind('on_release', self.chg_text, self.modal.ids.bu1.text,1)
         self.modal.ids.bu2.fast_bind('on_release', self.chg_text, self.modal.ids.bu2.text,2)
@@ -170,16 +175,27 @@ class AddCard(Screen):
 
     def show_modal2(self):
         self.modal = CustomModal2(self.manager.manager,self)
+        self.manager.modal_state = self.modal
         #self.modal.ids.cm1.text = self.manager.manager.implementation.decks[0].find_attribute("name").attribute_value_
         #self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
+        
+    def move(self, *args):
+        print 'bb'
+        if self.modal.ids.tit.focus is True and Window.keyboard_height is not 0:
+            self.modal.pos_hint = {'left': .8, 'top': (Window.keyboard_height + self.modal.height) / self.height}
+        else:
+            self.modal.pos_hint = {'left': .8, 'top': .9}  
 
 
 ##TODO:
     """ Add focus true on textinput when the modalview pops """
     def show_modal3(self):
-        self.modal = CustomModal3()
+        self.modal = CustomModal3(self.height)
+        self.manager.modal_state = self.modal
         self.modal.ids.done.bind(on_release = self.done1)
+        #self.modal.ids.tit.bind(focus = self.move)
+        Window.bind(keyboard_height = self.move)
         # 'Add answer' button binded to answer method
         self.modal.ids.answer.bind(on_release = self.answer)
         self.modal.open()
@@ -191,6 +207,7 @@ class AddCard(Screen):
 
     def show_modal4(self):
         self.modal = CustomModal4()
+        self.manager.modal_state = self.modal
         self.modal.ids.done.bind(on_release = self.done2)
         self.modal.ids.create_card.bind(on_release = self.create_card)
         self.modal.open()
@@ -200,12 +217,14 @@ class AddCard(Screen):
             self.ids.lab_q.text = self.modal.ids.tit.text
             self.q = self.manager.manager.create_attribute("question","string",self.ids.lab_q.text)
             self.ok_q = True
+            self.manager.modal_state = 1
 
     def done2(self, *args):
         if self.modal.ids.tit.text is not '':
             self.ids.lab_a.text = self.modal.ids.tit.text
             self.a = self.manager.manager.create_attribute("answer","string",self.ids.lab_a.text)
             self.ok_a = True
+            self.manager.modal_state = 1
 
 ##TODO:
         """ Add Question/Answer should turn into Edit Question/Answer and
@@ -235,6 +254,7 @@ class AddCard(Screen):
             que = self.manager.manager.create_qa([self.q, ])
             card = self.manager.manager.create_card(que,[ans, ],[])
             print 'Card %r created' % card
+            self.manager.modal_state = 1
 
 
     ## [0] must be removed when find_deck_by_attributes will be fixed
@@ -253,6 +273,7 @@ class AddCard(Screen):
 
     def show_modal5(self):
         self.modal = CustomModal5()
+        self.manager.modal_state = self.modal
         self.modal.open()
 
 ##TODO:
@@ -273,6 +294,7 @@ class AddCard(Screen):
 class GameManager(ScreenManager):
 
     current_deck = ObjectProperty(None)
+    modal_state = ObjectProperty(1)
 
     ## mainbutton nu are rost aici , trebuie implementat altfel !
 
@@ -400,7 +422,6 @@ class GameManager(ScreenManager):
 
 
     def switch_to_solo_menu(self):
-        print 'daaaa'
         self.current = 'solo_menu'
         for deck in self.manager.implementation.decks:
             btn = Button(color = (0,0,0,1),
@@ -412,19 +433,6 @@ class GameManager(ScreenManager):
                         on_release = self.switch_to_deckplay)
             self.ids.s1.ids.gl1.add_widget(btn)
 
-
-
-#Button:
-#    id: b1
-#    size_hint_y: None
-#    height: '50dp'
-#    x: fl1.x
-#    y: root.height - ac.height - self.height * 3/2
-#    color: 0,0,0,1
-#    text_size: (self.width * 4.7/5.7 , None)
-#    background_normal: ''
-#    background_color: 1,1,1,1
-#    on_release: root.manager.switch_to_deckplay(self)
 
 class MainMenu(Screen):
     pass
@@ -455,7 +463,6 @@ class CardBrowser(Screen):
         self.sb.bind(state = self.please_search)
 
     def close(self, *args):
-        print self.ids.av.children
         self.ids.av.remove_widget(self.sinput)
         self.ids.av.remove_widget(self.sb)
         self.ids.av.add_widget(ActionButton(text = 'Search' , on_release = self.start_search))
@@ -493,6 +500,7 @@ class SoloMenu(Screen):
         self.create_deck_modalview = CreateDeck()
         self.create_deck_modalview.ids.but1.bind(on_release = self.create_deck)
         self.create_deck_modalview.open()
+        self.manager.modal_state = self.create_deck_modalview
 
     def create_deck(self , *args):
 
@@ -508,7 +516,7 @@ class SoloMenu(Screen):
                     background_color = (1,1,1,1),
                     on_release = self.manager.switch_to_deckplay)
         self.ids.gl1.add_widget(btn)
-
+        self.manager.modal_state = 1
 
 
 class DeckMenu(Screen):
@@ -578,10 +586,10 @@ class TutorialApp(App):
         #self.sm.ids.s1.ids.b1.text = self.sm.manager.implementation.decks[1].find_attribute("name").attribute_value_
         self.history.append('main_menu')
         a = Screen()
-        print self.sm.screens
         for a in self.sm.screens:
             a.bind(on_enter=self.record_history)
         self.bind(on_start=self.post_build_init)
+        #Window.softinput_mode = 'pan'
         return self.sm
 
     def post_build_init(self, ev):
@@ -595,12 +603,19 @@ class TutorialApp(App):
     def _key_handler(self, *args):
         key = args[1]
         if key in (1000, 27):
-            if len(self.history) == 1:
-                self.stop()
-            self.prev = self.history[len(self.history) - 2]
-            del self.history[-1]
-            self.sm.current = self.prev
-            return True
+            if Window.keyboard_height is 0:
+                if self.sm.modal_state is 1:
+                    if len(self.history) == 1:
+                        self.stop()
+                    self.prev = self.history[len(self.history) - 2]
+                    del self.history[-1]
+                    self.sm.current = self.prev
+                    return True
+                else:
+                    self.sm.modal_state.dismiss()
+                    self.sm.modal_state = 1
+            else:
+                Window.release_all_keyboards()
 
 
     def record_history(self, *args, **kwargs):
