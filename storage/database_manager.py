@@ -435,6 +435,14 @@ class DatabaseManager(object):
 
 		return ans
 
+	def find_card_by_qa(self, qa):
+		cards = []
+		for d in self.implementation.decks:
+			for c in d.cards_:
+				if qa is c.question_:
+					return c
+
+
 	def find_deck_by_attribute(self, attribute_key, attribute_value):
 		decks = []
 		for d in self.implementation.decks:

@@ -32,10 +32,10 @@ class GameManager(ScreenManager):
             self.manager.implementation.decks[0].cards_.append(card)
 
 
-    def prepare(self, text):
-        self.current_deck = self.manager.find_deck_by_attribute("name",text)[0]
+    def switch_to_study(self, *args):
+        self.current_deck = self.manager.find_deck_by_attribute("name",self.ids.s6.ids.deck_label.text)[0]
         self.ids.s7.i = 0
-        self.ids.s7.ids.stal.text = 'Study ' + text
+        self.ids.s7.ids.stal.text = 'Study ' + self.current_deck.find_attribute("name").attribute_value_
         self.ids.s7.reset()
         self.current = 'study'
 
@@ -48,6 +48,10 @@ class GameManager(ScreenManager):
         self.ids.s3.ids.butd.text = text
         self.current = 'add_card'
 
+    def switch_to_add_card(self, *args):
+        self.current = 'add_card'
+        self.ids.s3.ids.lab_q.text = args[0].text
+        self.ids.s3.ids.lab_a.text = self.manager.find_card_by_qa(self.manager.find_question_by_attribute("question",args[0].text)[0]).answers_[0].find_attribute("answer").attribute_value_
 
     def switch_to_card_browser(self):
         self.current = 'card_browser'
@@ -69,7 +73,7 @@ class GameManager(ScreenManager):
             btn = Button(text = decks.find_attribute("name").attribute_value_, size_hint_y = None, height = '48dp',
                          color = [0,0,0,1] ,
                          background_color = [1,1,1,1] ,
-                         background_normal = '' )
+                         background_normal = '')
             btn.fast_bind('on_release', self.dd_select,btn,dropdown)
             dropdown.add_widget(btn)
 
@@ -106,7 +110,8 @@ class GameManager(ScreenManager):
                                                      color = [0,0,0,1] ,
                                                      background_color = [1,1,1,1] ,
                                                      background_normal = '' ,
-                                                     background_down = ''))
+                                                     background_down = '',
+                                                     on_release = self.switch_to_add_card))
 
                 self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
                                                      height = '35dp',
@@ -114,7 +119,8 @@ class GameManager(ScreenManager):
                                                      color = [0,0,0,1] ,
                                                      background_color = [1,1,1,1] ,
                                                      background_normal = '' ,
-                                                     background_down = ''))
+                                                     background_down = '',
+                                                     on_release = self.switch_to_add_card))
         elif args[0] is 'search':
 
             for card in self.manager.find_deck_by_attribute("name",args[1].text)[0].cards_:#find_deck_by_attribute("name",args[1].text)[0].cards_:
@@ -127,7 +133,8 @@ class GameManager(ScreenManager):
                                                          text = card.question_.find_attribute("question").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                          background_color = [1,1,1,1] ,
                                                          background_normal = '' ,
-                                                         background_down = '' ))
+                                                         background_down = '',
+                                                         on_release = self.switch_to_add_card))
 
                     self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
                                                          markup = True ,
@@ -136,7 +143,8 @@ class GameManager(ScreenManager):
                                                          text = card.answers_[0].find_attribute("answer").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                          background_color = [1,1,1,1] ,
                                                          background_normal = '' ,
-                                                         background_down = ''))
+                                                         background_down = '',
+                                                         on_release = self.switch_to_add_card))
 
 
 

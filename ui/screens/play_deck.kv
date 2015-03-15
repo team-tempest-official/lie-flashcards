@@ -18,7 +18,7 @@
                     text_size: self.width  , None
                 ActionButton:
                     text: 'Add card'
-                    on_release: root.manager.set_deck(deck_label.text)
+                    on_release: root.manager.set_deck()
         BoxLayout:
             canvas:
                 Color:
@@ -52,7 +52,7 @@
                     background_color: 1,1,1,1
                     color: 0,0,0,1
                     text: 'Study'
-                    on_release: root.manager.prepare(deck_label.text)
+                    on_release: root.manager.switch_to_study(deck_label.text)
                 Widget
             Widget
                 size_hint_x: .05

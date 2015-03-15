@@ -62,13 +62,13 @@ class AddCard(Screen):
         #self.modal.ids.cm1.text = self.manager.manager.implementation.decks[0].find_attribute("name").attribute_value_
         #self.modal.ids.cm1.fast_bind('on_release', self.chg_text,self.modal.ids.cm1.text,0)
         self.modal.open()
-        
+
     def move(self, *args):
         print 'bb'
         if self.modal.ids.tit.focus is True and Window.keyboard_height is not 0:
             self.modal.pos_hint = {'left': .8, 'top': (Window.keyboard_height + self.modal.height) / self.height}
         else:
-            self.modal.pos_hint = {'left': .8, 'top': .9}  
+            self.modal.pos_hint = {'left': .8, 'top': .9}
 
 
 ##TODO:
@@ -77,8 +77,8 @@ class AddCard(Screen):
         self.modal = CustomModal3(self.height)
         self.manager.modal_state = self.modal
         self.modal.ids.done.bind(on_release = self.done1)
-        #self.modal.ids.tit.bind(focus = self.move)
         Window.bind(keyboard_height = self.move)
+        self.modal.ids.tit.text = self.ids.lab_q.text
         # 'Add answer' button binded to answer method
         self.modal.ids.answer.bind(on_release = self.answer)
         self.modal.open()
@@ -92,6 +92,8 @@ class AddCard(Screen):
         self.modal = CustomModal4()
         self.manager.modal_state = self.modal
         self.modal.ids.done.bind(on_release = self.done2)
+        Window.bind(keyboard_height = self.move)
+        self.modal.ids.tit.text = self.ids.lab_a.text
         self.modal.ids.create_card.bind(on_release = self.create_card)
         self.modal.open()
 
