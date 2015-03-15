@@ -46,6 +46,9 @@ class SoloMenu(Screen):
 
     def create_deck(self , *args):
         name = self.manager.manager.create_attribute("name","string",self.create_deck_modalview.ids.deck_txt.text)
+        nr_of_cards = self.manager.manager.create_attribute("nr_of_cards" , "number" , 0)
+        nr_of_cards_studied = self.manager.manager.create_attribute("nr_of_cards_studied" , "number" , 0)
+        nr_of_cards_to_study = self.manager.manager.create_attribute("nr_of_cards_to_study" , "number" , 0)
         deck = self.manager.manager.create_deck([],[name, ])
         self.manager.manager.add_deck(deck)
 
