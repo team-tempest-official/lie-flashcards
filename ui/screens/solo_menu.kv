@@ -6,35 +6,39 @@
             id: ac
             pos_hint: {'top':1}
             ActionView:
-                use_separator: True
                 ActionPrevious:
                     with_previous: False
                     size_hint_x: None
                     width: self.height
                     on_release: smsm.toggle_state()
+                ActionOverflow:
+                    id:ao
                 ActionLabel:
                     id: aclabel
                     text: 'SoloAdventures'
                     text_size: self.width  , None
-
- ##BUG:
-    #        ActionGroup does not dismiss when switching the current Screen by
-    #    pressing the ActionGroup Buttons
-
-                ActionGroup:
-                    text: 'Add'
-                    ActionButton:
-                        text: 'Add card'
-                        on_release: root.manager.current = 'add_card'
-
-                    ActionButton:
-                        id: cdb
-                        text: 'Create deck'
-                        on_release: root.show_createdeck()
                 ActionButton:
                     text: 'Backup'
+                    background_color: 0,.6,1,1
+                    #on_release: ao._dropdown.select()
                 ActionButton:
                     text: 'Help'
+                    background_color: 0,.6,1,1
+                    #on_release: ao._dropdown.select()
+                ActionGroup:
+                    id: ag
+                    mode: 'spinner'
+                    text: 'Add'
+                    ActionButton:
+                        background_color: 0,.6,1,1
+                        text: 'Add card'
+                        on_release: ag._dropdown.select(root.switch_to_addcard())
+
+                    ActionButton:
+                        background_color: 0,.6,1,1
+                        id: cdb
+                        text: 'Create deck'
+                        on_release: ag._dropdown.select(root.show_createdeck())
     SlideMenu
         id: smsm
         size_hint_y: None

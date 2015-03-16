@@ -61,3 +61,6 @@ class SoloMenu(Screen):
                     on_release = self.manager.switch_to_deckplay)
         self.ids.gl1.add_widget(btn)
         self.manager.modal_state = 1
+
+    def switch_to_addcard(self, *args):
+        self.manager.current = 'add_card'
