@@ -154,15 +154,18 @@
             height: root.height / 9
             y: root.height / 60
             Button
+                size_hint_x: .2
+                color: 0,0,0,1
+                text: 'Tags :'
+                background_color: 1,1,1,1
+                background_normal: ''
+                background_down: ''
+                on_release: root.show_modal5()
+            Button
                 background_color: 1,1,1,.9
                 background_normal: ''
                 background_down: ''
                 id: tags_label
-                size_hint: None, None
-                x: bbig.x
-                width: bbig.width
-                height: root.height / 9
                 color: 0,0,0,1
-                text: 'Tags :'
-                text_size: self.width * 3/4 , None
+                text_size: self.width  , None
                 on_release: root.show_modal5()

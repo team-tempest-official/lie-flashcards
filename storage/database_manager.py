@@ -387,7 +387,8 @@ class DatabaseManager(object):
             while j < len(qs):
                 q = self.create_qa([qs[j], author, date, opt])
                 a = self.create_qa([ans[j], author, date, opt])
-                cards.append(self.create_card(q, [a,], [author, date]))
+                tags = self.create_attribute("tags" , "string" , '')
+                cards.append(self.create_card(q, [a,], [author, date, tags, ]))
                 nr_of_cards.attribute_value_ = int(nr_of_cards.attribute_value_)+1
                 j += 1
 
@@ -395,7 +396,8 @@ class DatabaseManager(object):
             while j < len(qs1):
                 q = self.create_qa([qs1[j], author, date, opt])
                 a = self.create_qa([ans1[j], author, date, opt])
-                cards1.append(self.create_card(q, [a,], [author, date]))
+                tags = self.create_attribute("tags" , "string" , '')
+                cards1.append(self.create_card(q, [a,], [author, date,tags,]))
                 nr_of_cards1.attribute_value_ = int(nr_of_cards1.attribute_value_)+1
                 j += 1
 

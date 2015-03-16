@@ -122,7 +122,8 @@ class AddCard(Screen):
             if self.ok_q and self.ok_a:
                 ans = self.manager.manager.create_qa([self.a, ])
                 que = self.manager.manager.create_qa([self.q, ])
-                card = self.manager.manager.create_card(que,[ans, ],[])
+                tags = self.manager.manager.create_attribute ("tags" , "string" , self.ids.tags_label.text)
+                card = self.manager.manager.create_card(que,[ans, ],[tags, ])
                 print 'Card %r created' % card
                 self.manager.manager.find_deck_by_attribute("name",self.ids.butd.text)[0].cards_.append(card)
                 self.manager.manager.implementation.decks[0].cards_.append(card)
@@ -138,6 +139,7 @@ class AddCard(Screen):
         else:
             self.current_card.question_.find_attribute("question").attribute_value_ = self.ids.lab_q.text
             self.current_card.answers_[0].find_attribute("answer").attribute_value_ = self.ids.lab_a.text
+            self.current_card.find_attribute("tags").attribute_value_ = self.ids.tags_label.text
             self.manager.switch_to_card_browser()
 
 
@@ -149,7 +151,8 @@ class AddCard(Screen):
             if self.ok_a and self.ok_q:
                 ans = self.manager.manager.create_qa([self.a, ])
                 que = self.manager.manager.create_qa([self.q, ])
-                card = self.manager.manager.create_card(que,[ans, ],[])
+                tags = self.manager.manager.create_attribute ("tags" , "string" , self.ids.tags_label.text)
+                card = self.manager.manager.create_card(que,[ans, ],[tags, ])
                 print 'Card %r created' % card
                 self.manager.modal_state = 1
 
@@ -171,13 +174,19 @@ class AddCard(Screen):
         else:
             self.current_card.question_.find_attribute("question").attribute_value_ = self.ids.lab_q.text
             self.current_card.answers_[0].find_attribute("answer").attribute_value_ = self.ids.lab_a.text
+            self.current_card.find_attribute("tags").attribute_value_ = self.ids.tags_label.text
             self.manager.switch_to_card_browser()
 
 
     def show_modal5(self):
         self.modal = CustomModal5()
         self.manager.modal_state = self.modal
+        self.modal.ids.tags_txt.text = self.ids.tags_label.text 
+        self.modal.ids.but1.bind(on_release = self.create_tags)
         self.modal.open()
+
+    def create_tags(self,b):
+        self.ids.tags_label.text = self.modal.ids.tags_txt.text
 
 ##TODO:
         """ Create Tags functionality , basicaly add an attribute to card +

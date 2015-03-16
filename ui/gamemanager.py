@@ -28,8 +28,9 @@ class GameManager(ScreenManager):
         self.manager.add_deck(deck)
 
         self.manager.generate_data()
-        for card in self.manager.implementation.decks[1].cards_:
-            self.manager.implementation.decks[0].cards_.append(card)
+        for decks in self.manager.implementation.decks:
+            for card in decks.cards_:
+                self.manager.implementation.decks[0].cards_.append(card)
 
 
     def switch_to_study(self, *args):
