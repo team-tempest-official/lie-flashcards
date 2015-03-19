@@ -16,15 +16,16 @@
                 Label:
                     text: 'L I E'
                     bold: True
-                    font_size: root.height /8.3
+                    font_size: '72dp'
+                    text_size: self.width * 3/4 , None
                     color: 0.5,0,0,1
                 Label:
                     size_hint_y: 0.1
-                    text: '-- learning is easy --'
+                    text: ' -- learning is easy -- '
+                    text_size: self.width * 3/4 , None
                 Widget
                     size_hint_y: .4
-            Widget
-            Widget
+
 
         BoxLayout
             orientation: 'vertical'
@@ -34,18 +35,22 @@
                 Widget
                     size_hint_x: .05
                 Button
+                    id: playb
                     background_color: 1,1,1,1
                     background_normal: ''
                     text: 'Play'
+                    font_size: self.width /10
                     color: 0.6,0,0,1
                     on_release: root.manager.current = 'play_menu'
                 Button
                     text: 'Solo Adventures'
+                    font_size: self.width /10
                     color: 0.6,0,0,1
                     background_normal: ''
                     on_release: root.manager.current = 'solo_menu'
                 Button
                     text: 'Collection'
+                    font_size: self.width /10
                     color: 0.6,0,0,1
                     background_normal: ''
                     on_release: root.manager.current = 'deck_menu'

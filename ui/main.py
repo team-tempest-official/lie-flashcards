@@ -81,10 +81,10 @@ class TutorialApp(App):
     def build(self):
         self.sm = GameManager(transition=NoTransition())
         self.sm.switch_to_solo_menu()
+        #default the AddCard's deck selecter button to decks[1]'s name
         self.sm.ids.s3.ids.butd.text = self.sm.manager.implementation.decks[1].find_attribute("name").attribute_value_
-        #self.sm.ids.s1.ids.b1.text = self.sm.manager.implementation.decks[1].find_attribute("name").attribute_value_
         self.history.append('main_menu')
-        a = Screen()
+        #bind all the screes on_enter to record_history
         for a in self.sm.screens:
             a.bind(on_enter=self.record_history)
         self.bind(on_start=self.post_build_init)
@@ -101,13 +101,19 @@ class TutorialApp(App):
 
     def _key_handler(self, *args):
         key = args[1]
+        #check if the user presses esc or android's back button
         if key in (1000, 27):
+            #first check if the keyboard is on since its the first thing we want to remove
             if Window.keyboard_height is 0:
+                #check if there is any modalview opened
                 if self.sm.modal_state is 1:
+                    #check if we are at the last screen so we can exit the app
                     if len(self.history) == 1:
                         self.stop()
                     self.prev = self.history[len(self.history) - 2]
+                    #delete the current screen
                     del self.history[-1]
+                    #switch to the previous screen
                     self.sm.current = self.prev
                     return True
                 else:
@@ -117,7 +123,9 @@ class TutorialApp(App):
                 Window.release_all_keyboards()
 
 
+    #once we eneter a screen we are adding it to the history list
     def record_history(self, *args, **kwargs):
+        #make sure we dont loop between 2 screens
         if self.prev != self.sm.current:
             self.history.append(self.sm.current)
 
