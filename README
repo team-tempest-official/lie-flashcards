@@ -1,3 +1,28 @@
 LIE - Flashcards app
-==================
+====================
 
+Installing requirements
+
+1)For Debian-based SO:
+
+    sudo apt-get install python-setuptools python-pygame python-opengl \
+  python-gst0.10 python-enchant gstreamer0.10-plugins-good python-dev \
+  build-essential libgl1-mesa-dev-lts-quantal libgles2-mesa-dev-lts-quantal\
+  python-pip
+
+2)Download Cython from:
+    
+    http://cython.org/release/Cython-0.20.2.tar.gz
+
+  Extract and run:
+    
+    sudo python setup.py install
+
+3)Download and install Kivy:
+
+    git clone git://github.com/kivy/kivy.git
+  
+  In the kivy directory run:
+
+    sudo python setup.py install
+  
