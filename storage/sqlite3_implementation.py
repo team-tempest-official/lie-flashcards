@@ -1,11 +1,9 @@
 import sqlite3
-from information import Information
-from attribute import Attribute
-from card import Card
-from deck import Deck
-from answer import Answer
-from question import Question
-from eum import Enum
+from model.attribute import Attribute
+from model.card import Card
+from model.deck import Deck
+from model.answer import Answer
+from model.question import Question
 
 PATH = "../database.sqlite3"
 
