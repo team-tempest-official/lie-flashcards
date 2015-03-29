@@ -11,13 +11,13 @@ class Card(object):
 	def __init__(self, deck, question, type, answers):
 		self.deck = deck
 		self.type = type
-		self.question = question
+		self.content = content
 		self.answers = answers
 
 
-class Answers(object):
+class Answer(object):
 
-	def __init__(self, card, text):
-		self.text = text
+	def __init__(self, card, a_text):
+		self.a_text
 		self.card = card
 
