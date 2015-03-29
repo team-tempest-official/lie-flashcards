@@ -9,6 +9,11 @@ from kivy.properties import (ObjectProperty, NumericProperty, OptionProperty, Di
 from storage.simple_implementation import SimpleImplementation
 from storage.database_manager import DatabaseManager
 
+class TestButton(Button):
+    def __init__(self, **kwargs):
+        super(TestButton, self).__init__(**kwargs)
+        self.metadata = kwargs["yololo"]
+
 
 class GameManager(ScreenManager):
 
@@ -63,14 +68,23 @@ class GameManager(ScreenManager):
         self.current = 'add_card'
 
     #method called from CardBrowser to switch to AddCard
-    def switch_to_add_card(self, *args):
+    def switch_to_add_card(self, *args, **kwargs):
+        print "Muhahaha, ", args[0].metadata
         #selecting the card we just pressed from the cardbrowser
-        self.current_screen.current_card = self.manager.find_card_by_qa(self.manager.find_question_by_attribute("question",args[0].text)[0])
+        lala = self.manager.find_question_by_attribute("question",args[0].text)
+        if len(lala) == 0:
+            lala = self.manager.find_answer_by_attribute("answer",args[0].text)
+            for i in lala[0].attributes_:
+                print i.attribute_key_, i.attribute_type_, i.attribute_value_
+            print lala, self.manager.find_card_by_qa(lala)
+        self.current_screen.current_card = self.manager.find_card_by_qa(lala[0])
+        # for i in lala[0].attributes_:
+            # print i.attribute_key_, i.attribute_type_, i.attribute_value_
         #changing the create card button into save changes button
         self.ids.s3.ids.ac_create_card.text = 'Save changes'
         #making sure we display our cards question and answer in AddCard
         self.ids.s3.ids.lab_q.text = args[0].text
-        self.ids.s3.ids.lab_a.text = self.manager.find_card_by_qa(self.manager.find_question_by_attribute("question",args[0].text)[0]).answers_[0].find_attribute("answer").attribute_value_
+        self.ids.s3.ids.lab_a.text = self.manager.find_card_by_qa(lala[0]).answers_[0].find_attribute("answer").attribute_value_
         self.current = 'add_card'
 
     #method called from the sidepanel to switch to CardBrowser
@@ -136,7 +150,8 @@ class GameManager(ScreenManager):
                                                      background_down = '',
                                                      on_release = self.switch_to_add_card))
 
-                self.ids.s8.ids.gl.add_widget(Button(size_hint_y = None,
+                self.ids.s8.ids.gl.add_widget(TestButton(yololo = "lala",
+                                                     size_hint_y = None,
                                                      height = '25dp',
                                                      text = card.answers_[0].find_attribute("answer").attribute_value_ ,#.replace(args[2],'[color=#FF0000]%s[/color]' % args[2]) ,
                                                      color = [0,0,0,1] ,
