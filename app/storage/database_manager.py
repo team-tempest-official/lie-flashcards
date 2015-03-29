@@ -75,6 +75,7 @@ class Deck(object):
             try:
                 cursor.execute('UPDATE DECKS SET NAME = ? WHERE NAME = ?', (name,self.name))
                 Deck.con.commit()
+                self.name = name
             except sqlite3.Error, e:
                 Deck.con.rollback()
                 print "Error(update) %s" % e.args[0]
@@ -103,11 +104,20 @@ class Card(object):
             new_card = Card(card_id, Deck.get(deck_name), content, _type)
             for a in answers:
                 new_card.answers.append(Answer.create(new_card, a))
-
             return new_card
         except sqlite3.Error, e:
             cls.con.rollback()
             print "Error(creation) %s" % e.args[0]
+
+    @classmethod
+    def clear(cls):
+        cursor = cls.con.cursor()
+        try:
+            cursor.execute('DELETE FROM CARDS')
+            cls.con.commit()
+        except sqlite3.Error, e:
+            cls.con.rollback()
+            print "Error %s" % e.args[0]
 
 
 class Answer(object):
@@ -128,5 +138,33 @@ class Answer(object):
             cls.con.rollback()
             print "Error(creation) %s" % e.args[0]
 
+    @classmethod
+    def clear(cls):
+        cursor = cls.con.cursor()
+        try:
+            cursor.execute('DELETE FROM ANSWERS')
+            cls.con.commit()
+        except sqlite3.Error, e:
+            cls.con.rollback()
+            print "Error %s" % e.args[0]
+
+    def update(self, a_text):
+        cursor = Answer.con.cursor()
+        print self.card.id, self.card.deck.name
+        try:
+            cursor.execute('UPDATE ANSWERS SET A_TEXT = ? WHERE A_TEXT = ?', (a_text, self.text))
+            self.text = a_text
+            Answer.con.commit()
+        except sqlite3.Error, e:
+            Answer.con.rollback()
+            print "Error(update) %s" % e.args[0]
+
+    @classmethod
+    def get(cls, card, a_text=""):
+        ans = []
+        for a in card.answers:
+            if a_text in a.text:
+                ans.append(a)
+        return ans
 
 
