@@ -8,7 +8,7 @@ class Deck(object):
 
 class Card(object):
 
-	def __init__(self, deck, question, type, answers):
+	def __init__(self, deck, content, type, answers):
 		self.deck = deck
 		self.type = type
 		self.content = content
