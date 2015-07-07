@@ -25,7 +25,7 @@ class GameManager(ScreenManager):
         super(GameManager, self).__init__(**kwargs)
         # creating our storage manager
         self.manager = DatabaseManager(SimpleImplementation())
-        
+
 
         #creating an all cards deck (not necesary if we can disaply the all cards some other way)
         name = self.manager.create_attribute("name","string","All Cards")
@@ -36,7 +36,7 @@ class GameManager(ScreenManager):
         for decks in self.manager.implementation.decks:
             for card in decks.cards_:
                 self.manager.implementation.decks[0].cards_.append(card)
-
+        #self.current="add_card"
 
     # method called from PlayDeck to switch to Study
     def switch_to_study(self, *args):
@@ -173,8 +173,8 @@ class GameManager(ScreenManager):
 
     #method to switch to SoloMenu
     def switch_to_solo_menu(self):
-        self.current = 'solo_menu'
-        #recreating our gridlayout 
+        self.current = 'main_menu'
+        #recreating our gridlayout
         for deck in self.manager.implementation.decks:
             btn = Button(color = (0,0,0,1),
                         text = deck.find_attribute("name").attribute_value_,
@@ -183,4 +183,4 @@ class GameManager(ScreenManager):
                         background_normal = '',
                         background_color = (1,1,1,1),
                         on_release = self.switch_to_deckplay)
-            self.ids.s1.ids.gl1.add_widget(btn)
+            self.ids.s5.ids.gl1.add_widget(btn)
